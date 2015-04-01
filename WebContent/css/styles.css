@@ -1,0 +1,241 @@
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+body {
+    margin-bottom: 40px;
+    background-color: #FFD637;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.starter-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+
+main {
+    padding: 85px 0;
+}
+
+fieldset {
+    border: 1px solid transparent;
+    margin: -5px 0;
+    background-color: #00a79d;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+label, input[type=checkbox] {
+    margin: 15px 0;
+    color: white;
+    font-weight: bold;
+    font-size:  1.3em;
+}
+
+.checkbox label::before {
+    position: relative;
+    width: 27px;
+    height: 27px;
+    margin-bottom: -4px;
+}
+
+.checkbox label:after {
+    font-size: 0.9em;
+    padding-right: 5px;
+    padding-top: 2px;
+}
+
+.checkbox label {
+    padding-left:0;
+    font-size: 1.7em;
+}
+
+.checkbox:first-child {
+    margin-top: -5px;
+}
+
+.footer {
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    background-color: #00655E;
+    color: white;
+    text-align: center;
+    padding: inherit;
+    
+}
+
+#date {
+    max-width: 12em;
+}
+
+#time {
+    max-width: 8em;
+}
+
+btn {
+    padding: 14px 24px;
+    border: 0 none;
+    font-family: inherit;
+    font-size: 2.2em;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius:10px;
+}
+ 
+.btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0 none;
+}
+ 
+.btn-primary {
+    background: #00a79d;
+    color: #ffffff;
+}
+
+.btn-lg {
+    font-size: 1.8em;
+    font-weight: bold; 
+    margin-top: 90px;
+    margin-bottom: 0px;
+    border: 0 none;
+
+}
+ 
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    background: #29ADA3;
+}
+ 
+.btn-primary:active, .btn-primary.active {
+    background: #007E75;
+    box-shadow: none;
+}
+
+#question {
+    margin-top: 30px;
+    font-size: 2em;
+    color: #CDA300;
+}
+
+
+
+
+
+
+.img-rounded {
+    height: 50px;
+    width: 95px;
+}
+
+.startpage {
+    padding: inherit;
+    margin-top: 25px;
+}
+
+
+
+#startbutton {
+    margin-top: 40px;
+    margin-bottom: 90px;
+}
+
+.description {
+    background-color: #00a79d;
+    padding: 0px;
+    
+}
+
+p {
+    color: white;
+    font-family: inherit;
+    font-size: 1.2em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+
+ul.nav {
+  margin-bottom: 0 !important;
+}
+
+
+
+
+
+#red {
+    background-color: red;
+}
+
+
+
+.tab-content {
+     background-color: white;
+    padding: 10px;
+    padding-left: 20px;
+     padding-right: 20px;
+}
+
+.tab-pane {
+    margin: 30px;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus{
+ background-color: white;
+}
+
+ .nav-tabs>li>a:hover{
+    background-color: #66CAC3;  
+ }
+
+.nav-tabs>li>a{
+    background-color: #00a79d;
+    color: white;
+    border-color: white;
+}
+
+
+
+#act {
+    margin-top: 30px;
+
+}
+
+.list-group-item {
+    margin: 0px;
+    border-color: transparent;
+    border-bottom-color: grey;
+    border-bottom-width: 3px;
+    padding: 20px;
+     font-weight: bold;
+    font-size:  1.5em;
+    color: grey;
+    
+}
+
+.panel-title{
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.panel-default>.panel-heading{
+    background-color: #00a79d;
+    background-image: none;
+}
+
+.nav-justified>li>a{
+        font-size:  1.5em;
+    font-weight: bold;
+}
+
+.centerText{
+    text-align: center;
+}
+
+.glyphicon.bigger {font-size: 75px;}
+
+.extraP{
+    padding: 5%;
+    margin-top: 5%; 
+}
+    

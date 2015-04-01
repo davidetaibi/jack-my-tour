@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="description" content="Jack My Tour application">
+    <meta name="author" content="Matas Turskis">
+    <title>Jack My Tour</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.3.0/css/font-awesome.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:700,600,400&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/awesome-bootstrap-checkbox/v0.2.3/awesome-bootstrap-checkbox.min.css" />
+    <link rel="stylesheet" href="css/styles.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
+    
+    <!--[if IE]>
+        <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-app>
+    
+    
+    <div class="container">
+    
+        <div ng-include="'header.html'"></div>
+        
+    </div>
+
+    
+    <main class="container">
+        <div class="row">
+            <form class="form-inline col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+                
+                <label id="question">Where and when?</label>
+                
+                <fieldset class="row">
+                    <div class="form-group col-sm-5">
+                        <label for="location">Location:</label>
+                        <input type="location" class="form-control" id="location" placeholder="Bolzano">
+                    </div>
+
+                    <div class="form-group col-sm-4">
+                        <label for="date">Date:</label>
+                        <input type="date" class="form-control" id="date">
+                    </div>
+                    
+                    <div class="form-group col-sm-3">
+                        <label for="time">Time:</label>
+                        <input type="time" class="form-control" id="time">
+                    </div>
+                </fieldset>
+                
+                <label id="question">What?</label>
+                
+                <fieldset class="row">
+                    <div class="checkbox checkbox-warning col-xs-6 col-sm-4 col-md-3">
+                        <input id="Music"  type="checkbox">
+                        <label id="l" for="Music"> Music </label>
+                    </div>
+
+                    <div class="checkbox checkbox-warning col-xs-6 col-sm-4 col-md-3">
+                        <input id="Food"  type="checkbox">
+                        <label for="Food"> Food </label>
+                    </div>
+
+                    <div class="checkbox checkbox-warning col-xs-6 col-sm-4 col-md-3">
+                        <input id="Sports"  type="checkbox">
+                        <label for="Sports"> Sports </label>
+                    </div>
+
+                    <div class="checkbox checkbox-warning col-xs-6 col-sm-4 col-md-3">
+                        <input id="Drinks"  type="checkbox">
+                        <label for="Drinks"> Drinks </label>
+                    </div>
+
+                    <div class="checkbox checkbox-warning col-xs-6 col-sm-4 col-md-3">
+                        <input id="Museums"  type="checkbox">
+                        <label for="Museums"> Museums </label>
+                    </div>
+
+                    <div class="checkbox checkbox-warning col-xs-6 col-sm-4 col-md-3">
+                        <input id="Theatre"  type="checkbox">
+                        <label for="Theatre"> Theatre </label>
+                    </div>
+
+                    <div class="checkbox checkbox-warning col-xs-6 col-sm-4 col-md-3">
+                        <input id="Cinema"  type="checkbox">
+                        <label for="Cinema"> Cinema </label>
+                    </div>
+
+                    <div class="checkbox checkbox-warning col-xs-6 col-sm-4 col-md-3">
+                        <input id="Other"  type="checkbox">
+                        <label for="Other"> Other </label>
+                    </div>
+                </fieldset>
+                    
+                <div class="col-xs-12 col-sm-offset-4 col-sm-4 col-md-offset-4 col-md-4 text-center">
+                    <a href="activities.html" role="button" class="btn btn-primary btn-lg btn-block">Search</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <div class="container footer" >
+    
+        <div ng-include="'footer.html'"></div>
+        
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
