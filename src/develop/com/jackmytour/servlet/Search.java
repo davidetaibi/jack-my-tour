@@ -49,7 +49,8 @@ public class Search extends HttpServlet {
 		ArrayList<Restaurant> rests = yelp.queryAPI();
 		
 		request.setAttribute("restutants_yelp", rests);
-		RequestDispatcher rd = request.getRequestDispatcher("search_results.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("activities.jsp");
+		//response.sendRedirect(request.getContextPath() + "/activities.jsp");
 		rd.forward(request, response);
 	}
 

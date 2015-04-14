@@ -36,14 +36,19 @@
     
     <main class="container">
         <div class="row">
-            <form class="form-inline col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+            <form action="search" method="post" class="form-inline col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
                 
                 <label id="question">Where and when?</label>
                 
                 <fieldset class="row">
                     <div class="form-group col-sm-5">
                         <label for="location">Location:</label>
-                        <input type="location" class="form-control" id="location" placeholder="Bolzano">
+                        <input type="text" name="location" class="form-control" id="location" placeholder="Bolzano">
+                    </div>
+                    
+                     <div class="form-group col-sm-6">
+                        <label for="term">Key word:</label>
+                        <input type="text" name="term" class="form-control" id="term" placeholder="example:chinese">
                     </div>
 
                     <div class="form-group col-sm-4">
@@ -55,6 +60,7 @@
                         <label for="time">Time:</label>
                         <input type="time" class="form-control" id="time">
                     </div>
+                    
                 </fieldset>
                 
                 <label id="question">What?</label>
@@ -102,7 +108,8 @@
                 </fieldset>
                     
                 <div class="col-xs-12 col-sm-offset-4 col-sm-4 col-md-offset-4 col-md-4 text-center">
-                    <a href="activities.html" role="button" class="btn btn-primary btn-lg btn-block">Search</a>
+                    
+                    <input type="submit" value="Search" role="button" class="btn btn-primary btn-lg btn-block"/>
                 </div>
             </form>
         </div>
