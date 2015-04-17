@@ -411,3 +411,41 @@ ul.nav {
 
 }
 
+
+.line {
+    width: 0.5em;
+    height: 100%;
+    background-color: dimgray;
+    float: right;
+    
+}
+
+.dot {
+    border-radius: 50%;
+    border-style: solid;
+	width: 18px;
+	height: 18px;
+    border-color: dimgray;
+    background-color: white;
+    margin-bottom: 7em;
+    padding: 0px;
+    margin-left: -5px;
+}
+
+.dot>span {
+    margin-left: -55px;
+    font-weight: bold;
+    font-size: 18px;
+    position: absolute;
+    margin-top: -6px;
+    color: dimgray;
+}
+
+.horizline {
+    width: 250px;
+    height: 2px;
+    background-color: dimgray;
+    margin-top: 5px;
+    margin-left: 12px;
+    position: absolute;
+}

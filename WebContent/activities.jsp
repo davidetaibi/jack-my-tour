@@ -64,10 +64,23 @@
 
                     <div class="tab-pane" id="food">
                          <ul class="list-group">
-                            <li class="list-group-item">First item</li>
-                            <li class="list-group-item">Second item</li>
-                            <li class="list-group-item">Third item</li>
-                            <li class="list-group-item">Fourth item</li>
+                            
+                            <%
+    						ArrayList<Restaurant> rests = (ArrayList<Restaurant>) request.getAttribute("restutants_yelp");
+							Iterator<Restaurant> iter = rests.iterator();
+      						if (rests.size()>0) {       
+       
+					    	   for (Restaurant restaurant: rests) {            
+					                %>
+					                 <li class="list-group-item"><%= restaurant.getName() %>
+					                 </br>
+					                 <%= restaurant.getAddress() %>
+					                 </li>
+					                
+					                <%
+					            }
+					        } %>
+
                         </ul>
                     </div>
                     <!-- @end #empty -->
@@ -84,7 +97,7 @@
         </div>
 
 	<%
-    ArrayList<Restaurant> rests = (ArrayList<Restaurant>) request.getAttribute("restutants_yelp");
+   /* ArrayList<Restaurant> rests = (ArrayList<Restaurant>) request.getAttribute("restutants_yelp");
 	Iterator<Restaurant> iter = rests.iterator();
        if (rests.size()>0) {       
        
@@ -94,7 +107,7 @@
                 <blockquote>Address: <%= restaurant.getAddress() %></blockquote>
                 <%
             }
-        }
+        } */
  %>
 
     </main>
