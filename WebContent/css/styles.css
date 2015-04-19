@@ -18,6 +18,7 @@ main {
     padding: 85px 0;
 }
 
+
 @media only screen and (min-width: 320px) {
     #map-canvas {
         height: 20em;
@@ -48,6 +49,9 @@ main {
     .checkbox:first-child {
     margin-top: -5px;
 }
+     .horizline{
+        width: 500px;
+    }
 }
 
 @media only screen and (min-width: 768px) {
@@ -81,7 +85,16 @@ main {
     }
     .checkbox:first-child {
     margin-top: 0px;
-}
+    }
+    .horizline{
+        width: 185px;
+    }
+    .panel-body .col-xs-3{
+        padding-right: 0px;
+    }
+    .panel-body .col-xs-9{
+        padding-right: 0px;
+    }
 }
 
 @media only screen and (min-width: 992px) {
@@ -116,7 +129,32 @@ main {
     }
     .checkbox:first-child {
     margin-top: 0px;
+    }
+    .horizline{
+        width: 200px;
+    }
+    .panel-body .col-xs-3{
+        padding-right: 5px;
+    }
+    .panel-body .col-xs-9{
+        padding-right: 0px;
+    }
 }
+
+@media only screen and (min-width: 1200px){
+    .horizline{
+        width: 250px;
+    }
+    .line {
+        margin-right: 0px;
+        padding-right: 0px;
+    }
+    .panel-body .col-xs-3{
+        padding-right: 15px;
+    }
+    .panel-body .col-xs-9{
+        padding-right: 15px;
+    }
 }
 
 
@@ -149,7 +187,7 @@ input[type=checkbox] {
     padding-top: 2px;
 }
 
-.checkbox label {
+fieldset .checkbox label {
     padding-left: 0;
     font-size: 1.7em;
 }
@@ -376,6 +414,7 @@ ul.nav {
     font-size: 20px;
     padding-left: 10px;
     padding-bottom: 7px;
+    padding-right: 0px;
 }
 
 .panel-primary {
@@ -440,7 +479,6 @@ ul.nav {
 }
 
 .horizline {
-    width: 250px;
     height: 2px;
     background-color: dimgray;
     margin-top: 5px;
@@ -449,15 +487,12 @@ ul.nav {
 }
 
 .rest-item {
-    width: 1000px;
     margin: 0px;
     margin-left: 10px;
-    border-bottom-color: dimgray;
-    border-bottom-width: 3px;
     padding: 20px;
     font-weight: bold;
-    font-size: 1.5em;
-    color: grey;
+    font-size: 2em;
+    color: dimgray;
 }
 
 .checkbox .rest-item::before {
@@ -465,23 +500,20 @@ ul.nav {
     width: 27px;
     height: 27px;
     margin-bottom: -4px;
+    margin-right: 10px;
+    margin-left: -23px;
 }
 
 .checkbox .rest-item:after {
     font-size: 0.9em;
-    padding-right: 7px;
-    padding-top: 21px;
+    padding-top: 24px;
 }
 
 .rest-item>span{
     color: gray;
 	font-size: 18px;
-	padding-left: 23px;
+	padding-left: 24px;
 }
-
-
-
-
 
 .item-line {
     width: 100%;
