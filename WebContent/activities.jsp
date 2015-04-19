@@ -69,14 +69,17 @@
     						ArrayList<Restaurant> rests = (ArrayList<Restaurant>) request.getAttribute("restutants_yelp");
 							Iterator<Restaurant> iter = rests.iterator();
       						if (rests.size()>0) {       
-       
+       int i=0;
 					    	   for (Restaurant restaurant: rests) {            
-					                %>
-					                 <li class="list-group-item"><%= restaurant.getName() %>
-					                 </br>
-					                 <%= restaurant.getAddress() %>
-					                 </li>
-					                
+					               i=i+1; 
+                             String a="rest"+i; %>
+ <div class="checkbox checkbox-warning">
+                        <input id="<%=a%>"  type="checkbox">
+                        <label for="<%=a%>" class="rest-item"><%= restaurant.getName() %>
+					                 </br><span>
+					                 <%= restaurant.getAddress() %></span></label>
+                    </div>
+					                <div class="item-line"></div>
 					                <%
 					            }
 					        } %>

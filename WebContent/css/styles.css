@@ -130,7 +130,7 @@ fieldset {
 label,
 input[type=checkbox] {
     margin: 15px 0;
-    color: white;
+	color: white;
     font-weight: bold;
     font-size: 1.3em;
 }
@@ -140,6 +140,7 @@ input[type=checkbox] {
     width: 27px;
     height: 27px;
     margin-bottom: -4px;
+    margin-right: 15px;
 }
 
 .checkbox label:after {
@@ -253,9 +254,6 @@ ul.nav {
     margin-bottom: 0 !important;
 }
 
-#red {
-    background-color: red;
-}
 
 .tab-content {
     background-color: white;
@@ -448,4 +446,45 @@ ul.nav {
     margin-top: 5px;
     margin-left: 12px;
     position: absolute;
+}
+
+.rest-item {
+    width: 1000px;
+    margin: 0px;
+    margin-left: 10px;
+    border-bottom-color: dimgray;
+    border-bottom-width: 3px;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: grey;
+}
+
+.checkbox .rest-item::before {
+    position: relative;
+    width: 27px;
+    height: 27px;
+    margin-bottom: -4px;
+}
+
+.checkbox .rest-item:after {
+    font-size: 0.9em;
+    padding-right: 7px;
+    padding-top: 21px;
+}
+
+.rest-item>span{
+    color: gray;
+	font-size: 18px;
+	padding-left: 23px;
+}
+
+
+
+
+
+.item-line {
+    width: 100%;
+    height: 3px;
+    background-color: dimgray;
 }
