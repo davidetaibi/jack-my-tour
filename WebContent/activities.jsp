@@ -60,15 +60,16 @@
                                         </ul>
                                     </div>
                                     <!-- @end #hello -->
-
+									
                                     <div class="tab-pane" id="food">
+                                    <form method="POST" ACTION="agenda.jsp">
                                         <ul class="list-group">
 
                                             <% ArrayList<Restaurant> rests = (ArrayList
                                                 <Restaurant>) request.getAttribute("restutants_yelp"); Iterator
                                                     <Restaurant> iter = rests.iterator(); if (rests.size()>0) { int i=0; for (Restaurant restaurant: rests) { i=i+1; String a="rest"+i; %>
                                                         <div class="checkbox checkbox-warning">
-                                                            <input id="<%=a%>" type="checkbox">
+                                                            <input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getName()+restaurant.getAddress()%>">
                                                             <label for="<%=a%>" class="rest-item">
                                                                 <%=restaurant.getName() %>
                                                                     </br><span>
@@ -77,8 +78,10 @@
                                                         </div>
                                                         <div class="item-line"></div>
                                                         <% } } %>
-
+										
                                         </ul>
+                                    <INPUT TYPE=submit name=submit Value="Create agenda">
+                                    </form>
                                     </div>
                                     <!-- @end #empty -->
                                     <div class="tab-pane" id="sports">
