@@ -33,18 +33,7 @@
         <div ng-include="'header.html'"></div>
    
    <%! String[] rests; %>     
-   <% 
-   rests = request.getParameterValues("rests");
-   if (rests != null) 
-   {
-      for (int i = 0; i < rests.length; i++) 
-      {
-         out.println("<b>"+rests[i]+"<b>");
-      }
-   }
-   else out.println ("<b>none<b>");
-%>
-
+  
     </div>
 
     <main>
@@ -89,13 +78,14 @@
                                 		<div class="panel-body item">
                                     		<h3>Restaurant/bar</h3>
                                     	<p class="item_description">Description: <% out.println("<b>"+rests[i]+"<b>");%></p>
+                                    	     <% }
+								   }
+								%>
                                 	</div>
                             		</li>
 								         
 								         
-								      <% }
-								   }
-								%>
+								 
                            
                             <li class="panel panel-primary">
                                 <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>

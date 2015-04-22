@@ -1,8 +1,10 @@
 package develop.com.jackmytour.servlet;
 
+import java.awt.List;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,10 +47,18 @@ public class Search extends HttpServlet {
 		String location = request.getParameter("location");
 		String term = request.getParameter("term");
 		
+		String[] tabs = request.getParameterValues("tabs");
+		for(String s: tabs) { 
+			System.out.println("Item checked"+ "---> " + s);
+		}
+		//List tabsList = (List) Arrays.asList(tabs);
+		
+		
 		YelpData yelp = new YelpData(location,term);
 		ArrayList<Restaurant> rests = yelp.queryAPI();
 		
 		request.setAttribute("restutants_yelp", rests);
+		request.setAttribute("tabs",tabs);
 		RequestDispatcher rd = request.getRequestDispatcher("activities.jsp");
 		//response.sendRedirect(request.getContextPath() + "/activities.jsp");
 		rd.forward(request, response);

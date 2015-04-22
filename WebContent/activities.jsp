@@ -38,75 +38,80 @@
 
 
                     <main class="container" id="act">
+                    <% ArrayList<Restaurant> rests = (ArrayList
+                            <Restaurant>) request.getAttribute("restutants_yelp"); %>
+                    
                         <div class="row">
                             <div class="col-sm-offset-1 col-sm-10">
+                            <form method="POST" ACTION="agenda.jsp">
+                            
                                 <ul class="nav nav-tabs nav-justified" id="myTab">
-                                    <li class="active"><a href="#music" data-toggle="tab">Music</a>
-                                    </li>
-                                    <li><a href="#food" data-toggle="tab">Food</a>
-                                    </li>
-                                    <li><a href="#sports" data-toggle="tab">Sports</a>
-                                    </li>
+                                    <% 
+                            			String[] tabs = (String[]) request.getAttribute("tabs");
+                                    	if(tabs != null) { 
+                                    		for(String tab : tabs) { %>
+                                    			 <li><a href="#<%=tab%>" data-toggle="tab"><%=tab%></a>
+                                                 </li>
+                                    		<%}
+                                    	}
+                                    %>
+                                    
                                 </ul>
                                 <div class="tab-content">
-                                    <div class="tab-pane active" id="music">
-                                        <ul class="list-group">
-                                            <li class="list-group-item">First item</li>
-                                            <li class="list-group-item">Second item</li>
-                                            <li class="list-group-item">Third item</li>
-                                            <li class="list-group-item">Fourth item</li>
-                                            <li class="list-group-item">Fifth item</li>
-                                            <li class="list-group-item">Sixth item</li>
-                                        </ul>
-                                    </div>
+                                    
+                                    <% 
+                                    for(String tab : tabs) { 
+                       			 			if(tab.equals("Food")) { 
+                       			 					if(rests.size() != 0) {%> 
+                       			 					<div class="tab-pane active" id="Food">
+                                                    <ul class="list-group"><% 
+                                                    		Iterator<Restaurant> iter = rests.iterator(); 
+                                                    			int i=0; 
+                                                    			for (Restaurant restaurant: rests) { 
+                                                    				i=i+1; String a="rest"+i;
+                                                    				%>
+                                                    <div class="checkbox checkbox-warning">	
+                                                    	<input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getName()+restaurant.getAddress()%>">
+                                                            <label for="<%=a%>" class="rest-item"><%=restaurant.getName() %>
+                                                            	</br><span><%= restaurant.getAddress() %></span>
+                                                            </label>
+                                                    </div>	
+                                                    <div class="item-line"></div>		
+                                                    			<%}
+                                                    		
+                                                    	%>
+                                                        
+                                                    </ul>
+                                                </div><% 
+                       			 					}else { 
+                       			 						//qui finisce il tab content del food
+                       			 					}
+                       			 			}else {%>
+                   			 					<div class="tab-pane active" id="<%=tab%>">
+                                                	<ul class="list-group">
+                                                		<li class="list-group-item">First item</li>
+                                                        <li class="list-group-item">Second item</li>
+                                                                       
+                                                	</ul>
+                                            	</div>
+                       			 			<% }
+                       				}
+                                    %>
+                                    
                                     <!-- @end #hello -->
 									
-                                    <div class="tab-pane" id="food">
-                                    <form method="POST" ACTION="agenda.jsp">
-                                        <ul class="list-group">
-
-                                            <% ArrayList<Restaurant> rests = (ArrayList
-                                                <Restaurant>) request.getAttribute("restutants_yelp"); Iterator
-                                                    <Restaurant> iter = rests.iterator(); if (rests.size()>0) { int i=0; for (Restaurant restaurant: rests) { i=i+1; String a="rest"+i; %>
-                                                        <div class="checkbox checkbox-warning">
-                                                            <input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getName()+restaurant.getAddress()%>">
-                                                            <label for="<%=a%>" class="rest-item">
-                                                                <%=restaurant.getName() %>
-                                                                    </br><span>
-					                 <%= restaurant.getAddress() %></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class="item-line"></div>
-                                                        <% } } %>
-										
-                                        </ul>
-                                    <INPUT TYPE=submit name=submit Value="Create agenda">
-                                    </form>
-                                    </div>
+                                 
                                     <!-- @end #empty -->
-                                    <div class="tab-pane" id="sports">
-                                        <ul class="list-group">
-                                            <li class="list-group-item">First item</li>
-                                            <li class="list-group-item">Second item</li>
-                                        </ul>
-                                    </div>
+                                    
                                     <!-- @end #sports -->
-
+ </div>
+ <INPUT TYPE=submit name=submit Value="Create agenda">
+ </form>
                                 </div>
                             </div>
-                        </div>
+                        
 
-                        <% /* ArrayList<Restaurant> rests = (ArrayList
-                            <Restaurant>) request.getAttribute("restutants_yelp"); Iterator
-                                <Restaurant> iter = rests.iterator(); if (rests.size()>0) { for (Restaurant restaurant: rests) { %>
-                                    <blockquote>Name:
-                                        <%=r estaurant.getName() %>
-                                    </blockquote>
-                                    <blockquote>Address:
-                                        <%=r estaurant.getAddress() %>
-                                    </blockquote>
-                                    <% } } */ %>
-
+                        
                     </main>
 
                     <div class="container footer">
