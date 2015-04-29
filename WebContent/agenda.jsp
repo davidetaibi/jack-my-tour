@@ -25,9 +25,11 @@
     <![endif]-->
 </head>
 
-<body ng-app>
+
+<body ng-app onload="calcRoute()">
 
 
+<%@ page import="java.util.Arrays" %>
     <div class="container">
 
         <div ng-include="'header.html'"></div>
@@ -67,7 +69,7 @@
                                 </div>
                             </li>
                             
-                               <% 
+                               <% // String Array rests cretes an array of all possible stop on your journey
 								   rests = request.getParameterValues("rests");
 								   if (rests != null) 
 								   {
@@ -80,6 +82,14 @@
                                     	<p class="item_description">Description: <% out.println("<b>"+rests[i]+"<b>");%></p>
                                     	     <% }
 								   }
+								   //String Array rests into a normal string
+								   String str1 = Arrays.toString(rests);               
+					                //replace starting "[" and ending "]" and ","
+					                str1 = str1.substring(1, str1.length()-1).replaceAll(",", "!!");
+
+
+
+								   
 								%>
                                 	</div>
                             		</li>
@@ -122,6 +132,7 @@
                 </div>
 
 
+
                 <div class="col-sm-7 col-md-8" id="map-canvas">
                     <p>map</p>
                 </div>
@@ -141,17 +152,88 @@
 
     <script src="https://maps.googleapis.com/maps/api/js">
     </script>
-    <script type="text/javascript">
-        var map;
+      <script>
+        
+var arrayOfAddress = ['Via Laurin, 4 39100 Bolzano BZ', ' Piazza Domenicani, 3', 'Via Dottor Streiter, 8d', 'Piazza della Vittoria 39100 Bolzano BZ', 'Piazza Gries, 21 39100 Bolzano BZ'];
+var directionsDisplay;
+var directionsService = new google.maps.DirectionsService();
+var map;
+var geocoder;
 
-        function initialize() {
-            var mapOptions = {
-                center: new google.maps.LatLng(48.209331, 16.381302),
-                zoom: 4
-            };
-            map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-        }
-        google.maps.event.addDomListener(window, 'load', initialize);
+//TEST STUFF
+    //testing addresses
+    var restTest = "<%= str1 %>";
+    var restyTesty = "<%= rests %>";
+    console.log("hey");
+    console.log(restTest);
+
+
+function initialize() {
+  directionsDisplay = new google.maps.DirectionsRenderer();
+  
+  var mapOptions = {
+    zoom:7,
+    
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  directionsDisplay.setMap(map);
+
+    
+    
+      // Try HTML5 geolocation
+      if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var pos = new google.maps.LatLng(position.coords.latitude,
+                                           position.coords.longitude);
+	   // creation of marker on the map
+          var marker = new google.maps.Marker({
+              position: pos,
+              map: map,
+              title: 'Hello World!'
+          });
+
+          map.setCenter(pos);
+        }, function() {
+          handleNoGeolocation(true);
+        });
+      } else {
+        // Browser doesn't support Geolocation
+        handleNoGeolocation(false);
+      }
+    }
+        
+// pushing items to new array called waypoints
+var waypts = [];
+for ( i=1; i<arrayOfAddress.length-1; i++){
+    waypts.push({
+          location:arrayOfAddress[i],
+          stopover:true});
+}
+        
+var wValue = waypts.valueOf();
+console.log(wValue);
+
+function calcRoute() {
+  var start = arrayOfAddress[0];
+  var end = arrayOfAddress[arrayOfAddress.length-1];
+  var request = {
+      origin:start,
+      destination:end,
+      waypoints: waypts,
+      optimizeWaypoints: true,
+      travelMode: google.maps.TravelMode.DRIVING
+  };
+  directionsService.route(request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    }
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+  
     </script>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
