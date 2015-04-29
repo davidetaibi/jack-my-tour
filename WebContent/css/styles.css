@@ -498,7 +498,7 @@ ul.nav {
     background-color: dimgray;
 }
 
-ul>li{
+ul li{
     z-index: 200;
 }
 
@@ -509,4 +509,51 @@ ul>li{
     margin-top: 5px;
     margin-bottom: 5px;
     border-radius: 5px;
+}
+
+.panel-group {
+    width:520px;
+    height: 600px;
+    z-index: 100;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateX(-100%) rotate(-90deg);
+    -webkit-transform-origin: right top;
+    -moz-transform: translateX(-100%) rotate(-90deg);
+    -moz-transform-origin: right top;
+    -o-transform: translateX(-100%) rotate(-90deg);
+    -o-transform-origin: right top;
+    transform: translateX(-100%) rotate(-90deg);
+    transform-origin: right top;
+}
+.panel-heading .heading-vertical {
+    width: 370px;
+}
+.title-vertical {
+    height:18px;
+}
+.panel-title a {
+    float:right;
+    text-decoration:none;
+    padding: 10px;
+    margin: -10px;
+}
+.body-vertical {
+    height:350px;
+}
+
+.panel-group .lala{
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translateX(-100%) rotate(90deg);
+    -webkit-transform-origin: right top;
+    -moz-transform: translateX(-100%) rotate(90deg);
+    -moz-transform-origin: right top;
+    -o-transform: translateX(-100%) rotate(90deg);
+    -o-transform-origin: right top;
+    transform: translateX(-100%) rotate(90deg);
+    transform-origin: right top;
+}
+.panel-group .panel .lala {
+    margin-left:473px;
+    margin-top:334px;
+    width: 350px;
 }

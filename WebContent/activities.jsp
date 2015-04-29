@@ -43,7 +43,7 @@
                     
                         <div class="row">
                             <div class="col-sm-offset-1 col-sm-10">
-                            <form method="POST" ACTION="agenda.jsp">
+                            <form method="POST" ACTION="createAgenda">
                             
                                 <ul class="nav nav-tabs nav-justified" id="myTab">
                                     <% 
@@ -71,7 +71,7 @@
                                                     				i=i+1; String a="rest"+i;
                                                     				%>
                                                     <div class="checkbox checkbox-warning">	
-                                                    	<input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getName()+restaurant.getAddress()%>">
+                                                    	<input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getName()+"+"+restaurant.getAddress()%>">
                                                             <label for="<%=a%>" class="rest-item"><%=restaurant.getName() %>
                                                             	</br><span><%= restaurant.getAddress() %></span>
                                                             </label>
