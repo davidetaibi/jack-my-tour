@@ -58,7 +58,7 @@ public class CreateAgendaData extends HttpServlet {
 		
 		request.setAttribute("selectedRestaurants", SelectedRestaurants);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("agenda.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("agenda2.jsp");
 		
 		rd.forward(request, response);
 		

@@ -129,7 +129,7 @@ main {
         padding-right: 15px;
     }
     .panel-body .col-xs-9{
-        padding-right: 15px;
+        padding-right: 5px;
     }
 }
 
@@ -362,7 +362,7 @@ ul.nav {
     margin-top: -26px;
     font-size: 15px;
     margin-right: -12px;
-    padding: 10px;
+    padding: 10px
 }
 
 .fa
@@ -391,6 +391,7 @@ ul.nav {
     padding-left: 10px;
     padding-bottom: 7px;
     padding-right: 0px;
+    margin: 0px;
 
 }
 
@@ -556,4 +557,91 @@ ul li{
     margin-left:473px;
     margin-top:334px;
     width: 350px;
+}
+
+.modal-body form label{
+    color: black;
+        margin-bottom: 5px;
+}
+
+form .form-group input{
+    width: 100%;
+    height: 2.2em;
+
+}
+
+.modal, .modal-body, .modal-content{
+    width: 350px;
+}
+
+.modal-body{
+padding: 10px;
+}
+
+form {
+      width: 350px;       
+    margin-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 10px;
+}
+
+.personal-time {
+    padding-left: 0px;
+}
+
+#item-name, #item-address{
+   border-radius: 4px; 
+    border-width: 1px;
+    border-color: #D2D2D2;
+    border-style:solid;
+    
+}
+
+#myModal {
+    margin-left: auto;
+    margin-right: auto;
+      margin-top: 50px;
+}
+
+#myModalLabel {
+    font-weight: bold;
+    color: white;
+    margin-left: 4px;
+}
+
+#myModal label{
+    color: #404040;
+}
+
+.modal-header {
+    padding: 10px;
+    background-color: #00a79d;
+        border-top-left-radius: 5px;
+     border-top-right-radius: 5px;
+}
+
+.modal-footer {
+    background: rgba(0, 0, 0, 0.4);
+        padding: 10px;
+}
+
+.item h3{
+    font-size: 20px;
+    font-weight: bold;
+        margin-bottom: 3px;
+     margin-right: 30px;
+}
+
+.item p{
+    font-size: 14px;
+    opacity: 0.9;
+   margin-right: 10px;
+
+}
+
+
+.pull-right {
+    position: absolute;
+    margin-left: 183px;
 }
