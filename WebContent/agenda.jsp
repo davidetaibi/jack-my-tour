@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+    <%@ page import="java.util.ArrayList" %>
+        <%@ page import="java.util.Iterator" %>
+        <%@ page import="develop.com.jackmytour.core.Restaurant" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +38,8 @@
 
         <div ng-include="'header.html'"></div>
    
-   <%! String[] rests; %>     
+   <% ArrayList<Restaurant> selectedRestaurants = (ArrayList
+                            <Restaurant>) request.getAttribute("selectedRestaurants"); %>    
   
     </div>
 
@@ -70,22 +75,22 @@
                             </li>
                             
                                <% // String Array rests cretes an array of all possible stop on your journey
-								   rests = request.getParameterValues("rests");
-								   if (rests != null) 
+								   
+								   if (selectedRestaurants.size() != 0) 
 								   {
-								      for (int i = 0; i < rests.length; i++) 
+								      for (Restaurant res : selectedRestaurants) 
 								      {%>
 								    <li class="panel panel-primary">
                                 		<span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                 		<div class="panel-body item">
                                     		<h3>Restaurant/bar</h3>
-                                    	<p class="item_description">Description: <% out.println("<b>"+rests[i]+"<b>");%></p>
+                                    	<p class="item_description">Description: <% out.println("<b>"+res.getName() + " " + res.getAddress()+"<b>");%></p>
                                     	     <% }
 								   }
 								   //String Array rests into a normal string
-								   String str1 = Arrays.toString(rests);               
+								   //String str1 = Arrays.toString(rests);               
 					                //replace starting "[" and ending "]" and ","
-					                str1 = str1.substring(1, str1.length()-1).replaceAll(",", "!!");
+					                //str1 = str1.substring(1, str1.length()-1).replaceAll(",", "!!");
 
 
 
@@ -152,89 +157,7 @@
 
     <script src="https://maps.googleapis.com/maps/api/js">
     </script>
-      <script>
-        
-var arrayOfAddress = ['Via Laurin, 4 39100 Bolzano BZ', ' Piazza Domenicani, 3', 'Via Dottor Streiter, 8d', 'Piazza della Vittoria 39100 Bolzano BZ', 'Piazza Gries, 21 39100 Bolzano BZ'];
-var directionsDisplay;
-var directionsService = new google.maps.DirectionsService();
-var map;
-var geocoder;
-
-//TEST STUFF
-    //testing addresses
-    var restTest = "<%= str1 %>";
-    var restyTesty = "<%= rests %>";
-    console.log("hey");
-    console.log(restTest);
-
-
-function initialize() {
-  directionsDisplay = new google.maps.DirectionsRenderer();
-  
-  var mapOptions = {
-    zoom:7,
-    
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-  directionsDisplay.setMap(map);
-
-    
-    
-      // Try HTML5 geolocation
-      if(navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var pos = new google.maps.LatLng(position.coords.latitude,
-                                           position.coords.longitude);
-	   // creation of marker on the map
-          var marker = new google.maps.Marker({
-              position: pos,
-              map: map,
-              title: 'Hello World!'
-          });
-
-          map.setCenter(pos);
-        }, function() {
-          handleNoGeolocation(true);
-        });
-      } else {
-        // Browser doesn't support Geolocation
-        handleNoGeolocation(false);
-      }
-    }
-        
-// pushing items to new array called waypoints
-var waypts = [];
-for ( i=1; i<arrayOfAddress.length-1; i++){
-    waypts.push({
-          location:arrayOfAddress[i],
-          stopover:true});
-}
-        
-var wValue = waypts.valueOf();
-console.log(wValue);
-
-function calcRoute() {
-  var start = arrayOfAddress[0];
-  var end = arrayOfAddress[arrayOfAddress.length-1];
-  var request = {
-      origin:start,
-      destination:end,
-      waypoints: waypts,
-      optimizeWaypoints: true,
-      travelMode: google.maps.TravelMode.DRIVING
-  };
-  directionsService.route(request, function(response, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-    }
-  });
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-
-  
-    </script>
+     
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
