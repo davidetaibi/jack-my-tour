@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
     <%@ page import="java.util.ArrayList" %>
+    <%@ page import="java.util.List" %>
         <%@ page import="java.util.Iterator" %>
             <%@ page import="develop.com.jackmytour.core.Restaurant" %>
+            <%@ page import="com.evdb.javaapi.data.Event" %>
                 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
                 <head>
@@ -39,7 +41,10 @@
 
                     <main class="container" id="act">
                     <% ArrayList<Restaurant> rests = (ArrayList
-                            <Restaurant>) request.getAttribute("restutants_yelp"); %>
+                            <Restaurant>) request.getAttribute("restutants_yelp"); 
+                       List<Event> events = (List<Event>) request.getAttribute("events");     
+                            
+                            %>
                     
                         <div class="row">
                             <div class="col-sm-offset-1 col-sm-10">
@@ -83,10 +88,8 @@
                                                         
                                                     </ul>
                                                 </div><% 
-                       			 					}else { 
-                       			 						//qui finisce il tab content del food
                        			 					}
-                       			 			}else {%>
+                       			 			}else if(1 != 3) {%>
                    			 					<div class="tab-pane active" id="<%=tab%>">
                                                 	<ul class="list-group">
                                                 		<li class="list-group-item">First item</li>
@@ -95,6 +98,15 @@
                                                 	</ul>
                                             	</div>
                        			 			<% }
+                       			 		else if(1==2){ %>
+           			 					<div class="tab-pane active" id="<%=tab%>">
+                                        	<ul class="list-group">
+                                        		<li class="list-group-item">First item</li>
+                                                <li class="list-group-item">Second item</li>
+                                                               
+                                        	</ul>
+                                    	</div>
+               			 			<% } else {}
                        				}
                                     %>
                                     

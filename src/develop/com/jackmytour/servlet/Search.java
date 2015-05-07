@@ -1,6 +1,6 @@
 package develop.com.jackmytour.servlet;
 
-import java.awt.List;
+import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.evdb.javaapi.data.Event;
+
+import develop.com.jackmytour.core.EventfulData;
 import develop.com.jackmytour.core.Restaurant;
 import develop.com.jackmytour.core.YelpData;
 
@@ -44,7 +47,10 @@ public class Search extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
 		String location = request.getParameter("location");
+		//still have to work on this term
 		String term = request.getParameter("term");
 		
 		String[] tabs = request.getParameterValues("tabs");
@@ -54,13 +60,17 @@ public class Search extends HttpServlet {
 		//List tabsList = (List) Arrays.asList(tabs);
 		
 		
-		YelpData yelp = new YelpData(location,term);
+		YelpData yelp = new YelpData(location,term,request);
 		ArrayList<Restaurant> rests = yelp.queryAPI();
+		
+		EventfulData eventFul = new EventfulData(location,null,null);
+		List<Event> events = eventFul.search();
 		
 		request.setAttribute("restutants_yelp", rests);
 		request.setAttribute("tabs",tabs);
+		request.setAttribute("events",events);
 		RequestDispatcher rd = request.getRequestDispatcher("activities.jsp");
-		//response.sendRedirect(request.getContextPath() + "/activities.jsp");
+		
 		rd.forward(request, response);
 	}
 

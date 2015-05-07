@@ -14,8 +14,31 @@ import com.evdb.javaapi.data.request.EventSearchRequest;
 import com.evdb.javaapi.operations.EventOperations;
 
 public class EventfulData {
-
-	public static void main(String[] args) {
+	
+	String location;
+	String dateRange;
+	String[] keywords;
+	
+	public EventfulData(String location,String dateRange,String[] keywords) {
+		this.location = location;
+		this.dateRange = dateRange;
+		this.keywords = keywords;
+	}
+	
+	public String getLocation() { 
+		return this.location;
+	}
+	
+	public String getDateRange() { 
+		return this.dateRange;
+	}
+	
+	public String[] getKeyWords() { 
+		return this.keywords;
+	}
+	
+	public List<Event> search() {
+		
 		System.out.println("Setting configuration");
 		
 		APIConfiguration.setEvdbUser("mogmog444");
@@ -26,11 +49,11 @@ public class EventfulData {
 
       
       EventSearchRequest esr = new EventSearchRequest();
-      esr.setLocation("Milan");
-      esr.setKeywords("concert");
+      esr.setLocation(this.location);
+      //esr.setKeywords("concert");
       esr.setPageSize(20);
       esr.setPageNumber(1);
-      esr.setDateRange("next 7 days");
+      esr.setDateRange("today");
 
       System.out.println("Starting initial request.");
       
@@ -48,26 +71,12 @@ public class EventfulData {
 		int numPages = sr.getPageCount();
 		System.out.println("Getting: "+numPages+" pages!");
 		
+		return sr.getEvents();
 		
-		for(int i = 1; i < 2; i++) {
+		
+/*		for(int i = 1; i < 2; i++) {
 			System.out.println("Page: "+i+"/"+numPages);
-			
-	        //create the search request for music events in San Diego
-	        /*esr = new EventSearchRequest();
-	        esr.setKeywords("John McCain");
-	        esr.setDateRange("2008010100-2008123100");
-	        esr.setPageNumber(i);
-	
-	        sr = null;
-			try {
-				sr = eo.search(esr);
-			} catch (EVDBRuntimeException e) {
-				e.printStackTrace();
-			} catch (EVDBAPIException e) {
-				e.printStackTrace();
-			}*/
-	
-	        //here is our list of results
+
 	        List<Event> events = sr.getEvents();  		
 	        
 	        for(Event e : events) {
@@ -77,7 +86,7 @@ public class EventfulData {
 	    					System.out.println("Title: "+ e.getTitle() + "-----" + "Description: " + e.getDescription() + " Date:" + e.getStartTime()
 	    							+ " Venue: " + e.getVenue().getAddress()); 
 	    					System.out.println("--------------------------------next-------------------------------------");
-	    					/*getDescription())
+	    					getDescription())
 	    					+MysqlD.escape((e.getStartTime() != null) ? e.getStartTime().toString() : "")+"','"
 	    					+MysqlD.escape((e.getStopTime() != null) ? e.getStopTime().toString() : "")+"','"
 	    					+MysqlD.escape(p.getName())+"',"
@@ -85,13 +94,13 @@ public class EventfulData {
 	    					+e.getVenueLongitude()+",'"
 	    					+MysqlD.escape(e.getVenueName())+"',"
 	    					+post+")"
-	    					);*/
+	    					);
 	    			
 	        		//System.out.println(e.getStartTime()+" in "+e.getVenueLatitude()+"/"+e.getVenueLongitude()+" : "+e.getTitle()+" : "+p.getName());
 	        		//System.out.println(e.getVenueName()+" "+e.getVenuePostalCode());
          	 	//}
 	        }
-		}
+		}*/
 	}	
 	
 }
