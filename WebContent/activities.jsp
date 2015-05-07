@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
     <%@ page import="java.util.ArrayList" %>
-    <%@ page import="java.util.List" %>
         <%@ page import="java.util.Iterator" %>
             <%@ page import="develop.com.jackmytour.core.Restaurant" %>
-            <%@ page import="com.evdb.javaapi.data.Event" %>
                 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
                 <head>
@@ -41,10 +39,7 @@
 
                     <main class="container" id="act">
                     <% ArrayList<Restaurant> rests = (ArrayList
-                            <Restaurant>) request.getAttribute("restutants_yelp"); 
-                       List<Event> events = (List<Event>) request.getAttribute("events");     
-                            
-                            %>
+                            <Restaurant>) request.getAttribute("restutants_yelp"); %>
                     
                         <div class="row">
                             <div class="col-sm-offset-1 col-sm-10">
@@ -69,27 +64,37 @@
                        			 			if(tab.equals("Food")) { 
                        			 					if(rests.size() != 0) {%> 
                        			 					<div class="tab-pane active" id="Food">
+                                                        <select class="form-control" id="food-type">
+                                                          <option>Chinese</option>
+                                                          <option>Italian</option>
+                                                          <option>Vegetarian</option>
+                                                          <option>Japanese</option>
+                                                          <option>Indian</option>
+                                                        </select>
                                                     <ul class="list-group"><% 
                                                     		Iterator<Restaurant> iter = rests.iterator(); 
                                                     			int i=0; 
                                                     			for (Restaurant restaurant: rests) { 
                                                     				i=i+1; String a="rest"+i;
-                                                    				%>
+                                                     %>
+                                                         <div class="item-line"></div>	
                                                     <div class="checkbox checkbox-warning">	
                                                     	<input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getName()+"+"+restaurant.getAddress()%>">
                                                             <label for="<%=a%>" class="rest-item"><%=restaurant.getName() %>
                                                             	</br><span><%= restaurant.getAddress() %></span>
                                                             </label>
                                                     </div>	
-                                                    <div class="item-line"></div>		
+                                                    		
                                                     			<%}
                                                     		
                                                     	%>
                                                         
                                                     </ul>
                                                 </div><% 
+                       			 					}else { 
+                       			 						//qui finisce il tab content del food
                        			 					}
-                       			 			}else if(1 != 3) {%>
+                       			 			}else {%>
                    			 					<div class="tab-pane active" id="<%=tab%>">
                                                 	<ul class="list-group">
                                                 		<li class="list-group-item">First item</li>
@@ -98,15 +103,6 @@
                                                 	</ul>
                                             	</div>
                        			 			<% }
-                       			 		else if(1==2){ %>
-           			 					<div class="tab-pane active" id="<%=tab%>">
-                                        	<ul class="list-group">
-                                        		<li class="list-group-item">First item</li>
-                                                <li class="list-group-item">Second item</li>
-                                                               
-                                        	</ul>
-                                    	</div>
-               			 			<% } else {}
                        				}
                                     %>
                                     
@@ -117,7 +113,10 @@
                                     
                                     <!-- @end #sports -->
  </div>
- <INPUT TYPE=submit name=submit Value="Create agenda">
+ 
+ <div class="col-xs-10 col-xs-offset-1 col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">
+ <INPUT class="btn btn-primary btn-lg btn-block" TYPE=submit name=submit Value="Create agenda" id="ag">
+ </div>
  </form>
                                 </div>
                             </div>

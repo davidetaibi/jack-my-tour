@@ -146,7 +146,7 @@ input[type=checkbox] {
     margin: 15px 0;
 	color: white;
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: 1.2em;
 }
 
 .checkbox label::before {
@@ -179,12 +179,8 @@ fieldset .checkbox label {
     padding: inherit;
 }
 
-#date {
+#date1, #date2, #location{
     max-width: 12em;
-}
-
-#time {
-    max-width: 8em;
 }
 
 btn {
@@ -274,6 +270,7 @@ ul.nav {
     padding: 10px;
     padding-left: 20px;
     padding-right: 20px;
+        height: 600px;
 }
 
 .tab-pane {
@@ -296,7 +293,7 @@ ul.nav {
 }
 
 #act {
-    margin-top: 30px;
+    margin-top: 0px;
 }
 
 .list-group-item {
@@ -467,9 +464,9 @@ ul.nav {
 .rest-item {
     margin: 0px;
     margin-left: 10px;
-    padding: 20px;
+    padding: 10px;
     font-weight: bold;
-    font-size: 2em;
+    font-size: 1.8em;
     color: dimgray;
 }
 
@@ -484,7 +481,8 @@ ul.nav {
 
 .checkbox .rest-item:after {
     font-size: 0.9em;
-    padding-top: 24px;
+    padding-top: 11px;
+    padding-left: 4px;
 }
 
 .rest-item>span{
@@ -578,8 +576,7 @@ form .form-group input{
 padding: 10px;
 }
 
-form {
-      width: 350px;       
+form {      
     margin-top: 10px;
     padding-left: 20px;
     padding-right: 20px;
@@ -644,4 +641,46 @@ form {
 .pull-right {
     position: absolute;
     margin-left: 183px;
+}
+
+#food-type{
+font-size: 20px;
+    height: 40px;
+    margin-bottom: 20px;
+}
+
+.list-group {
+      overflow-y: scroll;
+        height: 450px;
+    border: solid 1px;
+    border-color: #C0C0C0;
+
+}
+
+.list-group input {
+      margin-bottom: 10px;
+}
+
+
+
+#ag {
+    font-size: 25px;
+    margin-top: 40px;
+}
+
+#group-location {
+    padding-right: 0px;
+}
+
+#group-date1 {
+    width: 260px;
+}
+
+#group-date2 {
+    padding-left: 0px;
+    width: 220px;
+}
+
+#group-location {
+    width: 270px;
 }

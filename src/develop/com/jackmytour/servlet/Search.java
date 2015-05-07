@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.ProxyOAuthRequest;
+import org.scribe.model.Verb;
+
 import com.evdb.javaapi.data.Event;
 
 import develop.com.jackmytour.core.EventfulData;
@@ -62,6 +66,12 @@ public class Search extends HttpServlet {
 		
 		YelpData yelp = new YelpData(location,term,request);
 		ArrayList<Restaurant> rests = yelp.queryAPI();
+		
+		if (request.getRequestURL().toString().contains("jmt.inf")) {
+			System.setProperty("http.proxyHost", "passage.inf.unibz.it");
+			System.setProperty("http.proxyPort", "8080");
+	    } 
+		
 		
 		EventfulData eventFul = new EventfulData(location,null,null);
 		List<Event> events = eventFul.search();
