@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
     <%@ page import="java.util.ArrayList" %>
         <%@ page import="java.util.Iterator" %>
-        <%@ page import="develop.com.jackmytour.core.Restaurant" %>
+        <%@ page import="develop.com.jackmytour.core.*" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,8 +35,8 @@
 <body ng-app  onload="calcRoute()">
 
 <%@ page import="java.util.Arrays" %>
-   <% ArrayList<Restaurant> selectedRestaurants = (ArrayList
-                            <Restaurant>) request.getAttribute("selectedRestaurants"); %>    
+   <% ArrayList<Item> selectedRestaurants = (ArrayList
+                            <Item>) request.getAttribute("selectedRestaurants"); %>    
 
     <div class="container">
 
@@ -94,7 +94,7 @@
 								   
 								   if (selectedRestaurants.size() != 0) 
 								   {
-								      for (Restaurant res : selectedRestaurants) 
+								      for (Item res : selectedRestaurants) 
 								      {%>
                                                
                                                 <li class="panel panel-primary">

@@ -17,12 +17,12 @@ public class EventfulData {
 	
 	String location;
 	String dateRange;
-	String[] keywords;
+	String keyword;
 	
-	public EventfulData(String location,String dateRange,String[] keywords) {
+	public EventfulData(String location,String dateRange,String keyword) {
 		this.location = location;
 		this.dateRange = dateRange;
-		this.keywords = keywords;
+		this.keyword = keyword;
 	}
 	
 	public String getLocation() { 
@@ -33,8 +33,8 @@ public class EventfulData {
 		return this.dateRange;
 	}
 	
-	public String[] getKeyWords() { 
-		return this.keywords;
+	public String getKeyWords() { 
+		return this.keyword;
 	}
 	
 	public List<Event> search() {
@@ -50,10 +50,10 @@ public class EventfulData {
       
       EventSearchRequest esr = new EventSearchRequest();
       esr.setLocation(this.location);
-      //esr.setKeywords("concert");
+      esr.setKeywords(this.keyword);
       esr.setPageSize(20);
       esr.setPageNumber(1);
-      esr.setDateRange("today");
+      //esr.setDateRange("today");
 
       System.out.println("Starting initial request.");
       

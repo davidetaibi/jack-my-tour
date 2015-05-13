@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
     <%@ page import="java.util.ArrayList" %>
+    <%@ page import="java.util.List" %>
         <%@ page import="java.util.Iterator" %>
             <%@ page import="develop.com.jackmytour.core.Restaurant" %>
+            <%@ page import="develop.com.jackmytour.core.Item" %>
+            <%@ page import="develop.com.jackmytour.core.DrinkBar" %>
+            <%@ page import="com.evdb.javaapi.data.Event"%>
                 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
                 <head>
@@ -39,7 +43,14 @@
 
                     <main class="container" id="act">
                     <% ArrayList<Restaurant> rests = (ArrayList
-                            <Restaurant>) request.getAttribute("restutants_yelp"); %>
+                            <Restaurant>) request.getAttribute("restutants_yelp"); 
+                    
+                    ArrayList<DrinkBar> drinks = (ArrayList<DrinkBar>) request.getAttribute("drinks");     
+                    
+                	List<Event> sports= (List<Event>) request.getAttribute("sports");
+            		
+                	List<Event> musics = (List<Event>) request.getAttribute("musics");                     
+                    %>
                     
                         <div class="row">
                             <div class="col-sm-offset-1 col-sm-10">
@@ -94,15 +105,88 @@
                        			 					}else { 
                        			 						//qui finisce il tab content del food
                        			 					}
-                       			 			}else {%>
-                   			 					<div class="tab-pane active" id="<%=tab%>">
-                                                	<ul class="list-group">
-                                                		<li class="list-group-item">First item</li>
-                                                        <li class="list-group-item">Second item</li>
-                                                                       
-                                                	</ul>
-                                            	</div>
-                       			 			<% }
+                       			 			}else if(tab.equals("Drinks")) {
+                   			 					    if(rests.size() != 0) {%> 
+                       			 					<div class="tab-pane active" id="Drinks">
+
+                                                    <ul class="list-group"><% 
+                                                    		Iterator<DrinkBar> iter = drinks.iterator(); 
+                                                    			int i=0; 
+                                                    			for (DrinkBar bar: drinks) { 
+                                                    				i=i+1; String a="bar"+i;
+                                                     %>
+                                                    <div class="item-line"></div>	
+                                                    <div class="checkbox checkbox-warning">	
+                                                    	<input id="<%=a%>" type="checkbox" name="drinks" value="<%=bar.getName()+"+"+bar.getAddress()%>">
+                                                            <label for="<%=a%>" class="rest-item"><%=bar.getName() %>
+                                                            	</br><span><%= bar.getAddress() %></span>
+                                                            </label>
+                                                    </div>	
+                                                    		
+                                                    	        <%}
+                                                    		
+                                                    	%>
+                                                        
+                                                    </ul>
+                                                </div><% 
+                       			 					}else { 
+                       			 						//qui finisce il tab content del food
+                       			 					}
+                       			 			 }else if(tab.equals("Musics")) {
+                			 					    if(musics.size() != 0) {%> 
+                    			 					<div class="tab-pane active" id="Drinks">
+
+                                                 <ul class="list-group"><% 
+                                                 		Iterator<Event> iter = musics.iterator(); 
+                                                 			int i=0; 
+                                                 			for (Event event: musics) { 
+                                                 				i=i+1; String a="event"+i;
+                                                  %>
+                                                 <div class="item-line"></div>	
+                                                 <div class="checkbox checkbox-warning">	
+                                                 	<input id="<%=a%>" type="checkbox" name="musics" value="<%= event.getTitle()+"+"+ event.getVenue().getAddress() %>">
+                                                         <label for="<%=a%>" class="rest-item"><%=event.getTitle() %>
+                                                         	</br><span><%= event.getVenue().getAddress() %></span>
+                                                         </label>
+                                                 </div>	
+                                                 		
+                                                 	      <%}
+                                                 		
+                                                 	%>
+                                                     
+                                                 </ul>
+                                             </div><% 
+                    			 					}else { 
+                    			 						
+                    			 					}
+                    			 			 }else if(tab.equals("Sports")) {
+             			 					    if(sports.size() != 0) {%> 
+                 			 					<div class="tab-pane active" id="Drinks">
+
+                                              <ul class="list-group"><% 
+                                              		Iterator<Event> iter = sports.iterator(); 
+                                              			int i=0; 
+                                              			for (Event event: sports) { 
+                                              				i=i+1; String a="event"+i;
+                                               %>
+                                              <div class="item-line"></div>	
+                                              <div class="checkbox checkbox-warning">	
+                                              	<input id="<%=a%>" type="checkbox" name="sports" value="<%= event.getTitle()+"+"+ event.getVenue().getAddress() %>">
+                                                      <label for="<%=a%>" class="rest-item"><%=event.getTitle() %>
+                                                      	</br><span><%= event.getVenue().getAddress() %></span>
+                                                      </label>
+                                              </div>	
+                                              		
+                                              	      <%}
+                                              		
+                                              	%>
+                                                  
+                                              </ul>
+                                          </div><% 
+                 			 					}else { 
+                 			 						
+                 			 					}
+                 			 			 }
                        				}
                                     %>
                                     

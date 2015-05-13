@@ -19,8 +19,12 @@ import org.scribe.model.Verb;
 
 import com.evdb.javaapi.data.Event;
 
+import develop.com.jackmytour.core.DrinkBar;
 import develop.com.jackmytour.core.EventfulData;
+import develop.com.jackmytour.core.Item;
+import develop.com.jackmytour.core.MusicEvent;
 import develop.com.jackmytour.core.Restaurant;
+import develop.com.jackmytour.core.SportEvent;
 import develop.com.jackmytour.core.YelpData;
 
 /**
@@ -57,28 +61,61 @@ public class Search extends HttpServlet {
 		//still have to work on this term
 		String term = request.getParameter("term");
 		
+		ArrayList<Item> rests= new ArrayList<Item>();
+		ArrayList<Item> drinks= new ArrayList<Item>();
+		List<Event> sports= null;
+		List<Event> musics=null;
+		
 		String[] tabs = request.getParameterValues("tabs");
-		for(String s: tabs) { 
-			System.out.println("Item checked"+ "---> " + s);
+		for(String tab: tabs) { 
+			System.out.println("Item checked"+ "---> " + tab);
+			switch(tab) { 
+				case "Food": 
+					YelpData food = new YelpData(location,term,request);
+					rests = food.queryAPI("Restaurant");
+					break;
+				case "Drinks":
+					YelpData drink = new YelpData(location,term,request);
+					drinks = drink.queryAPI("Drink");
+					break;
+				case "Sports":
+					EventfulData sport = new EventfulData(location,null,"sport");
+					sports = sport.search();
+					break;
+				case "Music":
+					EventfulData music = new EventfulData(location,null,"music");
+					musics = music.search();
+					break;
+			}
 		}
 		//List tabsList = (List) Arrays.asList(tabs);
 		
-		
-		YelpData yelp = new YelpData(location,term,request);
-		ArrayList<Restaurant> rests = yelp.queryAPI();
-		
+				
 		if (request.getRequestURL().toString().contains("jmt.inf")) {
 			System.setProperty("http.proxyHost", "passage.inf.unibz.it");
 			System.setProperty("http.proxyPort", "8080");
 	    } 
 		
-		
-		EventfulData eventFul = new EventfulData(location,null,null);
-		List<Event> events = eventFul.search();
-		
-		request.setAttribute("restutants_yelp", rests);
+			
 		request.setAttribute("tabs",tabs);
-		request.setAttribute("events",events);
+		
+		if(rests.size() != 0) {
+			request.setAttribute("restutants_yelp", rests);
+		}	
+		
+		if(drinks.size() != 0) { 
+			request.setAttribute("drinks", drinks);
+		}
+		
+		if(sports != null) { 
+			request.setAttribute("sports", sports);
+		}
+		
+		if(musics != null) { 
+			request.setAttribute("musics", musics);
+		}
+		
+		
 		RequestDispatcher rd = request.getRequestDispatcher("activities.jsp");
 		
 		rd.forward(request, response);

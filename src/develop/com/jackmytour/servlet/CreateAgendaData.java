@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import develop.com.jackmytour.core.Item;
 import develop.com.jackmytour.core.Restaurant;
 
 /**
@@ -40,29 +41,53 @@ public class CreateAgendaData extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String[] rests = request.getParameterValues("rests");
-		ArrayList<Restaurant> SelectedRestaurants = new ArrayList<Restaurant>();
+		String[] drinks =request.getParameterValues("drinks");
 		
-		for(String s : rests) { 
-			String[] parts = s.split("\\+");
-			String name = parts[0]; 
-			String address = parts[1]; 
-			System.out.println(name+" "+address);
-			
-			Restaurant res = new Restaurant(name,address);
-			SelectedRestaurants.add(res);
+		String[] musics=request.getParameterValues("music");
+		String[] sports=request.getParameterValues("sports");
+		
+		if(rests != null) {
+			ArrayList<Item> selectedRestaurants = parseFields(rests);
+			request.setAttribute("selectedRestaurants", selectedRestaurants);
 		}
 		
-		for(Restaurant r : SelectedRestaurants) { 
-			System.out.println(r.getName() + "+" + r.getAddress());
+		if(drinks != null) {
+			ArrayList<Item> selectedDrinks = parseFields(drinks);
+			request.setAttribute("selectedDrinks", selectedDrinks);
 		}
 		
-		request.setAttribute("selectedRestaurants", SelectedRestaurants);
+		if(musics != null) {
+			ArrayList<Item> selectedMusics= parseFields(musics);
+			request.setAttribute("selectedMusics", selectedMusics);
+
+		}
+		
+		if(sports != null) {
+			ArrayList<Item> selectedSports = parseFields(sports);
+			request.setAttribute("selectedSports", selectedSports);
+		}		
 		
 		RequestDispatcher rd = request.getRequestDispatcher("agenda2.jsp");
 		
 		rd.forward(request, response);
 		
 		
+	}
+	
+	public ArrayList<Item> parseFields(String[] selectedItems) {
+		ArrayList<Item> items = new ArrayList<Item>();
+		
+		for(String s : selectedItems) { 
+			String[] parts = s.split("\\+");
+			String name = parts[0]; 
+			String address = parts[1]; 
+			System.out.println(name+" "+address);
+			
+			Item item = new Item(name,address);
+			items.add(item);
+		}
+	
+		return items;
 	}
 	
 

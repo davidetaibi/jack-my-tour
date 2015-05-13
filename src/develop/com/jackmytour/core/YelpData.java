@@ -145,8 +145,9 @@ public class YelpData {
 	 * @param yelpApiCli
 	 *            <tt>YelpAPICLI</tt> command line arguments
 	 */
-	public ArrayList<Restaurant> queryAPI() {
-		ArrayList<Restaurant> rests = new ArrayList<Restaurant>();
+	public ArrayList<Item> queryAPI(String category) {
+		
+		ArrayList<Item> items = new ArrayList<Item>();
 		String searchResponseJSON = searchForBusinessesByLocation(
 				this.location, this.term);
 
@@ -173,8 +174,14 @@ public class YelpData {
 				address = (String) addressArray.get(j);
 
 			}
-			Restaurant newRest = new Restaurant(name, address);
-			rests.add(newRest);
+			Item item = null;
+			if(category == "Restaurant") {
+				 item = new Restaurant(name, address);
+			}else if(category == "Drink") { 
+				item = new DrinkBar(name,address);
+			}
+			
+			items.add(item);
 		}
 
 		/*
@@ -193,7 +200,7 @@ public class YelpData {
 		// return(firstBusiness.get("name") + " " +
 		// firstBusiness.getJSONObject("location").get("address").toString());
 
-		return rests;
+		return items;
 
 		// System.out.println(String.format("Result for business \"%s\" found:",
 		// firstBusinessID));
