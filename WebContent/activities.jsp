@@ -106,7 +106,7 @@
                        			 						//qui finisce il tab content del food
                        			 					}
                        			 			}else if(tab.equals("Drinks")) {
-                   			 					    if(rests.size() != 0) {%> 
+                   			 					    if(drinks.size() != 0) {%> 
                        			 					<div class="tab-pane active" id="Drinks">
 
                                                     <ul class="list-group"><% 
@@ -132,9 +132,9 @@
                        			 					}else { 
                        			 						//qui finisce il tab content del food
                        			 					}
-                       			 			 }else if(tab.equals("Musics")) {
+                       			 			 }else if(tab.equals("Music")) {
                 			 					    if(musics.size() != 0) {%> 
-                    			 					<div class="tab-pane active" id="Drinks">
+                    			 					<div class="tab-pane active" id="Music">
 
                                                  <ul class="list-group"><% 
                                                  		Iterator<Event> iter = musics.iterator(); 
@@ -161,7 +161,7 @@
                     			 					}
                     			 			 }else if(tab.equals("Sports")) {
              			 					    if(sports.size() != 0) {%> 
-                 			 					<div class="tab-pane active" id="Drinks">
+                 			 					<div class="tab-pane active" id="Sports">
 
                                               <ul class="list-group"><% 
                                               		Iterator<Event> iter = sports.iterator(); 
