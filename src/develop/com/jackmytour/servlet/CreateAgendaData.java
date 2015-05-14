@@ -19,6 +19,7 @@ import develop.com.jackmytour.core.Restaurant;
 @WebServlet("/createAgenda")
 public class CreateAgendaData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private ArrayList<String> addresses = new ArrayList<String>();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -43,7 +44,7 @@ public class CreateAgendaData extends HttpServlet {
 		String[] rests = request.getParameterValues("rests");
 		String[] drinks =request.getParameterValues("drinks");
 		
-		String[] musics=request.getParameterValues("music");
+		String[] musics=request.getParameterValues("musics");
 		String[] sports=request.getParameterValues("sports");
 		
 		if(rests != null) {
@@ -67,6 +68,7 @@ public class CreateAgendaData extends HttpServlet {
 			request.setAttribute("selectedSports", selectedSports);
 		}		
 		
+		request.setAttribute("addresses",addresses);
 		RequestDispatcher rd = request.getRequestDispatcher("agenda2.jsp");
 		
 		rd.forward(request, response);
@@ -80,7 +82,8 @@ public class CreateAgendaData extends HttpServlet {
 		for(String s : selectedItems) { 
 			String[] parts = s.split("\\+");
 			String name = parts[0]; 
-			String address = parts[1]; 
+			String address = parts[1];
+			addresses.add(address);
 			System.out.println(name+" "+address);
 			
 			Item item = new Item(name,address);

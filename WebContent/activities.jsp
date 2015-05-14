@@ -140,7 +140,7 @@
                                                  		Iterator<Event> iter = musics.iterator(); 
                                                  			int i=0; 
                                                  			for (Event event: musics) { 
-                                                 				i=i+1; String a="event"+i;
+                                                 				i=i+1; String a="musicEvent"+i;
                                                   %>
                                                  <div class="item-line"></div>	
                                                  <div class="checkbox checkbox-warning">	
@@ -167,7 +167,7 @@
                                               		Iterator<Event> iter = sports.iterator(); 
                                               			int i=0; 
                                               			for (Event event: sports) { 
-                                              				i=i+1; String a="event"+i;
+                                              				i=i+1; String a="sportEvent"+i;
                                                %>
                                               <div class="item-line"></div>	
                                               <div class="checkbox checkbox-warning">	

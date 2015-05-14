@@ -36,7 +36,30 @@
 
 <%@ page import="java.util.Arrays" %>
    <% ArrayList<Item> selectedRestaurants = (ArrayList
-                            <Item>) request.getAttribute("selectedRestaurants"); %>    
+                            <Item>) request.getAttribute("selectedRestaurants");
+   
+   ArrayList<Item> selectedDrinks= (ArrayList
+           <Item>) request.getAttribute("selectedDrinks");
+   
+   ArrayList<Item> selectedSports = (ArrayList
+           <Item>) request.getAttribute("selectedSports");
+   
+   
+   ArrayList<Item> selectedMusics = (ArrayList
+           <Item>) request.getAttribute("selectedMusics");
+   
+
+   for(Item item : selectedMusics) { 
+	   System.out.println(item.getName());
+   }
+   
+   ArrayList<String> addresses = (ArrayList
+           <String>) request.getAttribute("addresses");
+   
+   for(String s : addresses) { 
+	   System.out.println(s);
+   }
+   %>    
 
     <div class="container">
 
@@ -92,7 +115,7 @@
                                                								   
                                <% // String Array rests cretes an array of all possible stop on your journey
 								   
-								   if (selectedRestaurants.size() != 0) 
+								   if (selectedRestaurants != null) 
 								   {
 								      for (Item res : selectedRestaurants) 
 								      {%>
@@ -100,13 +123,57 @@
                                                 <li class="panel panel-primary">
                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                                     <div class="panel-body item">
-                                                        <h3><% out.println(res.getName());%></h3>
+                                                        <font size="2" color="#EDDA0F">food </font><h3><% out.println(res.getName());%></h3>
                                                         <p class="item_description">Address: <% out.println(res.getAddress());%> <a href=""></a>
                                                         </p>
                                                     </div>
                                                 </li>
                                                 
-                                                <%}} %>
+                                                <%}} 
+                               if (selectedDrinks != null) {
+                                                for (Item drink : selectedDrinks) 
+								      {%>
+                                               
+                                                <li class="panel panel-primary">
+                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
+                                                    <div class="panel-body item">
+                                                        <font size="2" color="#EDDA0F">drink </font><h3><% out.println(drink.getName());%></h3>
+                                                        <p class="item_description">Address: <% out.println(drink.getAddress());%> <a href=""></a>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                
+                                                <%}}
+                                                
+                              				if (selectedMusics != null) {
+                               					for (Item music : selectedMusics) 
+								      {%>
+                                               
+                                                <li class="panel panel-primary">
+                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
+                                                    <div class="panel-body item">
+                                                        <font size="2" color="#EDDA0F">music </font><h3><% out.println(music.getName());%></h3>
+                                                        <p class="item_description">Address: <% out.println(music.getAddress());%> <a href=""></a>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                
+                                                <%} }
+                                                
+                              				 if (selectedSports != null) {
+                              					for (Item sport : selectedSports) 
+								      {%>
+                                               
+                                                <li class="panel panel-primary">
+                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
+                                                    <div class="panel-body item">
+                                                        <font size="2" color="#EDDA0F">sport </font><h3><% out.println(sport.getName());%></h3>
+                                                        <p class="item_description">Address: <% out.println(sport.getAddress());%> <a href=""></a>
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                                
+                                                <%} }%>
 
                                             </ul>
                                         </div>
