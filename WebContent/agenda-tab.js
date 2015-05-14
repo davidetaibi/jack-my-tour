@@ -1,5 +1,5 @@
 $('.panel-collapse:not("#collapseMap")').collapse('show');
-$('.panel-collapse:not("#collapseMap, #collapseOne")').collapse('hide');
+$('.panel-collapse:not("#collapseMap, #0")').collapse('hide');
 
 
 $('.panel-collapse:not("#collapseMap")').each(function () {

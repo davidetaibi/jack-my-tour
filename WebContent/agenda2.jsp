@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
     <%@ page import="java.util.ArrayList" %>
-        <%@ page import="java.util.Iterator" %>
-        <%@ page import="develop.com.jackmytour.core.*" %>
+<%@ page import="java.util.*"%>
+<%@ page import="develop.com.jackmytour.core.*"%>
+<%@ page import="develop.com.jackmytour.core.Utils"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,16 +72,30 @@
 
         <div class="container">
             <div class="row">
+            
+           
+						
                 <div class="panel-group col-xs-12" id="accordion" role="tablist" aria-multiselectable="true">
+                <% boolean firstRound=true; 
+				String from =(String) session.getAttribute("from");
+                   String to =(String) session.getAttribute("to");
+                   
+                   List <Date> dates= Utils.getDaysBetweenDatesPlusOne(from, to);
+
+                   int x = 0;
+					for(Date day:dates){
+						
+						
+						%>
                     <div class="panel panel-default">
                         <div class="panel-heading heading-vertical" role="tab" id="headingOne">
                             <h4 class="panel-title title-vertical">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Monday <span>2015-04-20</span>
+        <a data-toggle="collapse" data-parent="#accordion" href="#<%=x%>" aria-expanded="true" aria-controls="<%=x%>">
+           <span><% out.write(Utils.formatDate(day)); %></span>
         </a>
       </h4>
                         </div>
-                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                        <div id="<%=x%>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                             <div class="panel-body body-vertical">
                                 <div class="lala">
                                     <div class="panel panel-default day">
@@ -115,7 +130,7 @@
                                                								   
                                <% // String Array rests cretes an array of all possible stop on your journey
 								   
-								   if (selectedRestaurants != null) 
+								   if (firstRound && selectedRestaurants != null) 
 								   {
 								      for (Item res : selectedRestaurants) 
 								      {%>
@@ -129,8 +144,10 @@
                                                     </div>
                                                 </li>
                                                 
-                                                <%}} 
-                               if (selectedDrinks != null) {
+                                                <%}
+								   
+								   } 
+                               if (firstRound && selectedDrinks != null) {
                                                 for (Item drink : selectedDrinks) 
 								      {%>
                                                
@@ -145,7 +162,7 @@
                                                 
                                                 <%}}
                                                 
-                              				if (selectedMusics != null) {
+                              				if (firstRound && selectedMusics != null) {
                                					for (Item music : selectedMusics) 
 								      {%>
                                                
@@ -160,7 +177,7 @@
                                                 
                                                 <%} }
                                                 
-                              				 if (selectedSports != null) {
+                              				 if (firstRound && selectedSports != null) {
                               					for (Item sport : selectedSports) 
 								      {%>
                                                
@@ -173,7 +190,9 @@
                                                     </div>
                                                 </li>
                                                 
-                                                <%} }%>
+                                                <%} 
+                              					 
+                              					}%>
 
                                             </ul>
                                         </div>
@@ -187,260 +206,260 @@
                         </div>
                     </div>
 
+<% x++; firstRound= false; } //end for each %>
 
+<!--                     <div class="panel panel-default"> -->
+<!--                         <div class="panel-heading heading-vertical" role="tab" id="headingTwo"> -->
+<!--                             <h4 class="panel-title title-vertical"> -->
+<!--         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> -->
+<!--           Tuesday <span>2015-04-21</span> -->
+<!--         </a> -->
+<!--       </h4> -->
+<!--                         </div> -->
+<!--                         <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo"> -->
+<!--                             <div class="panel-body body-vertical"> -->
+<!--                                 <div class="lala"> -->
+<!--                                     <div class="panel panel-default day"> -->
+<!--                                         <div class="panel-body day-body"> -->
+<!--                                             <div class="col-xs-3"> -->
+<!--                                                 <div class="line"> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>10:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>11:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>12:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>13:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>14:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>15:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>16:00</span> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading heading-vertical" role="tab" id="headingTwo">
-                            <h4 class="panel-title title-vertical">
-        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Tuesday <span>2015-04-21</span>
-        </a>
-      </h4>
-                        </div>
-                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                            <div class="panel-body body-vertical">
-                                <div class="lala">
-                                    <div class="panel panel-default day">
-                                        <div class="panel-body day-body">
-                                            <div class="col-xs-3">
-                                                <div class="line">
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>10:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>11:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>12:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>13:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>14:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>15:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>16:00</span>
-                                                    </div>
-                                                </div>
+<!--                                             </div> -->
+<!--                                             <ul id="draggablePanelList" class="list-unstyled col-xs-9"> -->
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item1</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah <a href="">Read more...</a> -->
+<!--                                                         </p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                            </div>
-                                            <ul id="draggablePanelList" class="list-unstyled col-xs-9">
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item1</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah <a href="">Read more...</a>
-                                                        </p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item2</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item2</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item3</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item3</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item4</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item4</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
-                                                    </div>
-                                                </li>
+<!--                                             </ul> -->
+<!--                                         </div> -->
+<!--                                         <div class="panel-footer"> -->
+<!--                                             <span>Add </span> -->
+<!--                                             <span class="glyphicon glyphicon-plus smaller"></span> -->
+<!--                                         </div> -->
+<!--                                     </div>.</div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                     <div class="panel panel-default"> -->
+<!--                         <div class="panel-heading heading-vertical" role="tab" id="headingThree"> -->
+<!--                             <h4 class="panel-title title-vertical"> -->
+<!--         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"> -->
+<!--           Wednesday <span>2015-04-22</span> -->
+<!--         </a> -->
+<!--       </h4> -->
+<!--                         </div> -->
+<!--                         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree"> -->
+<!--                             <div class="panel-body body-vertical"> -->
+<!--                                 <div class="lala"> -->
+<!--                                     <div class="panel panel-default day"> -->
+<!--                                         <div class="panel-body day-body"> -->
+<!--                                             <div class="col-xs-3"> -->
+<!--                                                 <div class="line"> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>10:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>11:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>12:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>13:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>14:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>15:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>16:00</span> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
 
-                                            </ul>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <span>Add </span>
-                                            <span class="glyphicon glyphicon-plus smaller"></span>
-                                        </div>
-                                    </div>.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading heading-vertical" role="tab" id="headingThree">
-                            <h4 class="panel-title title-vertical">
-        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Wednesday <span>2015-04-22</span>
-        </a>
-      </h4>
-                        </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                            <div class="panel-body body-vertical">
-                                <div class="lala">
-                                    <div class="panel panel-default day">
-                                        <div class="panel-body day-body">
-                                            <div class="col-xs-3">
-                                                <div class="line">
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>10:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>11:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>12:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>13:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>14:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>15:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>16:00</span>
-                                                    </div>
-                                                </div>
+<!--                                             </div> -->
+<!--                                             <ul id="draggablePanelList" class="list-unstyled col-xs-9"> -->
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item1</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah <a href="">Read more...</a> -->
+<!--                                                         </p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                            </div>
-                                            <ul id="draggablePanelList" class="list-unstyled col-xs-9">
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item1</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah <a href="">Read more...</a>
-                                                        </p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item2</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item2</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item3</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item3</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item4</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item4</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
-                                                    </div>
-                                                </li>
+<!--                                             </ul> -->
+<!--                                         </div> -->
+<!--                                         <div class="panel-footer"> -->
+<!--                                             <span>Add </span> -->
+<!--                                             <span class="glyphicon glyphicon-plus smaller"></span> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
 
-                                            </ul>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <span>Add </span>
-                                            <span class="glyphicon glyphicon-plus smaller"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                     <div class="panel panel-default"> -->
+<!--                         <div class="panel-heading heading-vertical" role="tab" id="headingFour"> -->
+<!--                             <h4 class="panel-title title-vertical"> -->
+<!--         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour"> -->
+<!--           Thursday <span>2015-04-23</span> -->
+<!--         </a> -->
+<!--       </h4> -->
+<!--                         </div> -->
+<!--                         <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour"> -->
+<!--                             <div class="panel-body body-vertical"> -->
+<!--                                 <div class="lala"> -->
+<!--                                     <div class="panel panel-default day"> -->
+<!--                                         <div class="panel-body day-body"> -->
+<!--                                             <div class="col-xs-3"> -->
+<!--                                                 <div class="line"> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>10:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>11:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>12:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>13:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>14:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>15:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>16:00</span> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading heading-vertical" role="tab" id="headingFour">
-                            <h4 class="panel-title title-vertical">
-        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-          Thursday <span>2015-04-23</span>
-        </a>
-      </h4>
-                        </div>
-                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-                            <div class="panel-body body-vertical">
-                                <div class="lala">
-                                    <div class="panel panel-default day">
-                                        <div class="panel-body day-body">
-                                            <div class="col-xs-3">
-                                                <div class="line">
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>10:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>11:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>12:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>13:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>14:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>15:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>16:00</span>
-                                                    </div>
-                                                </div>
+<!--                                             </div> -->
+<!--                                             <ul id="draggablePanelList" class="list-unstyled col-xs-9"> -->
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item1</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah <a href="">Read more...</a> -->
+<!--                                                         </p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                            </div>
-                                            <ul id="draggablePanelList" class="list-unstyled col-xs-9">
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item1</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah <a href="">Read more...</a>
-                                                        </p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item2</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item2</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item3</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item3</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <h3>Item4</h3> -->
+<!--                                                         <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
 
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <h3>Item4</h3>
-                                                        <p class="item_description">Description: blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah</p>
-                                                    </div>
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <span>Add </span>
-                                            <span class="glyphicon glyphicon-plus smaller"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                                             </ul> -->
+<!--                                         </div> -->
+<!--                                         <div class="panel-footer"> -->
+<!--                                             <span>Add </span> -->
+<!--                                             <span class="glyphicon glyphicon-plus smaller"></span> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
 
                     <div class="panel panel-default">
                         <div class="panel-heading heading-vertical" role="tab" id="headingMap">

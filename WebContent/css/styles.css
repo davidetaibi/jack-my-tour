@@ -179,7 +179,7 @@ fieldset .checkbox label {
     padding: inherit;
 }
 
-#date1, #date2, #location{
+#from, #to, #location{
     max-width: 12em;
 }
 

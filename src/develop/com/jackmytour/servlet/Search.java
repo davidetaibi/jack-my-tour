@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.ProxyOAuthRequest;
@@ -56,10 +57,16 @@ public class Search extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession session = request.getSession(false);
 		
 		String location = request.getParameter("location");
 		//still have to work on this term
 		String term = request.getParameter("term");
+		
+		String from = request.getParameter("from");
+		String to = request.getParameter("to");
+		session.setAttribute("from", from);
+		session.setAttribute("to", to);
 		
 		ArrayList<Item> rests= new ArrayList<Item>();
 		ArrayList<Item> drinks= new ArrayList<Item>();
