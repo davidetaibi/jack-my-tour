@@ -50,16 +50,11 @@
            <Item>) request.getAttribute("selectedMusics");
    
 
-   for(Item item : selectedMusics) { 
-	   System.out.println(item.getName());
-   }
    
    ArrayList<String> addresses = (ArrayList
            <String>) request.getAttribute("addresses");
    
-   for(String s : addresses) { 
-	   System.out.println(s);
-   }
+  
    %>    
 
     <div class="container">

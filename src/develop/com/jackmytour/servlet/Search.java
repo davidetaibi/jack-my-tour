@@ -74,7 +74,11 @@ public class Search extends HttpServlet {
 		List<Event> musics=null;
 		
 		String[] tabs = request.getParameterValues("tabs");
-		for(String tab: tabs) { 
+		for(String tab: tabs) {
+			if (request.getRequestURL().toString().contains("jmt.inf")) {
+				System.setProperty("http.proxyHost", "passage.inf.unibz.it");
+				System.setProperty("http.proxyPort", "8080");
+		    } 
 			System.out.println("Item checked"+ "---> " + tab);
 			switch(tab) { 
 				case "Food": 
@@ -98,10 +102,7 @@ public class Search extends HttpServlet {
 		//List tabsList = (List) Arrays.asList(tabs);
 		
 				
-		if (request.getRequestURL().toString().contains("jmt.inf")) {
-			System.setProperty("http.proxyHost", "passage.inf.unibz.it");
-			System.setProperty("http.proxyPort", "8080");
-	    } 
+		
 		
 			
 		request.setAttribute("tabs",tabs);
