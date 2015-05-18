@@ -60,6 +60,8 @@ public class Search extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		
 		String location = request.getParameter("location");
+		
+		session.setAttribute("location",location);
 		//still have to work on this term
 		String term = request.getParameter("term");
 		
@@ -86,7 +88,7 @@ public class Search extends HttpServlet {
 					rests = food.queryAPI("Restaurant");
 					break;
 				case "Drinks":
-					YelpData drink = new YelpData(location,term,request);
+					YelpData drink = new YelpData(location,"bar",request);
 					drinks = drink.queryAPI("Drink");
 					break;
 				case "Sports":

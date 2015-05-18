@@ -19,7 +19,7 @@ import develop.com.jackmytour.core.Restaurant;
 @WebServlet("/createAgenda")
 public class CreateAgendaData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ArrayList<String> addresses = new ArrayList<String>();
+	private ArrayList<String> addresses;;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,6 +40,8 @@ public class CreateAgendaData extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		addresses = new ArrayList<String>();
 		
 		String[] rests = request.getParameterValues("rests");
 		String[] drinks =request.getParameterValues("drinks");
@@ -84,7 +86,9 @@ public class CreateAgendaData extends HttpServlet {
 			String name = parts[0]; 
 			String address = parts[1];
 			addresses.add(address);
-			System.out.println(name+" "+address);
+			System.out.println("Nella servlet+ "+
+			
+					name+" "+address);
 			
 			Item item = new Item(name,address);
 			items.add(item);

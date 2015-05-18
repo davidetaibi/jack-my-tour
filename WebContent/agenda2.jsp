@@ -3,39 +3,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="develop.com.jackmytour.core.*"%>
 <%@ page import="develop.com.jackmytour.core.Utils"%>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta name="description" content="Jack My Tour application">
-    <meta name="author" content="Matas Turskis">
-    <title>Jack My Tour</title>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.3.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:700,600,400&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/awesome-bootstrap-checkbox/v0.2.3/awesome-bootstrap-checkbox.min.css" />
-    <link rel="stylesheet" href="css/styles.css">
-
-
-
-    <!--[if IE]>
-        <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
-
-<body ng-app  onload="calcRoute()">
-
 <%@ page import="java.util.Arrays" %>
+<%@ page import = "javax.servlet.http.HttpSession" %>
    <% ArrayList<Item> selectedRestaurants = (ArrayList
                             <Item>) request.getAttribute("selectedRestaurants");
    
@@ -54,8 +23,52 @@
    ArrayList<String> addresses = (ArrayList
            <String>) request.getAttribute("addresses");
    
+   System.out.println("Addresses size: " + addresses.size());
+   
+   for(String ad : addresses) {
+	   System.out.println(ad);
+   }
+   
+   String location = (String) session.getAttribute("location");
+   
+   System.out.println("Location= "+ location);
+   
   
-   %>    
+   %> 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta name="description" content="Jack My Tour application">
+    <meta name="author" content="Matas Turskis">
+    <title>Jack My Tour</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.3.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:700,600,400&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/awesome-bootstrap-checkbox/v0.2.3/awesome-bootstrap-checkbox.min.css" />
+    <link rel="stylesheet" href="css/styles.css">
+
+
+
+    <!--[if IE]>
+        <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body ng-app onload="initialize()"  >
+
+   
 
     <div class="container">
 
@@ -72,8 +85,8 @@
 						
                 <div class="panel-group col-xs-12" id="accordion" role="tablist" aria-multiselectable="true">
                 <% boolean firstRound=true; 
-				String from =(String) session.getAttribute("from");
-                   String to =(String) session.getAttribute("to");
+				String from = (String) session.getAttribute("from");
+                String to = (String)   session.getAttribute("to");
                    
                    List <Date> dates= Utils.getDaysBetweenDatesPlusOne(from, to);
 
@@ -467,7 +480,7 @@
                         <div id="collapseMap" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingMap">
                             <div class="panel-body body-vertical">
                                 <div class="lala">
-                                    <div id="map-canvas">
+                                    <div id="map-canvas" style="height:500px;width:500px">
                                         <p>Map</p>
                                     </div>
                                 </div>
@@ -525,20 +538,113 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js">
-    </script>
-    <script type="text/javascript">
-        var map;
 
-        function initialize() {
-            var mapOptions = {
-                center: new google.maps.LatLng(48.209331, 16.381302),
-                zoom: 4
+<script type="text/javascript">
+var directionDisplay;
+var directionsService = new google.maps.DirectionsService();
+var map;
+var jsArray = [];
+var waypoints = [];
+
+function initialize() {
+	
+	this.jsArray.length = 0;
+	
+    <%for(int i=0;i<addresses.size();i++){%>
+    	jsArray.push("<%= addresses.get(i)%>");
+    
+    <%}%>
+    
+    directionsDisplay = new google.maps.DirectionsRenderer();
+    var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+    var myOptions = {
+        zoom: 6,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        center: chicago
+    };
+    map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+    directionsDisplay.setMap(map);
+    calcRoute();
+}
+
+
+function calcRoute() {
+    var location = "<%= location %>";
+    alert(location);
+	var origin;
+	var destination;
+	
+	if(jsArray.length == 2) {
+		origin = jsArray[0];
+    	destination = jsArray[1];
+        var request = {
+                origin: origin,
+                destination: destination,
+                optimizeWaypoints: true,
+                travelMode: google.maps.DirectionsTravelMode.WALKING
             };
-            map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    //var summaryPanel = document.getElementById("directions_panel");
+                    //summaryPanel.innerHTML = "";
+                    // For each route, display summary information.
+                     for (var i = 0; i < route.legs.length; i++) {
+                        var routeSegment = i + 1;
+                        /* summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
+                        summaryPanel.innerHTML += route.legs[i].start_address + " to ";
+                        summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
+                        summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
+                    }
+                } else {
+                    alert("directions response " + status);
+                } 
+            });
+    	
+    }else if(jsArray.length > 2) { 
+    	
+    	origin = jsArray.shift();
+    	destination = jsArray.pop();
+    	
+    	for(var i =0; i<jsArray.length; i++) {
+        	//alert(jsArray[i]);
+        	// here the waypoint objects array,to be passed in the google request, is populated
+        	waypoints.push({location:jsArray[i],stopover:true});
         }
-        google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
+        
+        var request = {
+                origin: origin,
+                destination: destination,
+                waypoints: waypoints,
+                optimizeWaypoints: true,
+                travelMode: google.maps.DirectionsTravelMode.WALKING
+            };
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    //var summaryPanel = document.getElementById("directions_panel");
+                    //summaryPanel.innerHTML = "";
+                    // For each route, display summary information.
+                     for (var i = 0; i < route.legs.length; i++) {
+                        var routeSegment = i + 1;
+                        /* summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
+                        summaryPanel.innerHTML += route.legs[i].start_address + " to ";
+                        summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
+                        summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
+                    }
+                } else {
+                    alert("directions response " + status);
+                } 
+            });
+        
+    	
+    }
+      
+
+}
+</script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="sortable.js"></script>
     <script type="text/javascript" src="closable.js"></script>
