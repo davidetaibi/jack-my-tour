@@ -575,8 +575,8 @@ function calcRoute() {
 	var destination;
 	
 	if(jsArray.length == 2) {
-		origin = jsArray[0];
-    	destination = jsArray[1];
+		origin = jsArray[0]+","+location;
+    	destination = jsArray[1]+","+location;
         var request = {
                 origin: origin,
                 destination: destination,
@@ -604,13 +604,13 @@ function calcRoute() {
     	
     }else if(jsArray.length > 2) { 
     	
-    	origin = jsArray.shift();
-    	destination = jsArray.pop();
+    	origin = jsArray.shift()+","+location;
+    	destination = jsArray.pop()+","+location;
     	
     	for(var i =0; i<jsArray.length; i++) {
         	//alert(jsArray[i]);
         	// here the waypoint objects array,to be passed in the google request, is populated
-        	waypoints.push({location:jsArray[i],stopover:true});
+        	waypoints.push({location:jsArray[i]+","+location,stopover:true});
         }
         
         var request = {
