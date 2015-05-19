@@ -16,13 +16,52 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:700,600,400&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/awesome-bootstrap-checkbox/v0.2.3/awesome-bootstrap-checkbox.min.css" />
     <link rel="stylesheet" href="css/styles.css">
+    
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
+   
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
     <script type="text/javascript" src="datepicker.js"></script>
+        <script>
+    (function($,W,D)
+    		{
+        var JQUERY4U = {};
+     
+        JQUERY4U.UTIL =
+        {
+            setupFormValidation: function()
+            {
+                //form validation rules
+                $("#register-form").validate({
+                    rules: {
+                        location: "required",
+                       
+                        
+                                         
+                    },
+                    messages: {
+                        location: "Please enter your location",
+                        
+                        
+							
+                    },
+                    submitHandler: function(form) {
+                        form.submit();
+                    }
+                });
+            }
+        }
+     
+        //when the dom has loaded setup form validation rules
+        $(D).ready(function($) {
+            JQUERY4U.UTIL.setupFormValidation();
+        });
+     
+    })(jQuery, window, document);</script>
     
     <!--[if IE]>
         <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -49,8 +88,8 @@
         </div>
         
          <div class="row">
-            <form action="search" method="post" class="form-inline col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
-                
+            <form action="search" method="post" id="register-form" novalidate="novalidate"  class="form-inline col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
+            
                 <label id="question">Where and when?</label>
                 
                 <fieldset class="row">
@@ -62,7 +101,7 @@
 
                     <div class="form-group col-sm-4"  id="group-date1">
                         <label for="from">From:</label>
-                        <input type="text" class="form-control" id="from" name="from">
+                        <input type="text"  class="form-control" id="from" name="from">
                     </div>
                     
                     <div class="form-group col-sm-4"  id="group-date2">
@@ -147,6 +186,7 @@
     
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     
+
 
 </body>
 

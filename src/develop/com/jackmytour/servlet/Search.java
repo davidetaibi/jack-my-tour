@@ -84,7 +84,7 @@ public class Search extends HttpServlet {
 			System.out.println("Item checked"+ "---> " + tab);
 			switch(tab) { 
 				case "Food": 
-					YelpData food = new YelpData(location,term,request);
+					YelpData food = new YelpData(location,"restaurant",request);
 					rests = food.queryAPI("Restaurant");
 					break;
 				case "Drinks":
