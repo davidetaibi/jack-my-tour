@@ -60,21 +60,29 @@
                                     <% 
                             			String[] tabs = (String[]) request.getAttribute("tabs");
                                     	if(tabs != null) { 
-                                    		for(String tab : tabs) { %>
-                                    			 <li><a href="#<%=tab%>" data-toggle="tab"><%=tab%></a>
+                                    		boolean check = true;
+                                    		for(String tab : tabs) { 
+                                    		if(check){ %>
+                                    			 <li class="active"><a href="#<%=tab%>" data-toggle="tab"><%=tab%></a>
                                                  </li>
-                                    		<%}
+                                                 <% } else {%>
+                                                 <li><a href="#<%=tab%>" data-toggle="tab"><%=tab%></a>
+                                                 </li>
+                                    		<% } check = false;}
                                     	}
                                     %>
                                     
                                 </ul>
                                 <div class="tab-content">
-                                    
+                                   
                                     <% 
+                                    boolean check2 = true;
+                                    String classactive = "";
                                     for(String tab : tabs) { 
+                                    	if(check2){classactive = "active"; } else {classactive = ""; }
                        			 			if(tab.equals("Food")) { 
                        			 					if(rests.size() != 0) {%> 
-                       			 					<div class="tab-pane active" id="Food">
+                       			 					<div class="tab-pane <%= classactive %>" id="Food">
                                                         <select class="form-control" id="food-type">
                                                           <option>Chinese</option>
                                                           <option>Italian</option>
@@ -107,7 +115,7 @@
                        			 					}
                        			 			}else if(tab.equals("Drinks")) {
                    			 					    if(drinks.size() != 0) {%> 
-                       			 					<div class="tab-pane active" id="Drinks">
+                       			 					<div class="tab-pane  <%= classactive %>" id="Drinks">
 
                                                     <ul class="list-group"><% 
                                                     		Iterator<DrinkBar> iter = drinks.iterator(); 
@@ -134,7 +142,7 @@
                        			 					}
                        			 			 }else if(tab.equals("Music")) {
                 			 					    if(musics.size() != 0) {%> 
-                    			 					<div class="tab-pane active" id="Music">
+                    			 					<div class="tab-pane  <%= classactive %>" id="Music">
 
                                                  <ul class="list-group"><% 
                                                  		Iterator<Event> iter = musics.iterator(); 
@@ -161,7 +169,7 @@
                     			 					}
                     			 			 }else if(tab.equals("Sports")) {
              			 					    if(sports.size() != 0) {%> 
-                 			 					<div class="tab-pane active" id="Sports">
+                 			 					<div class="tab-pane  <%= classactive %>" id="Sports">
 
                                               <ul class="list-group"><% 
                                               		Iterator<Event> iter = sports.iterator(); 
@@ -186,7 +194,7 @@
                  			 					}else { 
                  			 						
                  			 					}
-                 			 			 }
+                 			 			 } check2 = false;
                        				}
                                     %>
                                     

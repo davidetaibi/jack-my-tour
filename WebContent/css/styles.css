@@ -75,9 +75,6 @@ main {
     .panel-body .col-xs-3{
         padding-right: 0px;
     }
-    .panel-body .col-xs-9{
-        padding-right: 0px;
-    }
 }
 
 @media only screen and (min-width: 992px) {
@@ -86,15 +83,17 @@ main {
         width: 690px;
     }
     .day {
-        height: 34.85em;
+        height: 488px;
         border: none;
         border-radius: 0px;
         
     }
     .day-body {
-        height: 32.1em;
+        height: 450px;
         overflow-y: auto;
           overflow-x: visible;
+        padding-left: 22px;
+        padding-right: 0px;
     }
     .mobilemargin {
         padding-left: 10px;
@@ -112,26 +111,24 @@ main {
     .panel-body .col-xs-3{
         padding-right: 5px;
     }
-    .panel-body .col-xs-9{
-        padding-right: 0px;
-    }
 }
 
 @media only screen and (min-width: 1200px){
     .horizline{
-        width: 250px;
+        width: 195px;
     }
     .line {
-        margin-right: 0px;
+        margin-right: 0px;;
         padding-right: 0px;
     }
     .panel-body .col-xs-3{
         padding-right: 15px;
     }
-    .panel-body .col-xs-9{
-        padding-right: 5px;
-    }
 }
+
+    .panel-body .col-xs-9{
+        padding-right: 0px;
+    }
 
 
 fieldset {
@@ -383,6 +380,7 @@ ul.nav {
     overflow-y: hidden;
     overflow-x: hidden;
     height: inherit;
+    min-height: 62px;
     color: white;
     font-size: 20px;
     padding-left: 10px;
@@ -405,8 +403,8 @@ ul.nav {
 
 .item_description {
     padding: 0;
+    padding-right: 25px;
     margin: 0;
-    font-size: 15px;
 }
 
 #draggablePanelList .panel-body h3 {
@@ -432,6 +430,11 @@ ul.nav {
     
 }
 
+#line {
+    margin-left: 10px;
+    
+}
+
 .dot {
     border-radius: 50%;
     border-style: solid;
@@ -445,11 +448,11 @@ ul.nav {
 }
 
 .dot>span {
-    margin-left: -55px;
+    margin-left: -43px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 14px;
     position: absolute;
-    margin-top: -6px;
+    margin-top: -4px;
     color: dimgray;
 }
 
@@ -537,7 +540,8 @@ ul li{
     margin: -10px;
 }
 .body-vertical {
-    height:350px;
+    height:271px;
+    padding-left: 0px;
 }
 
 .panel-group .lala{
@@ -552,9 +556,9 @@ ul li{
     transform-origin: right top;
 }
 .panel-group .panel .lala {
-    margin-left:473px;
-    margin-top:334px;
-    width: 350px;
+    margin-left:488px;
+    margin-top:255px;
+    width: 270px;
 }
 
 .modal-body form label{
@@ -624,14 +628,14 @@ form {
 }
 
 .item h3{
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
         margin-bottom: 3px;
      margin-right: 30px;
 }
 
 .item p{
-    font-size: 14px;
+    font-size: 12px;
     opacity: 0.9;
    margin-right: 10px;
 
@@ -640,7 +644,7 @@ form {
 
 .pull-right {
     position: absolute;
-    margin-left: 183px;
+    margin-left: 145px;
 }
 
 #food-type{
@@ -683,4 +687,20 @@ font-size: 20px;
 
 #group-location {
     width: 270px;
+}
+
+#draggablePanelList {
+    padding-left: 0px;
+}
+
+#lastmap {
+    margin-bottom: 100px;
+}
+
+#icon {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    margin-top: 12px;
+    margin-left: 124px;
 }

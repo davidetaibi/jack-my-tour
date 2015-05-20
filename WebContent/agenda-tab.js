@@ -14,14 +14,16 @@ $('.panel-collapse:not("#collapseMap")').each(function () {
 $('#collapseMap')
     .on('show.bs.collapse', function () {
         $('.panel-collapse:not("#collapseMap")').collapse('hide');
+        $('#agendarow').css("margin-left", "-15px");
     })
 
 .on('shown.bs.collapse', function () {
-    $('#collapseOne').collapse('show');
+    $('#0').collapse('show');
 })
 
 .on('hide.bs.collapse', function () {
     $('.panel-collapse:not("#collapseMap")').collapse('show');
+    $('#agendarow').css("margin-left", "-50px");
 })
 
 .on('hidden.bs.collapse', function () {

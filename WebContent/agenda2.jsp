@@ -108,7 +108,7 @@
                                 <div class="lala">
                                     <div class="panel panel-default day">
                                         <div class="panel-body day-body">
-                                            <div class="col-xs-3">
+                                            <div id="line" class="col-xs-2">
                                                 <div class="line">
                                                     <div class="dot">
                                                         <div class="horizline"></div><span>10:00</span>
@@ -146,7 +146,8 @@
                                                 <li class="panel panel-primary">
                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                                     <div class="panel-body item">
-                                                        <font size="2" color="#EDDA0F">food </font><h3><% out.println(res.getName());%></h3>
+                                                        <img id="icon" src="images/icons/food.png" alt="food">
+                                                        <h3><% out.println(res.getName());%></h3>
                                                         <p class="item_description">Address: <% out.println(res.getAddress());%> <a href=""></a>
                                                         </p>
                                                     </div>
@@ -162,7 +163,8 @@
                                                 <li class="panel panel-primary">
                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                                     <div class="panel-body item">
-                                                        <font size="2" color="#EDDA0F">drink </font><h3><% out.println(drink.getName());%></h3>
+                                                       <img id="icon" src="images/icons/drink.png" alt="drinks">
+                                                        <h3><% out.println(drink.getName());%></h3>
                                                         <p class="item_description">Address: <% out.println(drink.getAddress());%> <a href=""></a>
                                                         </p>
                                                     </div>
@@ -177,7 +179,8 @@
                                                 <li class="panel panel-primary">
                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                                     <div class="panel-body item">
-                                                        <font size="2" color="#EDDA0F">music </font><h3><% out.println(music.getName());%></h3>
+                                                        <img id="icon" src="images/icons/music.png" alt="music">
+                                                        <h3><% out.println(music.getName());%></h3>
                                                         <p class="item_description">Address: <% out.println(music.getAddress());%> <a href=""></a>
                                                         </p>
                                                     </div>
@@ -192,7 +195,8 @@
                                                 <li class="panel panel-primary">
                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                                     <div class="panel-body item">
-                                                        <font size="2" color="#EDDA0F">sport </font><h3><% out.println(sport.getName());%></h3>
+                                                        <img id="icon" src="images/icons/sport.png" alt="sports">
+                                                        <h3><% out.println(sport.getName());%></h3>
                                                         <p class="item_description">Address: <% out.println(sport.getAddress());%> <a href=""></a>
                                                         </p>
                                                     </div>
@@ -469,7 +473,7 @@
 <!--                         </div> -->
 <!--                     </div> -->
 
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" id="lastmap">
                         <div class="panel-heading heading-vertical" role="tab" id="headingMap">
                             <h4 class="panel-title title-vertical">
         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseMap" aria-expanded="true" aria-controls="collapseMap">
@@ -480,7 +484,7 @@
                         <div id="collapseMap" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingMap">
                             <div class="panel-body body-vertical">
                                 <div class="lala">
-                                    <div id="map-canvas" style="height:500px;width:500px">
+                                    <div id="map-canvas">
                                         <p>Map</p>
                                     </div>
                                 </div>
