@@ -135,7 +135,7 @@
 
                                             </div>
                                             <% if(firstRound){ %>
-                                            <ul id="draggablePanelList" class="list-unstyled col-xs-9">
+                                            <ul class="list-unstyled col-xs-9">
                                                								   
                                <% // String Array rests cretes an array of all possible stop on your journey
 								   
@@ -208,7 +208,7 @@
                               					}%>
 
                                             </ul>
-                                            <% } else { %><ul id="draggablePanelList" class="list-unstyled col-xs-9"></ul><%} %>
+                                            <% } else { %><ul class="list-unstyled col-xs-9"></ul><%} %>
                                         </div>
                                         <div class="panel-footer">
                                             <span data-toggle="modal" data-target="#myModal">Add </span>
