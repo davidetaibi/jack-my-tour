@@ -529,6 +529,9 @@
 
             </div>
         </div>
+        <form method="POST" ACTION="pdfGenerator">
+        <INPUT class="btn btn-primary btn-lg btn-block" TYPE=submit name=submit Value="Generate pdf guide" id="ag">
+        </form>
     </main>
     <div class="container footer">
 
@@ -570,7 +573,7 @@ function initialize() {
 
 function calcRoute() {
     var location = "<%= location %>";
-    alert(location);
+    
 	var origin;
 	var destination;
 	
