@@ -704,3 +704,8 @@ font-size: 20px;
     margin-top: 12px;
     margin-left: 124px;
 }
+
+.list-unstyled{
+	
+	min-height: 440px;
+}

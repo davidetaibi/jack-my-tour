@@ -134,11 +134,12 @@
                                                 </div>
 
                                             </div>
+                                            <% if(firstRound){ %>
                                             <ul id="draggablePanelList" class="list-unstyled col-xs-9">
                                                								   
                                <% // String Array rests cretes an array of all possible stop on your journey
 								   
-								   if (firstRound && selectedRestaurants != null) 
+								   if (selectedRestaurants != null) 
 								   {
 								      for (Item res : selectedRestaurants) 
 								      {%>
@@ -156,7 +157,7 @@
                                                 <%}
 								   
 								   } 
-                               if (firstRound && selectedDrinks != null) {
+                               if (selectedDrinks != null) {
                                                 for (Item drink : selectedDrinks) 
 								      {%>
                                                
@@ -172,7 +173,7 @@
                                                 
                                                 <%}}
                                                 
-                              				if (firstRound && selectedMusics != null) {
+                              				if (selectedMusics != null) {
                                					for (Item music : selectedMusics) 
 								      {%>
                                                
@@ -188,7 +189,7 @@
                                                 
                                                 <%} }
                                                 
-                              				 if (firstRound && selectedSports != null) {
+                              				 if (selectedSports != null) {
                               					for (Item sport : selectedSports) 
 								      {%>
                                                
@@ -207,6 +208,7 @@
                               					}%>
 
                                             </ul>
+                                            <% } else { %><ul id="draggablePanelList" class="list-unstyled col-xs-9"></ul><%} %>
                                         </div>
                                         <div class="panel-footer">
                                             <span data-toggle="modal" data-target="#myModal">Add </span>
