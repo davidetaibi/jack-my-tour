@@ -33,6 +33,8 @@
    
    System.out.println("Location= "+ location);
    
+
+   
   
    %> 
 <!DOCTYPE html>
@@ -95,11 +97,11 @@
 						
 						
 						%>
-                    <div class="panel panel-default">
+                    <div class="panel panel-default servus">
                         <div class="panel-heading heading-vertical" role="tab" id="headingOne">
                             <h4 class="panel-title title-vertical">
         <a data-toggle="collapse" data-parent="#accordion" href="#<%=x%>" aria-expanded="true" aria-controls="<%=x%>">
-           <span><% out.write(Utils.formatDate(day)); %></span>
+           <span class="date"><% out.write(Utils.formatDate(day)); %></span>
         </a>
       </h4>
                         </div>
@@ -148,8 +150,8 @@
                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                                     <div class="panel-body item">
                                                         <img id="icon" src="images/icons/food.png" alt="food">
-                                                        <h3><% out.println(res.getName());%></h3>
-                                                        <p class="item_description">Address: <% out.println(res.getAddress());%> <a href=""></a>
+                                                        <h3 class="name"><% out.println(res.getName());%></h3>
+                                                        <p class="address" id="<%out.println(res.getAddress());%>">Address: <% out.println(res.getAddress());%> <a href=""></a>
                                                         </p>
                                                     </div>
                                                 </li>
@@ -165,8 +167,8 @@
                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                                     <div class="panel-body item">
                                                        <img id="icon" src="images/icons/drink.png" alt="drinks">
-                                                        <h3><% out.println(drink.getName());%></h3>
-                                                        <p class="item_description">Address: <% out.println(drink.getAddress());%> <a href=""></a>
+                                                        <h3 class="name"><% out.println(drink.getName());%></h3>
+                                                        <p class="address" id="<%out.println(drink.getAddress());%>">Address: <% out.println(drink.getAddress());%> <a href=""></a>
                                                         </p>
                                                     </div>
                                                 </li>
@@ -181,8 +183,8 @@
                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                                     <div class="panel-body item">
                                                         <img id="icon" src="images/icons/music.png" alt="music">
-                                                        <h3><% out.println(music.getName());%></h3>
-                                                        <p class="item_description">Address: <% out.println(music.getAddress());%> <a href=""></a>
+                                                        <h3 class="name"><% out.println(music.getName());%></h3>
+                                                        <p class="address"  id="<%out.println(music.getAddress());%>">Address: <% out.println(music.getAddress());%> <a href=""></a>
                                                         </p>
                                                     </div>
                                                 </li>
@@ -197,8 +199,8 @@
                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
                                                     <div class="panel-body item">
                                                         <img id="icon" src="images/icons/sport.png" alt="sports">
-                                                        <h3><% out.println(sport.getName());%></h3>
-                                                        <p class="item_description">Address: <% out.println(sport.getAddress());%> <a href=""></a>
+                                                        <h3 class="name"><% out.println(sport.getName());%></h3>
+                                                        <p class="address"  id="<%out.println(sport.getAddress());%>">Address: <% out.println(sport.getAddress());%> <a href=""></a>
                                                         </p>
                                                     </div>
                                                 </li>
@@ -281,7 +283,7 @@
 
             </div>
         </div>
-        <form method="POST" ACTION="pdfGenerator">
+        <form id="pdf" method="post" action="pdfGenerator">
         <INPUT class="btn btn-primary btn-lg btn-block" TYPE=submit name=submit Value="Generate pdf guide" id="ag">
         </form>
     </main>
@@ -400,6 +402,82 @@ function calcRoute() {
 
 }
 </script>
+<script type="text/javascript">
+	//alert("ma dai");
+	var arrayToBePushed = [];
+	var form = $("#pdf");
+	
+	form.submit(function() {
+	
+	//var arrayToBePushed = [];	
+		
+	$(".servus").each(function(index,parent) {
+		//object to be pushed
+		//var day;
+		var items = [];
+		var date = $(parent).find(".date").text()
+		alert(date);
+		$(parent).find("li.panel.panel-primary").each(function(index,child) {
+			//alert("servus");
+			var name = $(this).find(".name").text();
+			var address = $(this).find(".address").attr("id");
+			item = {name: name,address: address};
+			items.push(item);
+			alert(name);
+			alert(address);
+		});
+		arrayToBePushed.push({date:date,items:items});
+			
+		
+	});callServlet();arrayToBePushed = [];});
+	
+
+	
+	function callServlet() {
+		
+		//var word = "servus";
+		for(var i =0; i<arrayToBePushed.length; i++) {
+	
+		var day = arrayToBePushed[i];
+		var date = day.date;
+		alert(date);
+		var arrayItem = day.items; 
+
+			for(var j = 0; j<arrayItem.length;j++) {
+				var item = arrayItem[j];
+				alert(item.name);
+				alert(item.address);
+			}
+		}
+		
+		//var data = JSON.stringify(arrayToBePushed);
+		
+		//$.download('pdfGenerator','data='+data);
+
+		//$.post('pdfGenerator', {word:word, mode:"insert"});
+ 		$.ajax({
+            url:"exportTrip",
+            type:"post",
+            //dataType:'json',
+            data : JSON.stringify(arrayToBePushed),
+            //contentType: 'application/pdf',
+            //mimeType: 'application/pdf',
+            success: function(data) { 
+            	//window.location = data;
+                //alert('Hi');
+             },
+         error: function(jqXHR, textStatus, errorThrown,data) {
+             alert("error occurred: " + textStatus + " " + errorThrown);
+             window.location.href = data;
+         } 
+
+        });
+	}
+	
+</script>
+
+
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="sortable.js"></script>
     <script type="text/javascript" src="closable.js"></script>

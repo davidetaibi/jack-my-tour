@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import develop.com.jackmytour.core.Item;
 import develop.com.jackmytour.core.Restaurant;
@@ -19,7 +20,8 @@ import develop.com.jackmytour.core.Restaurant;
 @WebServlet("/createAgenda")
 public class CreateAgendaData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ArrayList<String> addresses;;
+	private ArrayList<String> addresses;
+	
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,7 +42,7 @@ public class CreateAgendaData extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+				
 		addresses = new ArrayList<String>();
 		
 		String[] rests = request.getParameterValues("rests");
@@ -52,24 +54,30 @@ public class CreateAgendaData extends HttpServlet {
 		if(rests != null) {
 			ArrayList<Item> selectedRestaurants = parseFields(rests);
 			request.setAttribute("selectedRestaurants", selectedRestaurants);
+			
 		}
 		
 		if(drinks != null) {
 			ArrayList<Item> selectedDrinks = parseFields(drinks);
 			request.setAttribute("selectedDrinks", selectedDrinks);
+			
 		}
 		
 		if(musics != null) {
 			ArrayList<Item> selectedMusics= parseFields(musics);
 			request.setAttribute("selectedMusics", selectedMusics);
+			
 
 		}
 		
 		if(sports != null) {
 			ArrayList<Item> selectedSports = parseFields(sports);
 			request.setAttribute("selectedSports", selectedSports);
-		}		
+			
+		}
 		
+		
+	    		
 		request.setAttribute("addresses",addresses);
 		RequestDispatcher rd = request.getRequestDispatcher("agenda2.jsp");
 		

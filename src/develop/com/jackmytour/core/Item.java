@@ -1,5 +1,6 @@
 package develop.com.jackmytour.core;
 
+
 public class Item {
 
 	String name = null;
