@@ -24,6 +24,7 @@
                     <link rel="stylesheet" href="css/styles.css">
 
                     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
+                                      
 
                     <!--[if IE]>
         <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -84,13 +85,16 @@
                        			 					if(rests.size() != 0) {%> 
                        			 					<div class="tab-pane <%= classactive %>" id="Food">
                                                         <select class="form-control" id="food-type">
-                                                          <option>Chinese</option>
-                                                          <option>Italian</option>
+                                                          <option>chinese</option>
+                                                          <option>italian</option>
                                                           <option>Vegetarian</option>
                                                           <option>Japanese</option>
                                                           <option>Indian</option>
                                                         </select>
-                                                    <ul class="list-group"><% 
+                                                      
+                                                        <div id="test"></div>
+                                                     
+                                                    <ul class="list-group" id="food-list"><% 
                                                     		Iterator<Restaurant> iter = rests.iterator(); 
                                                     			int i=0; 
                                                     			for (Restaurant restaurant: rests) { 
@@ -100,7 +104,7 @@
                                                     <div class="checkbox checkbox-warning">	
                                                     	<input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getName()+"+"+restaurant.getAddress()%>">
                                                             <label for="<%=a%>" class="rest-item"><%=restaurant.getName() %>
-                                                            	</br><span><%= restaurant.getAddress() %></span>
+                                                            	</br><span>Address: <%= restaurant.getAddress() %></span>
                                                             </label>
                                                     </div>	
                                                     		
@@ -117,7 +121,7 @@
                    			 					    if(drinks.size() != 0) {%> 
                        			 					<div class="tab-pane  <%= classactive %>" id="Drinks">
 
-                                                    <ul class="list-group"><% 
+                                                    <ul class="list-group"  id="notfood"><% 
                                                     		Iterator<DrinkBar> iter = drinks.iterator(); 
                                                     			int i=0; 
                                                     			for (DrinkBar bar: drinks) { 
@@ -127,7 +131,7 @@
                                                     <div class="checkbox checkbox-warning">	
                                                     	<input id="<%=a%>" type="checkbox" name="drinks" value="<%=bar.getName()+"+"+bar.getAddress()%>">
                                                             <label for="<%=a%>" class="rest-item"><%=bar.getName() %>
-                                                            	</br><span><%= bar.getAddress() %></span>
+                                                            	</br><span>Address: <%= bar.getAddress() %></span>
                                                             </label>
                                                     </div>	
                                                     		
@@ -144,7 +148,7 @@
                 			 					    if(musics.size() != 0) {%> 
                     			 					<div class="tab-pane  <%= classactive %>" id="Music">
 
-                                                 <ul class="list-group"><% 
+                                                 <ul class="list-group"  id="notfood"><% 
                                                  		Iterator<Event> iter = musics.iterator(); 
                                                  			int i=0; 
                                                  			for (Event event: musics) { 
@@ -154,7 +158,7 @@
                                                  <div class="checkbox checkbox-warning">	
                                                  	<input id="<%=a%>" type="checkbox" name="musics" value="<%= event.getTitle()+"+"+ event.getVenue().getAddress() %>">
                                                          <label for="<%=a%>" class="rest-item"><%=event.getTitle() %>
-                                                         	</br><span><%= event.getVenue().getAddress() %></span>
+                                                         	</br><span>Address: <%= event.getVenue().getAddress() %></span>
                                                          </label>
                                                  </div>	
                                                  		
@@ -171,7 +175,7 @@
              			 					    if(sports.size() != 0) {%> 
                  			 					<div class="tab-pane  <%= classactive %>" id="Sports">
 
-                                              <ul class="list-group"><% 
+                                              <ul class="list-group"  id="notfood"><% 
                                               		Iterator<Event> iter = sports.iterator(); 
                                               			int i=0; 
                                               			for (Event event: sports) { 
@@ -181,7 +185,7 @@
                                               <div class="checkbox checkbox-warning">	
                                               	<input id="<%=a%>" type="checkbox" name="sports" value="<%= event.getTitle()+"+"+ event.getVenue().getAddress() %>">
                                                       <label for="<%=a%>" class="rest-item"><%=event.getTitle() %>
-                                                      	</br><span><%= event.getVenue().getAddress() %></span>
+                                                      	</br><span>Address: <%= event.getVenue().getAddress() %></span>
                                                       </label>
                                               </div>	
                                               		
@@ -229,6 +233,28 @@
                     <script type="text/javascript">
                         $('#myTab').tabCollapse();
                     </script>
+                      <script type="text/javascript">
+                      $(document).ready(function() {
+                        $("#food-type").change(function(){
+                        	 var term = $('#food-type :selected').text();
+                       	  $.ajax({
+                        	      url: 'UpdateActivities',
+                        	        type: "POST",
+                        	        data: {"term" : term},
+                        	        success: function(request, response){
+                        	        rests  = data.rests;     
+                        	    $("#test").html("success"); 
+                        	  
+                        	         },
+                        	        error: function(request, response){
+                          	          //  rests  = data.rests;
+                          	          $('#test').html("fail"); 
+                          	         },
+                        	    }); 
+                        });
+                      });
+                    </script>
+
 
                 </body>
 

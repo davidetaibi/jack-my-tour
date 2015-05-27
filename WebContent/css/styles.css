@@ -468,15 +468,18 @@ ul.nav {
     margin: 0px;
     margin-left: 10px;
     padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
     font-weight: bold;
-    font-size: 1.8em;
+    font-size: 1.4em;
     color: dimgray;
 }
 
 .checkbox .rest-item::before {
     position: relative;
-    width: 27px;
-    height: 27px;
+    width: 23px;
+    height: 23px;
     margin-bottom: -4px;
     margin-right: 10px;
     margin-left: -23px;
@@ -484,19 +487,19 @@ ul.nav {
 
 .checkbox .rest-item:after {
     font-size: 0.9em;
-    padding-top: 11px;
-    padding-left: 4px;
+    padding-top: 2px;
+    padding-left: 4.5px;
 }
 
 .rest-item>span{
     color: gray;
-	font-size: 18px;
-	padding-left: 24px;
+	font-size: 14px;
+	padding-left: 13px;
 }
 
 .item-line {
     width: 100%;
-    height: 3px;
+    height: 2px;
     background-color: dimgray;
 }
 
@@ -648,9 +651,11 @@ form {
 }
 
 #food-type{
-font-size: 20px;
-    height: 40px;
+font-size: 16px;
+    height: 35px;
     margin-bottom: 20px;
+    padding-top: 5px;
+    padding-left: 6px;
 }
 
 .list-group {
@@ -708,4 +713,8 @@ font-size: 20px;
 .list-unstyled{
 	
 	min-height: 440px;
+}
+
+#notfood {
+    height: 505px;
 }
