@@ -718,3 +718,15 @@ font-size: 16px;
 #notfood {
     height: 505px;
 }
+
+
+#updaterout{
+	position: absolute;
+	margin-top: -60px;
+	margin-left: 525px;
+	font-size: 20px;
+	font-weight: bold;
+	background-color: #00655E;
+	color: white;
+	
+}

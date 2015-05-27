@@ -237,6 +237,7 @@
                                     <div id="map-canvas">
                                         <p>Map</p>
                                     </div>
+                                    <button class="btn btn-primary btn-lg" id="updaterout" onclick="UpdateR()">Update rout</button>
                                 </div>
                             </div>
                         </div>
@@ -301,7 +302,6 @@ var directionDisplay;
 var directionsService = new google.maps.DirectionsService();
 var map;
 var jsArray = [];
-var waypoints = [];
 
 function initialize() {
 	
@@ -326,6 +326,7 @@ function initialize() {
 
 
 function calcRoute() {
+	var waypoints = [];
     var location = "<%= location %>";
     
 	var origin;
@@ -368,6 +369,85 @@ function calcRoute() {
         	//alert(jsArray[i]);
         	// here the waypoint objects array,to be passed in the google request, is populated
         	waypoints.push({location:jsArray[i]+","+location,stopover:true});
+        }
+        
+        var request = {
+                origin: origin,
+                destination: destination,
+                waypoints: waypoints,
+                optimizeWaypoints: true,
+                travelMode: google.maps.DirectionsTravelMode.WALKING
+            };
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    //var summaryPanel = document.getElementById("directions_panel");
+                    //summaryPanel.innerHTML = "";
+                    // For each route, display summary information.
+                     for (var i = 0; i < route.legs.length; i++) {
+                        var routeSegment = i + 1;
+                        /* summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
+                        summaryPanel.innerHTML += route.legs[i].start_address + " to ";
+                        summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
+                        summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
+                    }
+                } else {
+                    alert("directions response " + status);
+                } 
+            });
+        
+    	
+    }
+      
+
+}
+
+
+function calcRoute2(dayArray) {
+	var waypoints = [];
+    var location = "<%= location %>";
+    
+	var origin;
+	var destination;
+	
+	if(dayArray.length == 2) {
+		origin = dayArray[0]+","+location;
+    	destination = dayArray[1]+","+location;
+        var request = {
+                origin: origin,
+                destination: destination,
+                optimizeWaypoints: true,
+                travelMode: google.maps.DirectionsTravelMode.WALKING
+            };
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    //var summaryPanel = document.getElementById("directions_panel");
+                    //summaryPanel.innerHTML = "";
+                    // For each route, display summary information.
+                     for (var i = 0; i < route.legs.length; i++) {
+                        var routeSegment = i + 1;
+                        /* summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
+                        summaryPanel.innerHTML += route.legs[i].start_address + " to ";
+                        summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
+                        summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
+                    }
+                } else {
+                    alert("directions response " + status);
+                } 
+            });
+    	
+    }else if(dayArray.length > 2) { 
+    	
+    	origin = dayArray.shift()+","+location;
+    	destination = dayArray.pop()+","+location;
+    	
+    	for(var i =0; i<dayArray.length; i++) {
+        	//alert(jsArray[i]);
+        	// here the waypoint objects array,to be passed in the google request, is populated
+        	waypoints.push({location:dayArray[i]+","+location,stopover:true});
         }
         
         var request = {
@@ -476,7 +556,44 @@ function calcRoute() {
 	
 </script>
 
+<script type="text/javascript">
 
+$('.panel-collapse:not("#collapseMap")').each(function () {
+    $(this).on('show.bs.collapse', function (index) {
+        if ($('#collapseMap').hasClass('in')) {
+        	var CurrentItems = new Array();
+        	$(this).find("li.panel.panel-primary").each(function(index,child) {
+    			//alert("servus");
+    			var address = $(this).find(".address").attr("id");
+    			CurrentItems.push(address);
+    			
+        	});
+        	calcRoute2(CurrentItems);
+        };
+    });
+});
+
+</script>
+
+
+
+<script type="text/javascript">
+
+function UpdateR(){
+	var currentday = $('.in:not("#collapseMap")');
+		if ($('#collapseMap').hasClass('in')) {
+        	var CurrentItems = new Array();
+        	currentday.find("li.panel.panel-primary").each(function(index,child) {
+    			//alert("servus");
+    			var address = $(this).find(".address").attr("id");
+    			CurrentItems.push(address);
+    			
+        	});
+        	calcRoute2(CurrentItems);
+		};
+	
+};
+</script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="sortable.js"></script>
