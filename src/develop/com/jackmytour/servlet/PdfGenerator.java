@@ -87,28 +87,7 @@ public class PdfGenerator extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("servu da pdfGenerator");
-		session = request.getSession();
-		location = session.getAttribute("location").toString();
-		from = (String) session.getAttribute("from");
-        to = (String)   session.getAttribute("to");
-        
-        String[] result = request.getParameterValues("allIcons[]");
-        System.out.println(Arrays.toString(result));
-
-		try {
-
-	        ByteArrayOutputStream output = new ByteArrayOutputStream();
-	        output = createPDF(location);
-	        System.out.println("do u even create something??");
-
-	        response.addHeader("Content-Type", "application/force-download"); 
-	        response.addHeader("Content-Disposition", "attachment; filename=\"yourFile.pdf\"");
-	        response.getOutputStream().write(output.toByteArray());
-
-	    } catch (Exception ex) {            
-	        ex.printStackTrace();
-	    }
+		
 	}
 
 	/**
@@ -117,13 +96,17 @@ public class PdfGenerator extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("servus da pdfGenerator");
-		session = request.getSession(false);
+		HttpSession session = request.getSession();
 		location = session.getAttribute("location").toString();
 		//from = (String) session.getAttribute("from");
         //to = (String)   session.getAttribute("to");
         
-        
+       
 		this.trip = (List<Day>) session.getAttribute("trip");
+		
+		//while(this.trip == null) {}
+		
+		System.out.println(trip.size());
         
         for (Day w : trip) {
         	System.out.println(w);
