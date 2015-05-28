@@ -410,6 +410,36 @@ function calcRoute2(dayArray) {
     
 	var origin;
 	var destination;
+	var marker;
+	
+	if(dayArray.length == 1) { 
+		origin = location;
+    	destination = dayArray[0]+","+location;
+        var request = {
+                origin: origin,
+                destination: destination,
+                optimizeWaypoints: true,
+                travelMode: google.maps.DirectionsTravelMode.WALKING
+            };
+            directionsService.route(request, function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    //var summaryPanel = document.getElementById("directions_panel");
+                    //summaryPanel.innerHTML = "";
+                    // For each route, display summary information.
+                     for (var i = 0; i < route.legs.length; i++) {
+                        var routeSegment = i + 1;
+                        /* summaryPanel.innerHTML += "<b>Route Segment: " + routeSegment + "</b><br />";
+                        summaryPanel.innerHTML += route.legs[i].start_address + " to ";
+                        summaryPanel.innerHTML += route.legs[i].end_address + "<br />";
+                        summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
+                    }
+                } else {
+                    alert("directions response " + status);
+                } 
+            });
+	}
 	
 	if(dayArray.length == 2) {
 		origin = dayArray[0]+","+location;
