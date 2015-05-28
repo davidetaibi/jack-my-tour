@@ -9,6 +9,8 @@
     <meta name="description" content="Jack My Tour application">
     <meta name="author" content="Matas Turskis">
     <title>Jack My Tour</title>
+
+    
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
@@ -24,8 +26,16 @@
 
 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.min.js"></script>
    
+
+   
+   
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
     <script type="text/javascript" src="datepicker.js"></script>
+  
+  
+ 
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">  
+    
         <script>
     (function($,W,D)
     		{
@@ -61,7 +71,27 @@
             JQUERY4U.UTIL.setupFormValidation();
         });
      
-    })(jQuery, window, document);</script>
+    })(jQuery, window, document);
+    
+  
+   
+    </script>
+ 
+<!--  For the slider    -->
+  <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
     
     <!--[if IE]>
         <script src="https://cdn.jsdelivr.net/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -78,15 +108,62 @@
         
     </div>
 
-    
+     
     <main class="container-fluid startpage">
         <div class="row-fluid" id="row1">
             <div class="col-xs-12 startpage">
-                <img class="img-responsive" src="images/DSC_7227_2.jpg">
-            </div> 
-            
-        </div>
+ 
+<!-- <ul class="slider">
+  <li>
+    <img src="images/jackCharleston.png"> random image
+  </li>
+  <li>
+    <img src="images/bannerJack2015.png"> random image
+  </li>
+  <li>
+    <img src="images/hawaiiJack.png"> random image
+  </li>
+
+</ul>  -->
+
+ <div id="myCarousel" class="carousel slide" data-ride="carousel"> 
+  <!-- Indicators -->
+  
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="item active"> <img src="images/bannerJackFinal.png" style="width:100%" alt="First slide">
+      <div class="container">
+       
+      </div>
+    </div>
+    <div class="item">  <img src="images/jackCharleston.png" style="width:100%" data-src="" alt="Second    slide">
+      <div class="container">
         
+      </div>
+    </div>
+    <div class="item">  <img src="images/hawaiiJack.png" style="width:100%" data-src="" alt="Third slide">
+      <div class="container">
+        
+      </div>
+    </div>
+        <div class="item">  <img src="images/bolzanoJack.png" style="width:100%" data-src="" alt="Third slide">
+      <div class="container">
+        
+      </div>
+    </div>
+  </div>
+  <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a> </div>
+                       
+
+			            
+   
+ 
+   
          <div class="row">
             <form action="search" method="post" id="register-form" novalidate="novalidate"  class="form-inline col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
             
@@ -108,11 +185,7 @@
                         <label for="to">To:</label>
                         <input type="text" class="form-control" id="to" name="to">
                     </div>
-                    
-                     <div class="form-group col-sm-6">
-                        <label for="term">Key word:</label>
-                        <input type="text" name="term" class="form-control" id="term" placeholder="example:chinese">
-                    </div>       
+      
                 </fieldset>
                 
                 <label id="question">What?</label>

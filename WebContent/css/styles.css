@@ -383,7 +383,7 @@ ul.nav {
     min-height: 62px;
     color: white;
     font-size: 20px;
-    padding-left: 10px;
+   /*  padding-left: 10px; */
     padding-bottom: 7px;
     padding-right: 0px;
     margin: 0px;
@@ -729,4 +729,19 @@ font-size: 16px;
 	background-color: #00655E;
 	color: white;
 	
+}
+
+.slider {
+  margin: 10px 0;
+  width: 100%; /* Update to your slider width */
+  height: 100%; /* Update to your slider height */
+  position: relative;
+  overflow: hidden;
+}
+
+.slider li {
+  display: none;
+  position: absolute; 
+  top: 0; 
+  left: 0; 
 }
