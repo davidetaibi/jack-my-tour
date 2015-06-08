@@ -17,6 +17,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.lang.reflect.Type;
+import java.awt.Toolkit;
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
@@ -25,6 +29,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 
 
 
@@ -62,8 +67,8 @@ public class PdfGenerator extends HttpServlet {
     private String location;
     private String from;
     private String to;
-    HttpSession session;
-    List<Day> trip = new ArrayList<Day>();
+    
+    
 	
     public static class Day { 
     	String date;
@@ -75,6 +80,28 @@ public class PdfGenerator extends HttpServlet {
     	String name;
     	String address;
     }
+    
+    public static class ReminderBeep {
+    	  Toolkit toolkit;
+
+    	  Timer timer;
+
+    	  public ReminderBeep(int seconds) {
+    	    toolkit = Toolkit.getDefaultToolkit();
+    	    timer = new Timer();
+    	    timer.schedule(new RemindTask(), seconds * 1000);
+    	  }
+
+    	  class RemindTask extends TimerTask {
+    	    public void run() {
+    	      System.out.println("Time's up!");
+    	      toolkit.beep();
+    	      //timer.cancel(); //Not necessary because we call System.exit
+    	      //System.exit(0); //Stops the AWT thread (and everything else)
+    	    }
+    	  }
+
+   }
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -95,19 +122,18 @@ public class PdfGenerator extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		new ReminderBeep(6);
 		System.out.println("servus da pdfGenerator");
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(false);
+		System.out.println("from pdf generator:" + session.getId());
 		location = session.getAttribute("location").toString();
+		System.out.println("location da pdf generator: " + location);
 		//from = (String) session.getAttribute("from");
         //to = (String)   session.getAttribute("to");
         
-       
-		this.trip = (List<Day>) session.getAttribute("trip");
 		
-		//while(this.trip == null) {}
+		List<Day> trip = (List<Day>) session.getAttribute("trip");
 		
-		System.out.println(trip.size());
-        
         for (Day w : trip) {
         	System.out.println(w);
         	List<Itemday> items = w.items;
@@ -124,11 +150,11 @@ public class PdfGenerator extends HttpServlet {
 		try {
 
 	        ByteArrayOutputStream output = new ByteArrayOutputStream();
-	        output = createPDF(location);
+	        output = createPDF(location,trip);
 	        System.out.println("do u even create something??");
 
 	        response.addHeader("Content-Type", "application/force-download"); 
-	        response.addHeader("Content-Disposition", "attachment; filename=\"yourFile.pdf\"");
+	        response.addHeader("Content-Disposition", "attachment; filename=\"MyTrip.pdf\"");
 	        response.getOutputStream().write(output.toByteArray());
 
 	    } catch (Exception ex) {            
@@ -137,7 +163,7 @@ public class PdfGenerator extends HttpServlet {
 
 	}
 	
-	public ByteArrayOutputStream createPDF(String location) throws IOException, COSVisitorException {
+	public ByteArrayOutputStream createPDF(String location,List<Day> trip) throws IOException, COSVisitorException {
 		ByteArrayOutputStream output = new ByteArrayOutputStream(); 
 		
 		// Create a document and add a page to it

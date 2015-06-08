@@ -356,7 +356,7 @@ function calcRoute() {
                         summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
                     }
                 } else {
-                    alert("directions response " + status);
+                    //alert("directions response " + status);
                 } 
             });
     	
@@ -436,7 +436,7 @@ function calcRoute2(dayArray) {
                         summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
                     }
                 } else {
-                    alert("directions response " + status);
+                    //alert("directions response " + status);
                 } 
             });
 	}
@@ -465,7 +465,7 @@ function calcRoute2(dayArray) {
                         summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
                     }
                 } else {
-                    alert("directions response " + status);
+                    //alert("directions response " + status);
                 } 
             });
     	
@@ -502,7 +502,7 @@ function calcRoute2(dayArray) {
                         summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
                     }
                 } else {
-                    alert("directions response " + status);
+                    //alert("directions response " + status);
                 } 
             });
         
@@ -526,15 +526,15 @@ function calcRoute2(dayArray) {
 		//var day;
 		var items = [];
 		var date = $(parent).find(".date").text()
-		alert(date);
+		//alert(date);
 		$(parent).find("li.panel.panel-primary").each(function(index,child) {
 			//alert("servus");
 			var name = $(this).find(".name").text();
 			var address = $(this).find(".address").attr("id");
 			item = {name: name,address: address};
 			items.push(item);
-			alert(name);
-			alert(address);
+			//alert(name);
+			//alert(address);
 		});
 		arrayToBePushed.push({date:date,items:items});
 			
@@ -550,13 +550,13 @@ function calcRoute2(dayArray) {
 	
 		var day = arrayToBePushed[i];
 		var date = day.date;
-		alert(date);
+		//alert(date);
 		var arrayItem = day.items; 
 
 			for(var j = 0; j<arrayItem.length;j++) {
 				var item = arrayItem[j];
-				alert(item.name);
-				alert(item.address);
+				//alert(item.name);
+				//alert(item.address);
 			}
 		}
 		
