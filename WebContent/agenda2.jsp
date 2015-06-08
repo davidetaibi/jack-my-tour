@@ -44,8 +44,6 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta name="description" content="Jack My Tour application">
-    <meta name="author" content="Matas Turskis">
     <title>Jack My Tour</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -280,13 +278,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-            </div>
-        </div>
-        <form id="pdf" method="post" action="pdfGenerator">
+                </div></div>
+                <div class="row">
+		<form class="col-xs-4 col-xs-offset-4" id="pdf" method="post" action="pdfGenerator">
         <INPUT class="btn btn-primary btn-lg btn-block" TYPE=submit name=submit Value="Generate pdf guide" id="ag">
         </form>
+            </div>
+            
+        </div>
+        
     </main>
     <div class="container footer">
 
@@ -626,9 +626,9 @@ function UpdateR(){
 </script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="sortable.js"></script>
-    <script type="text/javascript" src="closable.js"></script>
-    <script type="text/javascript" src="agenda-tab.js"></script>
+    <script type="text/javascript" src="js/sortable.js"></script>
+    <script type="text/javascript" src="js/closable.js"></script>
+    <script type="text/javascript" src="js/agenda-tab.js"></script>
 
 
 </body>

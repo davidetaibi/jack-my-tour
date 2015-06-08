@@ -6,8 +6,6 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
-    <meta name="description" content="Jack My Tour application">
-    <meta name="author" content="Matas Turskis">
     <title>Jack My Tour</title>
 
     
@@ -30,7 +28,7 @@
    
    
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
-    <script type="text/javascript" src="datepicker.js"></script>
+    <script type="text/javascript" src="js/datepicker.js"></script>
   
   
  
@@ -170,18 +168,18 @@
                 <label id="question">Where and when?</label>
                 
                 <fieldset class="row">
-                    <div class="form-group col-sm-5" id="group-location">
+                    <div class="form-group col-sm-6" id="group-location">
                         <label for="location">Location:</label>
                         <input type="text" name="location" class="form-control" id="location" placeholder="Bolzano">
                     </div>
                   
 
-                    <div class="form-group col-sm-4"  id="group-date1">
+                    <div class="form-group col-sm-3"  id="group-date1">
                         <label for="from">From:</label>
                         <input type="text"  class="form-control" id="from" name="from">
                     </div>
                     
-                    <div class="form-group col-sm-4"  id="group-date2">
+                    <div class="form-group col-sm-3"  id="group-date2">
                         <label for="to">To:</label>
                         <input type="text" class="form-control" id="to" name="to">
                     </div>

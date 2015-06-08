@@ -12,8 +12,6 @@
                     <meta charset="UTF-8">
                     <meta content="IE=edge" http-equiv="X-UA-Compatible">
                     <meta content="width=device-width, initial-scale=1" name="viewport">
-                    <meta name="description" content="Jack My Tour application">
-                    <meta name="author" content="Matas Turskis">
                     <title>Jack My Tour</title>
 
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -210,7 +208,7 @@
                                     <!-- @end #sports -->
  </div>
  
- <div class="col-xs-10 col-xs-offset-1 col-sm-offset-3 col-sm-6 col-lg-offset-4 col-lg-4">
+ <div class="col-xs-12">
  <INPUT class="btn btn-primary btn-lg btn-block" TYPE=submit name=submit Value="Create agenda" id="ag">
  </div>
  </form>
@@ -229,7 +227,7 @@
 
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
                     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-                    <script type="text/javascript" src="bootstrap-tabcollapse.js"></script>
+                    <script type="text/javascript" src="js/bootstrap-tabcollapse.js"></script>
                     <script type="text/javascript">
                         $('#myTab').tabCollapse();
                     </script>
