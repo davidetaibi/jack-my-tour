@@ -254,6 +254,17 @@ p {
     padding-bottom: 2em;
 }
 
+p.about { 
+	padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+div#about { 
+	margin-top:60px;
+	margin-bottom:60px;
+}
+
+
 ul.nav {
     margin-bottom: 0 !important;
 }
