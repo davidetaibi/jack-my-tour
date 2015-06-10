@@ -83,6 +83,7 @@
                        			 					if(rests.size() != 0) {%> 
                        			 					<div class="tab-pane <%= classactive %>" id="Food">
                                                         <select class="form-control" id="food-type">
+                                                          <option>all</option>
                                                           <option>chinese</option>
                                                           <option>italian</option>
                                                           <option>Vegetarian</option>

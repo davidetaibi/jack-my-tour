@@ -235,7 +235,7 @@
                                     <div id="map-canvas">
                                         <p>Map</p>
                                     </div>
-                                    <button class="btn btn-primary btn-lg" id="updaterout" onclick="UpdateR()">Update rout</button>
+                                    <button class="btn btn-primary btn-lg" id="updaterout" onclick="UpdateR()">Update route</button>
                                 </div>
                             </div>
                         </div>
