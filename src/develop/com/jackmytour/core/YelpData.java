@@ -158,7 +158,7 @@ public class YelpData {
 		} catch (ParseException pe) {
 			System.out.println("Error: could not parse JSON response:");
 			System.out.println(searchResponseJSON);
-			System.exit(1);
+			//System.exit(1);
 		}
 
 		JSONArray businesses = (JSONArray) response.get("businesses");
