@@ -183,7 +183,11 @@
                         <label for="to">To:</label>
                         <input type="text" class="form-control" id="to" name="to">
                     </div>
-      
+      				<div class="form-group col-sm-6" id="group-location">
+                        <label for="startAddress">Address:</label>
+                        <input type="text" name="StartAddress" class="form-control" id="location" placeholder="via Roma">
+                    </div>
+                    
                 </fieldset>
                 
                 <label id="question">What?</label>

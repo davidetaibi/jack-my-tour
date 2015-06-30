@@ -307,7 +307,19 @@ function initialize() {
 	
 	this.jsArray.length = 0;
 	
-    <%for(int i=0;i<addresses.size();i++){%>
+    <%try{
+    	String startAddress= (String)session.getAttribute("StartAddress");
+    	if(!startAddress.isEmpty()){
+    		startAddress=session.getAttribute("location")+", "+startAddress;
+    %>
+    jsArray.push("<%=startAddress%>");   
+    <%
+    	}	
+    }
+    catch(Exception e){
+    	e.printStackTrace();
+    }
+    for(int i=0;i<addresses.size();i++){%>
     	jsArray.push("<%= addresses.get(i)%>");
     
     <%}%>
