@@ -60,15 +60,16 @@ public class Search extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		String location = request.getParameter("location");
-		
 		session.setAttribute("location",location);
 		//still have to work on this term
-		String term = request.getParameter("term");
-		
+		String term = request.getParameter("term");		
 		String from = request.getParameter("from");
 		String to = request.getParameter("to");
 		session.setAttribute("from", from);
 		session.setAttribute("to", to);
+		
+		String address = request.getParameter("StartAddress");
+		session.setAttribute("StartAddress", address);
 		
 		ArrayList<Item> rests= new ArrayList<Item>();
 		ArrayList<Item> drinks= new ArrayList<Item>();
