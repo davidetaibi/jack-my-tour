@@ -1,8 +1,10 @@
 package develop.com.jackmytour.core;
 
+import java.util.Iterator;
 import java.util.List;
 
 //import codingdudes.util.MysqlD;
+
 
 import com.evdb.javaapi.APIConfiguration;
 import com.evdb.javaapi.EVDBAPIException;
@@ -39,40 +41,51 @@ public class EventfulData {
 	
 	public List<Event> search() {
 		
-		System.out.println("Setting configuration");
-		
-		APIConfiguration.setEvdbUser("mogmog444");
-		APIConfiguration.setEvdbPassword("mogmog444");
-		APIConfiguration.setApiKey("hBvQkZXjNn5B6Xnf");
-
-      EventOperations eo = new EventOperations();
-
-      
-      EventSearchRequest esr = new EventSearchRequest();
-      esr.setLocation(this.location);
-      esr.setKeywords(this.keyword);
-      esr.setPageSize(20);
-      esr.setPageNumber(1);
-      //esr.setDateRange("today");
-
-      System.out.println("Starting initial request.");
-      
-      SearchResult sr = null;
-		try {
-			sr = eo.search(esr);
-		} catch (EVDBRuntimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EVDBAPIException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}        
-      
-		int numPages = sr.getPageCount();
-		System.out.println("Getting: "+numPages+" pages!");
-		
-		return sr.getEvents();
-		
+		  System.out.println("Setting configuration");
+			
+		  APIConfiguration.setEvdbUser("mogmog444");
+		  APIConfiguration.setEvdbPassword("mogmog444");
+		  APIConfiguration.setApiKey("hBvQkZXjNn5B6Xnf");
+	
+		  EventOperations eo = new EventOperations();
+	
+	      
+	      EventSearchRequest esr = new EventSearchRequest();
+	      esr.setLocation(this.location);
+	      esr.setKeywords(this.keyword);
+	      esr.setPageSize(20);
+	      esr.setPageNumber(1);
+	      //esr.setDateRange("today");
+	
+	      System.out.println("Starting initial request.");
+	      
+	      SearchResult sr = null;
+			try {
+				sr = eo.search(esr);
+			} catch (EVDBRuntimeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (EVDBAPIException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}        
+	      
+			int numPages = sr.getPageCount();
+			System.out.println("Getting: "+numPages+" pages!");
+			
+			List<Event> events = sr.getEvents(); 
+			Iterator<Event> iter = events.iterator();
+			
+			//while loop removing items without addresses. Rule: no address ---> no item
+			while(iter.hasNext()) { 
+				Event event = iter.next();
+				if(event.getVenue().getAddress() == null || event.getVenue().getAddress().equals("") || event.getVenue().getAddress().equals(this.location) ) { 
+					iter.remove();
+				}
+			}
+						
+			return events;
+			
 		
 /*		for(int i = 1; i < 2; i++) {
 			System.out.println("Page: "+i+"/"+numPages);
