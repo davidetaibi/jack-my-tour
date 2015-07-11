@@ -20,6 +20,7 @@ import org.scribe.model.Verb;
 
 import com.evdb.javaapi.data.Event;
 
+import develop.com.jackmytour.core.DBConnection;
 import develop.com.jackmytour.core.DrinkBar;
 import develop.com.jackmytour.core.EventfulData;
 import develop.com.jackmytour.core.Item;
@@ -56,6 +57,9 @@ public class Search extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		DBConnection.connect(); 
+		
 		
 		HttpSession session = request.getSession();
 		
