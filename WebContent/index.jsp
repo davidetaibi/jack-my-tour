@@ -253,7 +253,7 @@
 
      </main>
     
-        <div class="container footer" >
+     <div class="container footer" >
     
         <div ng-include="'footer.html'"></div>
         

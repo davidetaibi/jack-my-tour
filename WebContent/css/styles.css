@@ -781,3 +781,7 @@ padding-left: 25px;
 #register-form .checkbox{
 	padding-left: 10px;
 }
+
+.pad-registration { 
+	padding-top:20px;
+}
