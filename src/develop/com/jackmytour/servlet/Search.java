@@ -58,9 +58,7 @@ public class Search extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		DBConnection.connect(); 
-		
-		
+				
 		HttpSession session = request.getSession();
 		
 		String location = request.getParameter("location");

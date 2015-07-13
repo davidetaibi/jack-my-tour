@@ -45,25 +45,25 @@
 <br/>
                                         <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-circle-o-notch"  ></i></span>
-                                            <input type="text" class="form-control" placeholder="Your Name" />
+                                            <input type="text" class="form-control" placeholder="Your Name" name="name" />
                                         </div>
 										
 										<div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-circle-o-notch"  ></i></span>
-                                            <input type="text" class="form-control" placeholder="Your Surname" />
+                                            <input type="text" class="form-control" placeholder="Your Surname" name="surname" />
                                         </div>
 										
                                      <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-tag"  ></i></span>
-                                            <input type="text" class="form-control" placeholder="Desired Username" />
+                                            <input type="text" class="form-control" placeholder="Desired Username" name="username" />
                                         </div>
                                          <div class="form-group input-group">
                                             <span class="input-group-addon">@</span>
-                                            <input type="text" class="form-control" placeholder="Your Email" />
+                                            <input type="text" class="form-control" placeholder="Your Email" name="email" />
                                         </div>
                                       <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
-                                            <input type="password" class="form-control" placeholder="Enter Password" />
+                                            <input type="password" class="form-control" placeholder="Enter Password" name="password" />
                                         </div>
                                      <div class="form-group input-group">
                                             <span class="input-group-addon"><i class="fa fa-lock"  ></i></span>
