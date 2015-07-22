@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Apache Shiro Tutorial Webapp</title>
+    <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Add some nice styling and functionality.  We'll just use Twitter Bootstrap -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
@@ -16,7 +16,7 @@
 </head>
 <body>
 
-    <h1>Apache Shiro Tutorial Webapp</h1>
+    <h1>Home</h1>
 
     <p>Hi <shiro:guest>Guest</shiro:guest><shiro:user>
         <%
@@ -24,12 +24,12 @@
             //tutorial, we'll just pull out Stormpath Account data from Shiro's PrincipalCollection to reference in the
             //<c:out/> tag next:
 
-            request.setAttribute("account", org.apache.shiro.SecurityUtils.getSubject().getPrincipals().oneByType(java.util.Map.class));
+            request.setAttribute("account", org.apache.shiro.SecurityUtils.getSubject());
 
         %>
-        <c:out value="${account.givenName}"/></shiro:user>!
-        ( <shiro:user><a href="<c:url value="/logout"/>">Log out</a></shiro:user>
-        <shiro:guest><a href="<c:url value="/login.jsp"/>">Log in</a></shiro:guest> )
+        <c:out value="${account.getPrincipal()}"/></shiro:user>!
+        ( <shiro:user><a href="<c:url value="/logout"/>">Log out</a>----or----<a href="<c:url value="/index.jsp"/>">Home page</a></shiro:user>
+        <shiro:guest><a href="<c:url value="/login.jsp"/>">Log in</a>----or----<a href="<c:url value="/index.jsp"/>">Home page</a></shiro:guest> )
     </p>
 
     <p>Welcome to the Apache Shiro Tutorial Webapp.  This page represents the home page of any web application.</p>

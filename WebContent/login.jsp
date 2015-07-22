@@ -34,6 +34,7 @@
                                     </label>
                                 </div>
                                 <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+                                <a href="https://www.facebook.com/dialog/oauth?client_id=389121671278273&redirect_uri=http://localhost:8080/Jackmytour/fblogin">or login with facebook</a>
                             </fieldset>
                         </form>
                     </div>
