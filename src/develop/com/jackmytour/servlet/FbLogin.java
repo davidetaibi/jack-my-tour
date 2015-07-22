@@ -19,15 +19,22 @@ import java.util.Properties;
  
 
 
+
+
+
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import develop.com.jackmytour.core.FacebookProperties;
+import develop.com.jackmytour.core.FacebookToken;
  
 /**
 * Simple Facebook Login Handling, doesn't actually do anything except display page confirming login
@@ -40,45 +47,20 @@ public class FbLogin extends HttpServlet {
  
 	private static final long serialVersionUID = 1L;
  
-	/**
-	* Properties will be as follows, but with values for this app.
-	* fbAppSecret=1a234bc1234d1234e1f123g1234567g1
-	* fbAppId=123456789012345
-	* fbLoginRedirectURL=http://www.yoursite.co.uk/shirofb/FacebookLogin
-	*/
-	private static final Properties props = new FacebookProperties().getProperties();
-	private static final String APP_SECRET = props.get("fbAppSecret").toString();
-	private static final String APP_ID = props.get("fbAppId").toString();
-	private static final String REDIRECT_URL = props.get("fbLoginRedirectURL").toString();
-	 
+ 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("FacebookLoginServlet getting..");
-		System.out.println(APP_SECRET);
-		System.out.println(APP_ID);
-		System.out.println(REDIRECT_URL);
-	 
-		FacebookUserDetails fud = authenticate(request, response);
-	 
-		if (fud != null) {
-			response.getWriter().write("<html><head/><body><h1>Facebook Logged In</h1><p>"+fud.toString()+"</p></body>");
-			response.getWriter().flush();
-	 
-		} else {
-			try {
-				System.out.println("fb log in failed");
-				String errorReason = request.getParameter("error_reason");
-				String error = request.getParameter("error");
-				response.getWriter().write("<html><head/><body><h1>fb login failed</h1>" +
-						" reason:"+errorReason+" error:"+error+"</body>");
-				response.getWriter().flush();
-	 
-				return;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		 
+		String code = request.getParameter("code");
+		FacebookToken facebookToken = new FacebookToken(code);
+		try{
+			SecurityUtils.getSubject().login(facebookToken);
+			response.sendRedirect(response.encodeRedirectURL("secondHome.jsp"));
+		}catch(AuthenticationException ae){
+			throw new ServletException(ae);
+		 }
 	}
-	 
+
 	/**
 	* @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	*      response)
@@ -100,7 +82,7 @@ public class FbLogin extends HttpServlet {
 	* @throws MalformedURLException
 	* @throws IOException
 	*/
-	private FacebookUserDetails authenticate(HttpServletRequest request, HttpServletResponse response)
+	/*private FacebookUserDetails authenticate(HttpServletRequest request, HttpServletResponse response)
 			throws MalformedURLException, IOException {
 		FacebookUserDetails fud = null;
 		String code = request.getParameter("code");
@@ -130,7 +112,7 @@ public class FbLogin extends HttpServlet {
 		}
 		return fud;
 	}
-	 
+	
 	private String readURL(URL url) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		InputStream is = url.openStream();
@@ -140,13 +122,14 @@ public class FbLogin extends HttpServlet {
 		}
 		return new String(baos.toByteArray());
 	}
+
 	
 	private String getAccessToken(String resultJson) { 
 		JSONObject json = (JSONObject) JSONValue.parse(resultJson);
 		String access_token = (String) json.get("access_token");
 		return access_token;
 		
-	}
+	}*/
 	 
 
  

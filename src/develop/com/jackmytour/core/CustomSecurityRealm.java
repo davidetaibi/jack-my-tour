@@ -63,6 +63,15 @@ public class CustomSecurityRealm extends JdbcRealm {
 	 */
 	protected String jndiDataSourceName;
 	
+	@Override
+	public boolean supports(AuthenticationToken token) {
+		System.out.println("entri nel support method mysql");
+		if (token instanceof FacebookToken) {
+			return false;
+		}
+		return true;
+	}
+	 
 	
 	public CustomSecurityRealm() {
 		super();
@@ -88,6 +97,7 @@ public class CustomSecurityRealm extends JdbcRealm {
         }  
     }  
     
+	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
