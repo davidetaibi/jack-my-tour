@@ -62,7 +62,7 @@ public class FacebookRealm extends AuthorizingRealm {
 				URL url = new URL("https://graph.facebook.com/me?access_token=" + accessToken);
 				String fbResponse = readURL(url);
 				FacebookUserDetails fud = new FacebookUserDetails(fbResponse);
-				return new FacebookAuthenticationInfo(fud, this.getName());
+				return new FacebookAuthenticationInfo(fud.getFirstName(),fud, this.getName());
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
 				throw new AuthenticationException(e1);
