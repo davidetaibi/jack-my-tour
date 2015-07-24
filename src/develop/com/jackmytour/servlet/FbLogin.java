@@ -53,6 +53,7 @@ public class FbLogin extends HttpServlet {
 		 
 		String code = request.getParameter("code");
 		FacebookToken facebookToken = new FacebookToken(code);
+		facebookToken.setRememberMe(true);
 		try{
 			SecurityUtils.getSubject().login(facebookToken);
 			response.sendRedirect(response.encodeRedirectURL("secondHome.jsp"));

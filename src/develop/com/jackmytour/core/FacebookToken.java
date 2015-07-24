@@ -1,8 +1,9 @@
 package develop.com.jackmytour.core;
 
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.UsernamePasswordToken;
 
-public class FacebookToken implements AuthenticationToken {
+public class FacebookToken extends UsernamePasswordToken implements AuthenticationToken {
 	 
 	private static final long serialVersionUID = 1L;
 	private String code;

@@ -21,7 +21,7 @@ public class FacebookUserDetails {
 			this.id = (String) respjson.get("id");
 			this.firstName = (String) respjson.get("first_name");
 			this.lastName = (String) respjson.get("last_name");
-			//this.email = (String) respjson.get("id");
+			this.email = (String) respjson.get("email");
 			
 		} catch (Exception e) {
 			System.out.println("fbResponse:"+fbResponse );

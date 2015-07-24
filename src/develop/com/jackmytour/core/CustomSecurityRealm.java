@@ -101,6 +101,7 @@ public class CustomSecurityRealm extends JdbcRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
+        upToken.setRememberMe(true);
         String username = upToken.getUsername();
 
         // Null username is invalid

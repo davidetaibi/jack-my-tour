@@ -62,7 +62,7 @@ public class Register extends HttpServlet {
 		
 		// PreparedStatements
 	    try {
-			preparedStatement = connection.prepareStatement("insert into traveller values (default, ?, ?, ?, ? , ?, ?, ?, ?)");
+			preparedStatement = connection.prepareStatement("insert into traveller values (default, ?, ?, ?, ? , ?, ?, ?, ?,?)");
 			preparedStatement.setString(1, name);
 		    preparedStatement.setString(2, surName);
 		    preparedStatement.setString(3, email);
@@ -71,6 +71,8 @@ public class Register extends HttpServlet {
 		    preparedStatement.setString(6, "Bolzano");
 		    preparedStatement.setDate(7, new java.sql.Date(2009, 12, 11));
 		    preparedStatement.setString(8, "blabla");
+		    preparedStatement.setString(8, "blabla");
+		    preparedStatement.setNull(9, java.sql.Types.VARCHAR);
 		    preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {

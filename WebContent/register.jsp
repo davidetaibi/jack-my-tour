@@ -74,6 +74,8 @@
                                     <input class="btn btn-success" type="submit" value="Register Me"/>
                                     <hr />
                                     Already Registered ?  <a href="login.jsp" >Login here</a>
+                                    <hr />
+                                    <a href="https://www.facebook.com/dialog/oauth?client_id=389121671278273&redirect_uri=http://localhost:8080/Jackmytour/fblogin&scope=email">or register with facebook</a>
                                     </form>
                             </div>
                            
