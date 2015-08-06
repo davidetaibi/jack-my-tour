@@ -43,7 +43,10 @@ public class UpdateActivitiesServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		String location = (String) session.getAttribute("location");
 		String keyword = request.getParameter("term");
-		System.out.println("u print" + keyword);
+		String duration = request.getParameter("duration");
+		System.out.println("u print " + keyword);
+		System.out.println("duration: " + duration);
+
 		
 		ArrayList<Item> rests = new ArrayList<Item>();
 		

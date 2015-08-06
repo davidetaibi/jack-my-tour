@@ -12,6 +12,12 @@
                     <meta charset="UTF-8">
                     <meta content="IE=edge" http-equiv="X-UA-Compatible">
                     <meta content="width=device-width, initial-scale=1" name="viewport">
+                    <meta http-equiv="cache-control" content="max-age=0" />
+					<meta http-equiv="cache-control" content="no-cache" />
+					<meta http-equiv="expires" content="0" />
+					<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+					<meta http-equiv="pragma" content="no-cache" />
+                    
                     <title>Jack My Tour</title>
 
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
@@ -91,6 +97,34 @@
                                                           <option>Indian</option>
                                                         </select>
                                                       
+                                                      <select class="form-control" name="food-duration">
+                                                      		<option value="900000">0:15</option>
+                                                      		<option value="1800000">0:30</option>
+                                                      		<option value="2700000">0:45</option>
+                                                      		<option value="3600000">1:00</option>
+                                                      		<option value="4500000">1:15</option>
+                                                      		<option value="5400000">1:30</option>
+                                                      		<option value="6300000">1:45</option>
+                                                      		<option value="7200000">2:00</option>
+                                                      		<option value="8100000">2:15</option>
+                                                      		<option value="9000000">2:30</option>
+                                                      		<option value="9900000">2:45</option>
+                                                      		<option value="10800000">3:00</option>
+                                                      		<option value="11700000">3:15</option>
+                                                      		<option value="12600000">3:30</option>
+                                                      		<option value="13500000">3:45</option>
+                                                      		<option value="14400000">4:00</option>
+                                                      		<option value="15300000">4:15</option>
+                                                      		<option value="16200000">4:30</option>
+                                                      		<option value="17100000">4:45</option>
+                                                      		<option value="18000000">5:00</option>
+                                                      		<option value="18900000">5:15</option>
+                                                      		<option value="19800000">5:30</option>
+                                                      		<option value="20700000">5:45</option>
+                                                      		<option value="21600000">6:00</option>                                                      		
+                                                      	</select>
+                                                      
+                                                      
                                                         <div id="test"></div>
                                                      
                                                     <ul class="list-group" id="food-list"><% 
@@ -120,6 +154,34 @@
                    			 					    if(drinks.size() != 0) {%> 
                        			 					<div class="tab-pane  <%= classactive %>" id="Drinks">
 
+														<select class="form-control" name="drinks-duration">
+                                                      		<option value="900000">0:15</option>
+                                                      		<option value="1800000">0:30</option>
+                                                      		<option value="2700000">0:45</option>
+                                                      		<option value="3600000">1:00</option>
+                                                      		<option value="4500000">1:15</option>
+                                                      		<option value="5400000">1:30</option>
+                                                      		<option value="6300000">1:45</option>
+                                                      		<option value="7200000">2:00</option>
+                                                      		<option value="8100000">2:15</option>
+                                                      		<option value="9000000">2:30</option>
+                                                      		<option value="9900000">2:45</option>
+                                                      		<option value="10800000">3:00</option>
+                                                      		<option value="11700000">3:15</option>
+                                                      		<option value="12600000">3:30</option>
+                                                      		<option value="13500000">3:45</option>
+                                                      		<option value="14400000">4:00</option>
+                                                      		<option value="15300000">4:15</option>
+                                                      		<option value="16200000">4:30</option>
+                                                      		<option value="17100000">4:45</option>
+                                                      		<option value="18000000">5:00</option>
+                                                      		<option value="18900000">5:15</option>
+                                                      		<option value="19800000">5:30</option>
+                                                      		<option value="20700000">5:45</option>
+                                                      		<option value="21600000">6:00</option>                                                       		
+                                                      	</select>
+
+
                                                     <ul class="list-group"  id="notfood"><% 
                                                     		Iterator<DrinkBar> iter = drinks.iterator(); 
                                                     			int i=0; 
@@ -147,6 +209,34 @@
                 			 					    if(musics.size() != 0) {%> 
                     			 					<div class="tab-pane  <%= classactive %>" id="Music">
 
+														<select class="form-control" name="music-duration">
+                                                      		<option value="900000">0:15</option>
+                                                      		<option value="1800000">0:30</option>
+                                                      		<option value="2700000">0:45</option>
+                                                      		<option value="3600000">1:00</option>
+                                                      		<option value="4500000">1:15</option>
+                                                      		<option value="5400000">1:30</option>
+                                                      		<option value="6300000">1:45</option>
+                                                      		<option value="7200000">2:00</option>
+                                                      		<option value="8100000">2:15</option>
+                                                      		<option value="9000000">2:30</option>
+                                                      		<option value="9900000">2:45</option>
+                                                      		<option value="10800000">3:00</option>
+                                                      		<option value="11700000">3:15</option>
+                                                      		<option value="12600000">3:30</option>
+                                                      		<option value="13500000">3:45</option>
+                                                      		<option value="14400000">4:00</option>
+                                                      		<option value="15300000">4:15</option>
+                                                      		<option value="16200000">4:30</option>
+                                                      		<option value="17100000">4:45</option>
+                                                      		<option value="18000000">5:00</option>
+                                                      		<option value="18900000">5:15</option>
+                                                      		<option value="19800000">5:30</option>
+                                                      		<option value="20700000">5:45</option>
+                                                      		<option value="21600000">6:00</option>                                                         		
+                                                      	</select>
+
+
                                                  <ul class="list-group"  id="notfood"><% 
                                                  		Iterator<Event> iter = musics.iterator(); 
                                                  			int i=0; 
@@ -173,6 +263,34 @@
                     			 			 }else if(tab.equals("Sports")) {
              			 					    if(sports.size() != 0) {%> 
                  			 					<div class="tab-pane  <%= classactive %>" id="Sports">
+
+													<select class="form-control" name="sports-duration">
+                                                      		<option value="900000">0:15</option>
+                                                      		<option value="1800000">0:30</option>
+                                                      		<option value="2700000">0:45</option>
+                                                      		<option value="3600000">1:00</option>
+                                                      		<option value="4500000">1:15</option>
+                                                      		<option value="5400000">1:30</option>
+                                                      		<option value="6300000">1:45</option>
+                                                      		<option value="7200000">2:00</option>
+                                                      		<option value="8100000">2:15</option>
+                                                      		<option value="9000000">2:30</option>
+                                                      		<option value="9900000">2:45</option>
+                                                      		<option value="10800000">3:00</option>
+                                                      		<option value="11700000">3:15</option>
+                                                      		<option value="12600000">3:30</option>
+                                                      		<option value="13500000">3:45</option>
+                                                      		<option value="14400000">4:00</option>
+                                                      		<option value="15300000">4:15</option>
+                                                      		<option value="16200000">4:30</option>
+                                                      		<option value="17100000">4:45</option>
+                                                      		<option value="18000000">5:00</option>
+                                                      		<option value="18900000">5:15</option>
+                                                      		<option value="19800000">5:30</option>
+                                                      		<option value="20700000">5:45</option>
+                                                      		<option value="21600000">6:00</option>                                                                		
+                                                      	</select>
+													
 
                                               <ul class="list-group"  id="notfood"><% 
                                               		Iterator<Event> iter = sports.iterator(); 

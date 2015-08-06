@@ -44,11 +44,31 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
+   	<meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
+
+	<!-- The following line is a work around to fix a bug in FireFox browser.
+		 If some CSS or JS is changed it is not loaded, but the old version is loaded from the local cache.
+		 So, uncomment the line when you move the JS code at the bottom into a JS file and reference it there.
+	-->
+	<!-- <script type="text/javascript" src='js/my.js?x=<?php echo rand(0,100) ?>'></script> -->
+    
     <title>Jack My Tour</title>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+	<script src="Web2Cal/js/sampleData.js" type="text/javascript"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.js"></script>
+	<script src="Web2Cal/js/Web2Cal-Basic-2.0-min.js" type="text/javascript"></script>
+	<script src="Web2Cal/js/web2cal.default.template.js" type="text/javascript"></script>
+	<script src="Web2Cal/js/web2cal.support.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="Web2Cal/css/web2cal.css"/>
+
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
@@ -82,145 +102,151 @@
             <div class="row">
             
            
-						
+				<div id="calendarContainer"></div>			
                 <div class="panel-group col-xs-12" id="accordion" role="tablist" aria-multiselectable="true">
                 <% boolean firstRound=true; 
 				String from = (String) session.getAttribute("from");
+				StringBuilder sb = new StringBuilder();
+				sb.append(from);
                 String to = (String)   session.getAttribute("to");
                    
                    List <Date> dates= Utils.getDaysBetweenDatesPlusOne(from, to);
 
                    int x = 0;
-					for(Date day:dates){
+// 					for(Date day:dates){
 						
 						
 						%>
-                    <div class="panel panel-default servus">
-                        <div class="panel-heading heading-vertical" role="tab" id="headingOne">
-                            <h4 class="panel-title title-vertical">
-        <a data-toggle="collapse" data-parent="#accordion" href="#<%=x%>" aria-expanded="true" aria-controls="<%=x%>">
-           <span class="date"><% out.write(Utils.formatDate(day)); %></span>
-        </a>
-      </h4>
-                        </div>
-                        <div id="<%=x%>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="panel-body body-vertical">
-                                <div class="lala">
-                                    <div class="panel panel-default day">
-                                        <div class="panel-body day-body">
-                                            <div id="line" class="col-xs-2">
-                                                <div class="line">
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>10:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>11:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>12:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>13:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>14:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>15:00</span>
-                                                    </div>
-                                                    <div class="dot">
-                                                        <div class="horizline"></div><span>16:00</span>
-                                                    </div>
-                                                </div>
+<!--                     <div class="panel panel-default servus"> -->
+<!--                         <div class="panel-heading heading-vertical" role="tab" id="headingOne"> -->
+<!--                             <h4 class="panel-title title-vertical"> -->
+<%--         <a data-toggle="collapse" data-parent="#accordion" href="#<%=x%>" aria-expanded="true" aria-controls="<%=x%>"> --%>
+<%--            <span class="date"><% out.write(Utils.formatDate(day)); %></span> --%>
+<!--         </a> -->
+<!--       </h4> -->
+<!--                         </div> -->
+<%--                         <div id="<%=x%>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne"> --%>
+<!--                             <div class="panel-body body-vertical"> -->
+<!--                                 <div class="lala"> -->
+<!--                                     <div class="panel panel-default day"> -->
+<!--                                         <div class="panel-body day-body"> -->
+<!--                                             <div id="line" class="col-xs-2"> -->
+<!--                                                 <div class="line"> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>10:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>11:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>12:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>13:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>14:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>15:00</span> -->
+<!--                                                     </div> -->
+<!--                                                     <div class="dot"> -->
+<!--                                                         <div class="horizline"></div><span>16:00</span> -->
+<!--                                                     </div> -->
+<!--                                                 </div> -->
 
-                                            </div>
-                                            <% if(firstRound){ %>
-                                            <ul class="list-unstyled col-xs-9">
+<!--                                             </div> -->
+<%--                                             <% if(firstRound){ %> --%>
+<!--                                             <ul class="list-unstyled col-xs-9"> -->
                                                								   
                                <% // String Array rests cretes an array of all possible stop on your journey
 								   
-								   if (selectedRestaurants != null) 
-								   {
-								      for (Item res : selectedRestaurants) 
-								      {%>
+// 								   if (selectedRestaurants != null) 
+// 								   {
+// 								      for (Item res : selectedRestaurants) 
+// 								      {
+								      %>
                                                
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <img id="icon" src="images/icons/food.png" alt="food">
-                                                        <h3 class="name"><% out.println(res.getName());%></h3>
-                                                        <p class="address" id="<%out.println(res.getAddress());%>">Address: <% out.println(res.getAddress());%> <a href=""></a>
-                                                        </p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <img id="icon" src="images/icons/food.png" alt="food"> -->
+<%--                                                         <h3 class="name"><% out.println(res.getName());%></h3> --%>
+<%--                                                         <p class="address" id="<%out.println(res.getAddress());%>">Address: <% out.println(res.getAddress());%> <a href=""></a> --%>
+<!--                                                         </p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
                                                 
-                                                <%}
-								   
-								   } 
-                               if (selectedDrinks != null) {
-                                                for (Item drink : selectedDrinks) 
-								      {%>
+                                                <%
+//                                      }
+// 								   } 
+//                                if (selectedDrinks != null) {
+//                                                 for (Item drink : selectedDrinks) 
+// 								      {
+								      %>
                                                
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                       <img id="icon" src="images/icons/drink.png" alt="drinks">
-                                                        <h3 class="name"><% out.println(drink.getName());%></h3>
-                                                        <p class="address" id="<%out.println(drink.getAddress());%>">Address: <% out.println(drink.getAddress());%> <a href=""></a>
-                                                        </p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                        <img id="icon" src="images/icons/drink.png" alt="drinks"> -->
+<%--                                                         <h3 class="name"><% out.println(drink.getName());%></h3> --%>
+<%--                                                         <p class="address" id="<%out.println(drink.getAddress());%>">Address: <% out.println(drink.getAddress());%> <a href=""></a> --%>
+<!--                                                         </p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
                                                 
-                                                <%}}
-                                                
-                              				if (selectedMusics != null) {
-                               					for (Item music : selectedMusics) 
-								      {%>
+<%--                                                 <%}} --%>
+                                  <%
+//                               				if (selectedMusics != null) {
+//                                					for (Item music : selectedMusics) 
+// 								      {
+								      %>
                                                
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <img id="icon" src="images/icons/music.png" alt="music">
-                                                        <h3 class="name"><% out.println(music.getName());%></h3>
-                                                        <p class="address"  id="<%out.println(music.getAddress());%>">Address: <% out.println(music.getAddress());%> <a href=""></a>
-                                                        </p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <img id="icon" src="images/icons/music.png" alt="music"> -->
+<%--                                                         <h3 class="name"><% out.println(music.getName());%></h3> --%>
+<%--                                                         <p class="address"  id="<%out.println(music.getAddress());%>">Address: <% out.println(music.getAddress());%> <a href=""></a> --%>
+<!--                                                         </p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
                                                 
-                                                <%} }
-                                                
-                              				 if (selectedSports != null) {
-                              					for (Item sport : selectedSports) 
-								      {%>
+<%--                                                 <%} } --%>
+                                       <%         
+//                               				 if (selectedSports != null) {
+//                               					for (Item sport : selectedSports) 
+// 								      {
+								      %>
                                                
-                                                <li class="panel panel-primary">
-                                                    <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span>
-                                                    <div class="panel-body item">
-                                                        <img id="icon" src="images/icons/sport.png" alt="sports">
-                                                        <h3 class="name"><% out.println(sport.getName());%></h3>
-                                                        <p class="address"  id="<%out.println(sport.getAddress());%>">Address: <% out.println(sport.getAddress());%> <a href=""></a>
-                                                        </p>
-                                                    </div>
-                                                </li>
+<!--                                                 <li class="panel panel-primary"> -->
+<!--                                                     <span class="pull-right clickable" data-effect="remove"><i class="fa fa-times"></i></span> -->
+<!--                                                     <div class="panel-body item"> -->
+<!--                                                         <img id="icon" src="images/icons/sport.png" alt="sports"> -->
+<%--                                                         <h3 class="name"><% out.println(sport.getName());%></h3> --%>
+<%--                                                         <p class="address"  id="<%out.println(sport.getAddress());%>">Address: <% out.println(sport.getAddress());%> <a href=""></a> --%>
+<!--                                                         </p> -->
+<!--                                                     </div> -->
+<!--                                                 </li> -->
                                                 
-                                                <%} 
+<%--                                                 <%}  --%>
                               					 
-                              					}%>
+<%--                               					}%> --%>
 
-                                            </ul>
-                                            <% } else { %><ul class="list-unstyled col-xs-9"></ul><%} %>
-                                        </div>
-                                        <div class="panel-footer">
-                                            <span data-toggle="modal" data-target="#myModal">Add </span>
-                                            <span class="glyphicon glyphicon-plus smaller"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<!--                                             </ul> -->
+<%--                                             <% } else { %><ul class="list-unstyled col-xs-9"></ul><%} %> --%>
+<!--                                         </div> -->
+<!--                                         <div class="panel-footer"> -->
+<!--                                             <span data-toggle="modal" data-target="#myModal">Add </span> -->
+<!--                                             <span class="glyphicon glyphicon-plus smaller"></span> -->
+<!--                                         </div> -->
+<!--                                     </div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
 
-<% x++; firstRound= false; } //end for each %>
+<%-- <% x++; firstRound= false; } //end for each %> --%>
                     <div class="panel panel-default" id="lastmap">
                         <div class="panel-heading heading-vertical" role="tab" id="headingMap">
                             <h4 class="panel-title title-vertical">
@@ -636,6 +662,241 @@ function UpdateR(){
 	
 };
 </script>
+
+<script> 
+jQuery(document).ready(function(){ 
+	
+//!!!! All calendar OPTIONS are put here, before creating the object!!!!!
+	var from_pieces = '<%=from%>'.split("/");
+	Web2Cal.defaultSettings['date'] = new Date(from_pieces[2], from_pieces[0]-1, from_pieces[1]);
+	iCal = new Web2Cal( "calendarContainer",
+       { 
+            loadEvents: function(startDate, endDate, viewName){ 
+                            /* Get events from any source. This can be a PHP/Java/.NET/Facebook or any other source. Once you have the data, invoke ical.render(data).*/
+                           //var data = { eventId:521, eventName:"Pick up pizza", eventDesc:"from Joe's", date: "2015/11/26"}
+                           //ical.render( eventSource.getEvents() );
+                           //iCal.render( getCalendarData() );
+                           
+                          
+            				 iCal.render( getJackMyTourEvents() );
+                        } 
+                        <%//System.out.println("from & to from the session onject according to Java: \n"+
+                          //				from + "\n" +
+                       	  //			to);%>
+           ,onNewEvent: function(event, groups, allDay){ alert("onNewEvent called") } 
+           ,onUpdateEvent: function(event){ }
+       });
+       //iCal.controlWidth = '50%';
+    
+    iCal.build();
+    
+//     var grp = document.getElementsByClassName("grp");
+//     var iDiv = document.createElement('div');
+//     iDiv.className = 'clear';
+//     grp.appendChild(iDiv);
+}); 
+
+function getJackMyTourEvents() {
+	
+	
+	
+	var groups = new Array();
+ var food_events = new Array();
+ <%
+ 	int restaurants_counter = 0;
+	   if (selectedRestaurants != null) 
+	   {
+		   long duration_food = Long.valueOf(request.getParameter("food-duration"));%>
+		   var duration_restaurants = <%= duration_food %>;    
+		    
+		<%	
+	      for (Item res : selectedRestaurants) {
+	    	  restaurants_counter++;
+	    	  System.out.println("Restaurants :" + restaurants_counter);%>
+	    	  var event_name = <%= "\"" + res.getName() + "\""%>;
+	    	  var event_number = <%= restaurants_counter %>;
+	    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
+	    	  <% if(res.getPhone() == null) {%>
+	    	  var event_phone = <%= new Integer("1234567") %>;
+	    	  <% ; } else { %>
+	    	  var event_phone = <%= new Integer(res.getPhone()) %>;	  
+	    	  <% ; } %>
+	    	  //alert(event_name);
+	    	  
+	    	  var date = '<%=from%>';
+	    	  var event_start_DATE = createDateTime(9, 0, 0, date);
+	    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+	    	  var event_start = new UTC(event_start_DATE_msecs);
+	    	 
+	    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration_restaurants);
+	    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+	    	  var event_end = new UTC(event_end_DATE.getTime());
+	    	  
+//	    	  alert("event start: " + event_start + "\n" +
+//	    			"event_end_DATE.getHours() = " + event_end_DATE.getHours() + "\n" +
+//	    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
+//	    			"event end: " + event_end);
+			alert("--| FOOD |--\n"+
+				  "event_name: " + event_name + "\n"+
+				  "event_number: " + event_number + "\n"+
+				  "event_address: " + event_address + "\n"+
+				  "event_phone: " + event_phone + "\n"+
+				  "event_start: " + event_start + "\n"+
+				  "event_end: " + event_end);
+	    	  food_events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
+	    	  //alert("Phone: <" + event_phone + ">");
+	    	  
+	    	 
+	    	  
+	      <%
+	      }
+		%>
+		
+		alert("food_events.length = " + food_events.length);
+		
+		   // events.push(createEvent("Default event", event_number+1, "Default place", "Default_John Smith, Sue, James, Dan, Lisa", createDateTime(9, 0, 0), createDateTime(12, 0, 0), "Default descrption", false));
+//	     events.push(createEvent("Another Event 300", 9, "yoga aud", "John Smith", createDateTime(9, 0, 2), createDateTime(12, 30, 2), "Yoga is good for health", false));
+	    //alert(events.length);
+	    var group_food = {
+	        name: "Restaurants",
+	        groupId: "100",
+			show:true,
+	        events: food_events 
+	    };
+	    groups.push(group_food);
+		
+	<%
+	   }
+	%> 
+	
+
+//  var events = new Array();
+ 
+//	events.push(createEvent("Morning Yoga", 10, "Yoga Auditorium", "Instructor1", createDateTime(15, 0, 1), createDateTime(19, 30, 1), "Morning Yoga is good for health"));
+//  events.push(createEvent("Event <b>HTML</b> 2", 11, "Event Location 2", "Instructor2", createDateTime(8, 0, -1), createDateTime(10, 30, -1), "Event Description ..."));
+//  events.push(createEvent("<div style='color:red'>Event 3</div>", 12, "Event Location 3", "Instructor3", createDateTime(11, 0, 0), createDateTime(15, 45, 0), "Event Description ..."));
+//  events.push(createEvent("Customizable with Templates....", 13, "Event Location 4", "Instructor4", createDateTime(6, 0), createDateTime(10, 0), "Event Description ..."));
+//  events.push(createEvent("Event 5", 14, "Event Location 5", "Instructor5", createDateTime(7, 0), createDateTime(10, 0), "Event Description ..."));
+ 
+//  events.push(createEvent("Event 6", 15, "Event Location 6", "Instructor6", createDateTime(16, 0, -2), createDateTime(20, 0, -2), "Event Description ..."));
+//  events.push(createEvent("Event 7", 16, "Event Location 7", "Instructor7", createDateTime(10, 0, -3), createDateTime(15, 0, -3), "Event Description ..."));
+//  events.push(createEvent("Event 8", 17, "Event Location 8", "Instructor8", createDateTime(9, 0, -5), createDateTime(11, 15, -5), "Event Description ..."));
+//  events.push(createEvent("Event 9", 18, "Event Location 9", "Instructor9", createDateTime(9, 0, 1), createDateTime(11, 15, 1), "Event Description ..."));
+ 
+
+//  var group = {
+//      name: "Category 2",
+//      groupId: "200",
+//      events: events 
+//  }; 
+// d.push(group);
+
+
+//==============================================================================================
+	
+	
+	var music_events = new Array();
+	
+ <%
+ 	int music_counter = 0;
+	   if (selectedMusics != null) 
+	   {
+		   
+			long duration_music = Long.valueOf(request.getParameter("music-duration"));%>
+			var duration_music = <%= duration_music %>;
+			
+		    
+		  <%
+	      for (Item mus : selectedMusics) {
+	    	  music_counter++;
+	    	  System.out.println("Music events :" + music_counter);%>
+	    	  var event_name = <%= "\"" + mus.getName() + "\""%>;
+	    	  var event_number = <%= music_counter %> + 1000;
+	    	  var event_address = <%= "\"" + mus.getAddress() + "\"" %>;
+	    	  <% if(mus.getPhone() == null) {%>
+	    	  var event_phone = <%= new Integer("1234567") %>;
+	    	  <% ; } else { %>
+	    	  var event_phone = <%= new Integer(mus.getPhone()) %>;	  
+	    	  <% ; } %>
+	    	  //alert(event_name);
+	    	  
+	    	  
+	    	  var date = '<%=from%>';
+	    	  var event_start_DATE = createDateTime(19, 0, 0, date);
+	    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+	    	  var event_start = new UTC(event_start_DATE_msecs);
+	    	 
+	    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration_music);
+	    	  alert("alive after");
+	    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+	    	  var event_end = new UTC(event_end_DATE.getTime());
+	    	  
+//	    	  alert("event start: " + event_start + "\n" +
+//	    			"event_end_DATE.getHours() = " + event_end_DATE.getHours() + "\n" +
+//	    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
+//	    			"event end: " + event_end);
+
+			
+			 alert("--| MUSIC |--\n"+
+				  "event_name: " + event_name + "\n"+
+				  "event_number: " + event_number + "\n"+
+				  "event_address: " + event_address + "\n"+
+				  "event_phone: " + event_phone + "\n"+
+				  "event_start: " + event_start + "\n"+
+				  "event_end: " + event_end);
+	    	  music_events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
+	    	  //alert("Phone: <" + event_phone + ">");
+	    	 
+	    	 
+	    	  
+	      <%
+	      }
+		  %>
+		  
+		  var group_music = {
+			        name: "Music",
+			        groupId: "200",
+					show: true,
+			        events: music_events 
+			    };
+			    groups.push(group_music);
+		
+	<%
+	   }
+	   
+	%> 
+		
+	   // events.push(createEvent("Default event", event_number+1, "Default place", "Default_John Smith, Sue, James, Dan, Lisa", createDateTime(9, 0, 0), createDateTime(12, 0, 0), "Default descrption", false));
+//  events.push(createEvent("Another Event 300", 9, "yoga aud", "John Smith", createDateTime(9, 0, 2), createDateTime(12, 30, 2), "Yoga is good for health", false));
+ //alert(events.length);
+
+ 
+ //////////////////////////////////////////////////////////////////////
+ <%
+//  long duration_drinks = Long.valueOf(request.getParameter("drinks-duration"));
+//	long duration_sports = Long.valueOf(request.getParameter("sports-duration"));
+	%>
+	
+//	 var duration_sports = < %= duration_sports %>;
+//  var duration_drinks = < %= duration_drinks %>;
+//////////////////////////////////////////////////////////////////////
+
+ return groups;
+
+}
+
+/*
+* param date - the date in milliseconds to which we want to add or subtract some time
+* param units - specifies the the amount of time in milliseconds to be added or subtracted to the date.
+*/
+function dateAdd(date, units) {
+	//alert("hello from dateAdd!! Date passed = " + date);
+	return new Date(date+units);
+	  
+}
+</script> 
+
+
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/sortable.js"></script>
