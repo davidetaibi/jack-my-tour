@@ -66,6 +66,7 @@ public class FacebookRealm extends AuthorizingRealm {
 	 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+		System.out.println("login with fb");
 		FacebookToken facebookToken = (FacebookToken) token;
 	 
 	// do all the facebook gubbins

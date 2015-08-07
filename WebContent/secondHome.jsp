@@ -32,7 +32,7 @@
         <shiro:guest><a href="<c:url value="/login.jsp"/>">Log in</a>----or----<a href="<c:url value="/index.jsp"/>">Home page</a></shiro:guest> )
     </p>
 
-    <p>Welcome to the Apache Shiro Tutorial Webapp.  This page represents the home page of any web application.</p>
+    <p>Private Home page.</p>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery.js"></script>

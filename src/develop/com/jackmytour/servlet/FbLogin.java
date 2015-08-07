@@ -56,7 +56,8 @@ public class FbLogin extends HttpServlet {
 		facebookToken.setRememberMe(true);
 		try{
 			SecurityUtils.getSubject().login(facebookToken);
-			response.sendRedirect(response.encodeRedirectURL("secondHome.jsp"));
+			System.out.println("dididididid");
+			response.sendRedirect(response.encodeRedirectURL("index.jsp"));
 		}catch(AuthenticationException ae){
 			throw new ServletException(ae);
 		 }

@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="org.apache.shiro.SecurityUtils" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
+<jsp:include page="include.jsp"/>    
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -102,7 +109,7 @@
  
     <div class="container">
     
-        <div ng-include="'header.html'"></div>
+        <div ng-include="'header.jsp'"></div>
         
     </div>
 
@@ -164,8 +171,8 @@
    
          <div class="row">
             <form action="search" method="post" id="register-form" novalidate="novalidate"  class="form-inline col-sm-10 col-sm-offset-1 col-lg-8 col-lg-offset-2">
-            
-                <label id="question">Where and when?</label>
+            	
+			   <label id="question">Where and when?</label>
                 
                 <fieldset class="row">
                     <div class="form-group col-sm-6" id="group-location">
@@ -256,6 +263,8 @@
      <div class="container footer" >
     
         <div ng-include="'footer.html'"></div>
+     
+        
         
     </div>
     

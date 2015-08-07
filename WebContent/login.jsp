@@ -38,6 +38,13 @@
                             	
                             </fieldset>
                         </form>
+                        <%
+  							if (request.getAttribute("shiroLoginFailure")!=null) {
+						%>
+								Username or password incorrect
+						<%
+  							}
+						%>
                     </div>
                 </div>
             </div>

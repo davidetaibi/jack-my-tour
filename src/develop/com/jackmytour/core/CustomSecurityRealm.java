@@ -69,6 +69,7 @@ public class CustomSecurityRealm extends JdbcRealm {
 		if (token instanceof FacebookToken) {
 			return false;
 		}
+		System.out.println("login tramite custom db");
 		return true;
 	}
 	 
