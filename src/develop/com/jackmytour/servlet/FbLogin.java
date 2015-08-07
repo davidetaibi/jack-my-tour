@@ -23,6 +23,8 @@ import java.util.Properties;
 
 
 
+
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,8 +35,8 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import develop.com.jackmytour.core.FacebookProperties;
-import develop.com.jackmytour.core.FacebookToken;
+import develop.com.jackmytour.facebook.FacebookProperties;
+import develop.com.jackmytour.facebook.FacebookToken;
  
 /**
 * Simple Facebook Login Handling, doesn't actually do anything except display page confirming login

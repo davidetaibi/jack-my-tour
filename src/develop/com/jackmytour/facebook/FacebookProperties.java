@@ -1,4 +1,4 @@
-package develop.com.jackmytour.core;
+package develop.com.jackmytour.facebook;
 
 import java.util.Properties;
 

@@ -1,4 +1,4 @@
-package develop.com.jackmytour.core;
+package develop.com.jackmytour.db;
 
 import java.sql.DriverManager;
 import java.sql.Connection;

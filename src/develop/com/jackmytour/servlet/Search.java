@@ -20,7 +20,6 @@ import org.scribe.model.Verb;
 
 import com.evdb.javaapi.data.Event;
 
-import develop.com.jackmytour.core.DBConnection;
 import develop.com.jackmytour.core.DrinkBar;
 import develop.com.jackmytour.core.EventfulData;
 import develop.com.jackmytour.core.Item;
@@ -28,6 +27,7 @@ import develop.com.jackmytour.core.MusicEvent;
 import develop.com.jackmytour.core.Restaurant;
 import develop.com.jackmytour.core.SportEvent;
 import develop.com.jackmytour.core.YelpData;
+import develop.com.jackmytour.db.DBConnection;
 
 /**
  * Servlet implementation class Search

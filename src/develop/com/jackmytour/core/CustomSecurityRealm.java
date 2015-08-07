@@ -26,6 +26,8 @@ import org.apache.shiro.util.JdbcUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import develop.com.jackmytour.facebook.FacebookToken;
+
 public class CustomSecurityRealm extends JdbcRealm {
 
 	/**

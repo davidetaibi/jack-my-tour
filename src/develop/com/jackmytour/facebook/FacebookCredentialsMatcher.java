@@ -1,4 +1,4 @@
-package develop.com.jackmytour.core;
+package develop.com.jackmytour.facebook;
 
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

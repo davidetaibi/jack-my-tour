@@ -1,4 +1,4 @@
-package develop.com.jackmytour.core;
+package develop.com.jackmytour.facebook;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -22,6 +22,12 @@ import java.util.Properties;
 
 
 
+
+
+
+
+
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -36,6 +42,8 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import develop.com.jackmytour.db.DBConnection;
  
 
  

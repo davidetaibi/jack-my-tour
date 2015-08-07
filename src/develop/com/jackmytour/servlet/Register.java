@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import develop.com.jackmytour.core.DBConnection;
+import develop.com.jackmytour.db.DBConnection;
 
 /**
  * Sign up servlet

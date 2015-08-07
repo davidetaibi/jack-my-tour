@@ -1,4 +1,4 @@
-package develop.com.jackmytour.core;
+package develop.com.jackmytour.facebook;
 
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
