@@ -41,7 +41,7 @@
 
                     <div class="container">
 
-                        <div ng-include="'header.html'"></div>
+                        <div ng-include="'header.jsp'"></div>
 
                     </div>
 
@@ -52,9 +52,10 @@
                     
                     ArrayList<DrinkBar> drinks = (ArrayList<DrinkBar>) request.getAttribute("drinks");     
                     
-                	List<Event> sports= (List<Event>) request.getAttribute("sports");
+                	// this 2 lists must be of type Item (with their temp UUID)
+                    ArrayList<Item> sports= (ArrayList<Item>) request.getAttribute("sports");
             		
-                	List<Event> musics = (List<Event>) request.getAttribute("musics");                     
+                    ArrayList<Item> musics = (ArrayList<Item>) request.getAttribute("musics");                     
                     %>
                     
                         <div class="row">
@@ -238,16 +239,16 @@
 
 
                                                  <ul class="list-group"  id="notfood"><% 
-                                                 		Iterator<Event> iter = musics.iterator(); 
+                                                 		Iterator<Item> iter = musics.iterator(); 
                                                  			int i=0; 
-                                                 			for (Event event: musics) { 
+                                                 			for (Item item: musics) { 
                                                  				i=i+1; String a="musicEvent"+i;
                                                   %>
                                                  <div class="item-line"></div>	
                                                  <div class="checkbox checkbox-warning">	
-                                                 	<input id="<%=a%>" type="checkbox" name="musics" value="<%= event.getTitle()+"+"+ event.getVenue().getAddress() %>">
-                                                         <label for="<%=a%>" class="rest-item"><%=event.getTitle() %>
-                                                         	</br><span>Address: <%= event.getVenue().getAddress() %></span>
+                                                 	<input id="<%=a%>" type="checkbox" name="musics" value="<%= item.getName()+"+"+ item.getAddress() %>">
+                                                         <label for="<%=a%>" class="rest-item"><%=item.getName() %>
+                                                         	</br><span>Address: <%= item.getAddress() %></span>
                                                          </label>
                                                  </div>	
                                                  		
@@ -293,16 +294,16 @@
 													
 
                                               <ul class="list-group"  id="notfood"><% 
-                                              		Iterator<Event> iter = sports.iterator(); 
+                                              		Iterator<Item> iter = sports.iterator(); 
                                               			int i=0; 
-                                              			for (Event event: sports) { 
+                                              			for (Item item: sports) { 
                                               				i=i+1; String a="sportEvent"+i;
                                                %>
                                               <div class="item-line"></div>	
                                               <div class="checkbox checkbox-warning">	
-                                              	<input id="<%=a%>" type="checkbox" name="sports" value="<%= event.getTitle()+"+"+ event.getVenue().getAddress() %>">
-                                                      <label for="<%=a%>" class="rest-item"><%=event.getTitle() %>
-                                                      	</br><span>Address: <%= event.getVenue().getAddress() %></span>
+                                              	<input id="<%=a%>" type="checkbox" name="sports" value="<%= item.getName()+"+"+ item.getAddress() %>">
+                                                      <label for="<%=a%>" class="rest-item"><%=item.getName() %>
+                                                      	</br><span>Address: <%=  item.getAddress()  %></span>
                                                       </label>
                                               </div>	
                                               		

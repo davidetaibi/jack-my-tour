@@ -11,9 +11,27 @@ public class Item {
 	boolean weatherSensitive;
 	boolean allDay; //se hanno un orario. E.g. muyseo otzi ha un orario e non puoi andare alle 3 am -> false. Statua walther, si invece, allora true
 	boolean booked;
-	boolean fixedTime; //se l'evento non si puo spostare. E.g. una partita di calcio, comincia esattamente alle 20:45
+	boolean fixedTime; //se l'evento non si puo spostare. E.g. una partita di calcio, comincia esattamente alle 20:45^
+	String type = null;
+	String picUrl = null;
 
 	
+	public String getPicUrl() {
+		return picUrl;
+	}
+
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}

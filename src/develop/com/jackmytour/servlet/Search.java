@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -104,28 +105,29 @@ public class Search extends HttpServlet {
 					break;
 			}
 		}
-		//List tabsList = (List) Arrays.asList(tabs);
-		
 				
-		
-		
-			
 		request.setAttribute("tabs",tabs);
 		
 		if(rests.size() != 0) {
+			storeTempItem();
 			request.setAttribute("restutants_yelp", rests);
 		}	
 		
 		if(drinks.size() != 0) { 
+			storeTempItem();
 			request.setAttribute("drinks", drinks);
 		}
 		
 		if(sports != null) { 
-			request.setAttribute("sports", sports);
+			ArrayList<Item> sportItem = transformToItem(sports);
+			storeTempItem();
+			request.setAttribute("sports", sportItem);
 		}
 		
-		if(musics != null) { 
-			request.setAttribute("musics", musics);
+		if(musics != null) {
+			ArrayList<Item> musicItem = transformToItem(musics);
+			storeTempItem();
+			request.setAttribute("musics", musicItem);
 		}
 		
 		
@@ -133,5 +135,28 @@ public class Search extends HttpServlet {
 		
 		rd.forward(request, response);
 	}
+	
+	// stores temporary items with an UUID in order to be than retrieved only the objects
+	// selected in the activities page and show them in the agenda. When an item is selected it 
+	// becomes an actual item and it is stored in the real item table. Instead the others not chosen
+	// for now are simply dropped
+	public void storeTempItem() { }
+	
+	
+	// since in the db we store only item we translate the event(Eventful) lists into items list
+	//maybe this could be done before in the Eventful class
+	public ArrayList<Item> transformToItem(List<Event> events) {  
+		ArrayList<Item> items = new ArrayList<Item>();
+		Iterator<Event> iter = events.iterator();
+		while(iter.hasNext()) { 
+			Item newItem = null;
+			Event event = iter.next();
+			newItem = new Item(event.getTitle(),event.getVenue().getAddress());
+			items.add(newItem);
+		}
+		return items;
+	}
+	
+	
 
 }

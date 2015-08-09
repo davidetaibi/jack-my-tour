@@ -30,7 +30,7 @@
                   	</shiro:guest>
                     
                     <shiro:user>
-                   	<li>Hello, <%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %><li>
+                   	<li>Hello, <%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %></li>
         			<li><a href="logout">Log out</a></li>
         			</shiro:user>
         			

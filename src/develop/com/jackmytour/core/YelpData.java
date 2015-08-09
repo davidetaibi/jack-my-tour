@@ -176,6 +176,8 @@ public class YelpData {
 			}
 			Item item = null;
 			if(category == "Restaurant") {
+				 // for now simple item population with name and address
+				// TODO: add more item properties
 				 item = new Restaurant(name, address);
 			}else if(category == "Drink") { 
 				item = new DrinkBar(name,address);

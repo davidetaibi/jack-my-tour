@@ -92,7 +92,7 @@
 
     <div class="container">
 
-        <div ng-include="'header.html'"></div>
+        <div ng-include="'header.jsp'"></div>
 
     </div>
 
