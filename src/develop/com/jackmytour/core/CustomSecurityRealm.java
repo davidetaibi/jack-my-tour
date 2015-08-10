@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -22,6 +23,8 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.realm.jdbc.JdbcRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.JdbcUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +37,8 @@ public class CustomSecurityRealm extends JdbcRealm {
 	 * The default query used to retrieve account data for the user.
 	 */
 	protected static final String DEFAULT_AUTHENTICATION_QUERY = "SELECT password FROM traveller WHERE username = ?";
+	
+	protected static final String GET_ID_FOR_LOGGED_TRAVELLER = "SELECT travellerId FROM traveller WHERE username = ?";
 
 	/**
 	 * The default query used to retrieve the roles that apply to a user.
@@ -53,6 +58,7 @@ public class CustomSecurityRealm extends JdbcRealm {
 			+ "WHERE u.username = ? ";
 
     protected String authenticationQuery = DEFAULT_AUTHENTICATION_QUERY;
+    protected String getId = GET_ID_FOR_LOGGED_TRAVELLER;
 
     protected String userRolesQuery = DEFAULT_USER_ROLES_QUERY;
 
@@ -124,6 +130,16 @@ public class CustomSecurityRealm extends JdbcRealm {
             }
 
             info = new SimpleAuthenticationInfo(username, password.toCharArray(), getName());
+            
+            String id = getUserId(conn,username);
+            
+            System.out.println("The id of the current logged user is = " + id);
+            
+
+            Subject currentUser = SecurityUtils.getSubject();
+            Session session = currentUser.getSession();
+            session.setAttribute("user_id", id);
+            
 
         } catch (SQLException e) {
             final String message = "There was a SQL error while authenticating user [" + username + "]";
@@ -175,6 +191,43 @@ public class CustomSecurityRealm extends JdbcRealm {
 		return password;
 	}
 
+	
+	private String getUserId(Connection conn,String username) throws SQLException {
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String id = null;
+		try {
+			ps = conn.prepareStatement(getId);
+			ps.setString(1, username);
+
+			// Execute query
+			rs = ps.executeQuery();
+
+			// Loop over results - although we are only expecting one result,
+			// since usernames should be unique
+			boolean foundResult = false;
+			while (rs.next()) {
+
+				// Check to ensure only one row is processed
+				if (foundResult) {
+					throw new AuthenticationException(
+							"More than one user row found for user ["
+									+ username + "]. Usernames must be unique.");
+				}
+
+				id = rs.getString(1);
+
+				foundResult = true;
+			}
+		} finally {
+			JdbcUtils.closeResultSet(rs);
+			JdbcUtils.closeStatement(ps);
+		}
+
+		return id;
+	}
+	
     protected Set getRoleNamesForUser(Connection conn, String username) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;

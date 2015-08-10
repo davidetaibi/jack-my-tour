@@ -14,8 +14,18 @@ public class Item {
 	boolean fixedTime; //se l'evento non si puo spostare. E.g. una partita di calcio, comincia esattamente alle 20:45^
 	String type = null;
 	String picUrl = null;
+	//only for temporary stores items
+	String UUID = null;
 
 	
+	public String getUUID() {
+		return UUID;
+	}
+
+	public void setUUID(String uUID) {
+		UUID = uUID;
+	}
+
 	public String getPicUrl() {
 		return picUrl;
 	}

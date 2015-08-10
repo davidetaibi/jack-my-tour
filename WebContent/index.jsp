@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="org.apache.shiro.SecurityUtils" %>
+<%@ page import="org.apache.shiro.session.Session" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <jsp:include page="include.jsp"/>    
@@ -228,6 +230,36 @@
                 </div>
             </form>
         </div>
+        
+        <shiro:user>
+        	<li>Hello, <%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %>- Your last trips</li>
+        	
+        	<sql:setDataSource var="dataSource" driver="com.mysql.jdbc.Driver"
+                   url="jdbc:mysql://localhost/jmt"
+                   user="root"  password="root"/>
+
+			<%  
+			Session shiroSession = org.apache.shiro.SecurityUtils.getSubject().getSession();
+			String id = (String) shiroSession.getAttribute("user_id");
+            %>
+
+			<c:set var="user_id" value="<%= id %>"/>
+
+			<sql:query var = "result" dataSource="${dataSource}">
+				SELECT city, link FROM trip where travellerId = ? 
+				 <sql:param value="${user_id}" />
+			</sql:query>
+
+			<table border=1>
+				<c:forEach var="row" items="${result.rows}">
+				<tr>
+				<td><c:out value="${row.city}"/></td>
+				<td><c:out value="${row.link}"/></td>
+				</tr>
+				</c:forEach>
+			</table>
+        
+        </shiro:user>
         
         <div class="row-fluid">
         

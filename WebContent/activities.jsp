@@ -136,7 +136,7 @@
                                                      %>
                                                          <div class="item-line"></div>	
                                                     <div class="checkbox checkbox-warning">	
-                                                    	<input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getName()+"+"+restaurant.getAddress()%>">
+                                                    	<input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getUUID()%>">
                                                             <label for="<%=a%>" class="rest-item"><%=restaurant.getName() %>
                                                             	</br><span>Address: <%= restaurant.getAddress() %></span>
                                                             </label>
@@ -191,7 +191,7 @@
                                                      %>
                                                     <div class="item-line"></div>	
                                                     <div class="checkbox checkbox-warning">	
-                                                    	<input id="<%=a%>" type="checkbox" name="drinks" value="<%=bar.getName()+"+"+bar.getAddress()%>">
+                                                    	<input id="<%=a%>" type="checkbox" name="drinks" value="<%=bar.getUUID()%>">
                                                             <label for="<%=a%>" class="rest-item"><%=bar.getName() %>
                                                             	</br><span>Address: <%= bar.getAddress() %></span>
                                                             </label>
@@ -246,7 +246,7 @@
                                                   %>
                                                  <div class="item-line"></div>	
                                                  <div class="checkbox checkbox-warning">	
-                                                 	<input id="<%=a%>" type="checkbox" name="musics" value="<%= item.getName()+"+"+ item.getAddress() %>">
+                                                 	<input id="<%=a%>" type="checkbox" name="musics" value="<%= item.getUUID() %>">
                                                          <label for="<%=a%>" class="rest-item"><%=item.getName() %>
                                                          	</br><span>Address: <%= item.getAddress() %></span>
                                                          </label>
@@ -301,7 +301,7 @@
                                                %>
                                               <div class="item-line"></div>	
                                               <div class="checkbox checkbox-warning">	
-                                              	<input id="<%=a%>" type="checkbox" name="sports" value="<%= item.getName()+"+"+ item.getAddress() %>">
+                                              	<input id="<%=a%>" type="checkbox" name="sports" value="<%= item.getUUID() %>">
                                                       <label for="<%=a%>" class="rest-item"><%=item.getName() %>
                                                       	</br><span>Address: <%=  item.getAddress()  %></span>
                                                       </label>
