@@ -110,7 +110,7 @@ function createDateTime(ti, h, numofDays, date)
     	dd.addDays(numofDays);
     } 
     
-    //alert("The newly created date in createDateTime(4): " + dd);
+    alert("The newly created date in createDateTime(4): " + dd);
     return dd;
 }
 

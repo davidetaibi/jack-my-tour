@@ -74,6 +74,7 @@ Web2Cal.defaultSettings["monthAllDayTemplate"]				= "monthAllDayTemplate";
 
 Web2Cal.defaultSettings["previewTemplate"]					= "previewTemplate";
 Web2Cal.defaultSettings["newEventTemplate"]					= "defaultNewEventTemplate";
+//Web2Cal.defaultSettings["newEventTemplate"]					= "tisho";
  
 //callbacks 
 Web2Cal.defaultSettings["loadEvents"]  							= function(){}; 

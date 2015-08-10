@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
     <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.*"%>
+<%@ page import="java.util.Calendar"%>
 <%@ page import="develop.com.jackmytour.core.*"%>
 <%@ page import="develop.com.jackmytour.core.Utils"%>
 <%@ page import="java.util.Arrays" %>
@@ -33,7 +34,7 @@
    
    System.out.println("Location= "+ location);
    
-
+	
    
   
    %> 
@@ -57,7 +58,7 @@
 	<!-- <script type="text/javascript" src='js/my.js?x=<?php echo rand(0,100) ?>'></script> -->
     
     <title>Jack My Tour</title>
-
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
@@ -664,11 +665,17 @@ function UpdateR(){
 </script>
 
 <script> 
+// window.location.reload(true);
+var iCal;
+
 jQuery(document).ready(function(){ 
 	
-//!!!! All calendar OPTIONS are put here, before creating the object!!!!!
+//* All calendar OPTIONS are put here, before creating the object!!!!!
+//* To disable "Create Event", in web2cal.default.template.js is commented the line in <var load = function...] where the code for the pop-up is appended.
+//* To enable "Update Event" when an event is dragged on the calendar, just call our updateEvent(). It calls the Web2Cal's func updateEvent() and updates our list of events.  
 	var from_pieces = '<%=from%>'.split("/");
 	Web2Cal.defaultSettings['date'] = new Date(from_pieces[2], from_pieces[0]-1, from_pieces[1]);
+// 	Web2Cal.defaultSettings["newEventTemplate"] = "tisho"; //You don't disable "Create Event" by specifying different callback func.
 	iCal = new Web2Cal( "calendarContainer",
        { 
             loadEvents: function(startDate, endDate, viewName){ 
@@ -683,8 +690,8 @@ jQuery(document).ready(function(){
                         <%//System.out.println("from & to from the session onject according to Java: \n"+
                           //				from + "\n" +
                        	  //			to);%>
-           ,onNewEvent: function(event, groups, allDay){ alert("onNewEvent called") } 
-           ,onUpdateEvent: function(event){ }
+//            ,onNewEvent: function(event, groups, allDay){ alert("onNewEvent called") } 
+           ,onUpdateEvent: function(event){ updateEvent(event); }
        });
        //iCal.controlWidth = '50%';
     
@@ -716,14 +723,36 @@ function getJackMyTourEvents() {
 	    	  var event_name = <%= "\"" + res.getName() + "\""%>;
 	    	  var event_number = <%= restaurants_counter %>;
 	    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
-	    	  <% if(res.getPhone() == null) {%>
+	    	  <% if(res.getPhoneNumber() == null) {%>
 	    	  var event_phone = <%= new Integer("1234567") %>;
 	    	  <% ; } else { %>
-	    	  var event_phone = <%= new Integer(res.getPhone()) %>;	  
+	    	  var event_phone = <%= new Integer(res.getPhoneNumber()) %>;	  
 	    	  <% ; } %>
 	    	  //alert(event_name);
 	    	  
-	    	  var date = '<%=from%>';
+	    	  <%
+	    	  	//before having the algorithm, update the List of Items in JSP with this:
+	    	  	//Note that in Java we store the dates in Calendar objects and manipulate Date objs by converting withCalendar.getTime()
+	    	  	Calendar eventStart = Calendar.getInstance();
+	    	  	String[] yymmdd = from.split("/");
+	    	  	eventStart.set(Integer.parseInt(yymmdd[2]), Integer.parseInt(yymmdd[0])-1, Integer.parseInt(yymmdd[1]), 9,   0); //params are: year, month, date, hour, minute
+	    	  	//Calendar -> Date use Calendar.getTime()
+	    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
+	    	  	//  OR Calendar.get(field) : int
+	    	  	//Date -> Calendar use Calendar.setTime(Date)
+// 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
+				res.setStartDate(eventStart);	    	  	
+	    	  	res.setEndDate(Utils.addDate(eventStart, duration_food));
+			  %>
+			  
+	    	  
+	    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
+	    	  //var date = '< %=from%>';
+	    	  var date = '<%=String.format("%02d", res.getStartDate().get(Calendar.MONTH)+1)%>' + '/' + 
+	    	  			 '<%=String.format("%02d", res.getStartDate().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+	    	  			 '<%=res.getStartDate().get(Calendar.YEAR)%>'
+			  	    	
+// 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
 	    	  var event_start_DATE = createDateTime(9, 0, 0, date);
 	    	  var event_start_DATE_msecs = event_start_DATE.getTime();
 	    	  var event_start = new UTC(event_start_DATE_msecs);
@@ -732,17 +761,22 @@ function getJackMyTourEvents() {
 	    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
 	    	  var event_end = new UTC(event_end_DATE.getTime());
 	    	  
+	    	  
+	    	  
+	    	  
+	    	  
 //	    	  alert("event start: " + event_start + "\n" +
 //	    			"event_end_DATE.getHours() = " + event_end_DATE.getHours() + "\n" +
 //	    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
 //	    			"event end: " + event_end);
-			alert("--| FOOD |--\n"+
-				  "event_name: " + event_name + "\n"+
-				  "event_number: " + event_number + "\n"+
-				  "event_address: " + event_address + "\n"+
-				  "event_phone: " + event_phone + "\n"+
-				  "event_start: " + event_start + "\n"+
-				  "event_end: " + event_end);
+
+// 			alert("--| FOOD |--\n"+
+// 				  "event_name: " + event_name + "\n"+
+// 				  "event_number: " + event_number + "\n"+
+// 				  "event_address: " + event_address + "\n"+
+// 				  "event_phone: " + event_phone + "\n"+
+// 				  "event_start: " + event_start + "\n"+
+// 				  "event_end: " + event_end);
 	    	  food_events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
 	    	  //alert("Phone: <" + event_phone + ">");
 	    	  
@@ -752,7 +786,7 @@ function getJackMyTourEvents() {
 	      }
 		%>
 		
-		alert("food_events.length = " + food_events.length);
+// 		alert("food_events.length = " + food_events.length);
 		
 		   // events.push(createEvent("Default event", event_number+1, "Default place", "Default_John Smith, Sue, James, Dan, Lisa", createDateTime(9, 0, 0), createDateTime(12, 0, 0), "Default descrption", false));
 //	     events.push(createEvent("Another Event 300", 9, "yoga aud", "John Smith", createDateTime(9, 0, 2), createDateTime(12, 30, 2), "Yoga is good for health", false));
@@ -813,21 +847,42 @@ function getJackMyTourEvents() {
 	    	  var event_name = <%= "\"" + mus.getName() + "\""%>;
 	    	  var event_number = <%= music_counter %> + 1000;
 	    	  var event_address = <%= "\"" + mus.getAddress() + "\"" %>;
-	    	  <% if(mus.getPhone() == null) {%>
+	    	  <% if(mus.getPhoneNumber() == null) {%>
 	    	  var event_phone = <%= new Integer("1234567") %>;
 	    	  <% ; } else { %>
-	    	  var event_phone = <%= new Integer(mus.getPhone()) %>;	  
+	    	  var event_phone = <%= new Integer(mus.getPhoneNumber()) %>;	  
 	    	  <% ; } %>
 	    	  //alert(event_name);
 	    	  
 	    	  
-	    	  var date = '<%=from%>';
+// 	    	  var date = '< %=from%>';////////////////////////////////////
+<%
+	    	  	//before having the algorithm, update the List of Items in JSP with this:
+	    	  	//Note that in Java we store the dates in Calendar objects and manipulate Date objs by converting withCalendar.getTime()
+	    	  	Calendar eventStart = Calendar.getInstance();
+	    	  	String[] yymmdd = from.split("/");
+	    	  	eventStart.set(Integer.parseInt(yymmdd[2]), Integer.parseInt(yymmdd[0])-1, Integer.parseInt(yymmdd[1]), 9,   0); //params are: year, month, date, hour, minute
+	    	  	//Calendar -> Date use Calendar.getTime()
+	    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
+	    	  	//  OR Calendar.get(field) : int
+	    	  	//Date -> Calendar use Calendar.setTime(Date)
+// 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
+				mus.setStartDate(eventStart);	    	  	
+				mus.setEndDate(Utils.addDate(eventStart, duration_music));
+			  %>
+			  
+	    	  
+	    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
+	    	  
+	    	  var date = '<%=String.format("%02d", mus.getStartDate().get(Calendar.MONTH)+1)%>' + '/' + 
+	    	  			 '<%=String.format("%02d", mus.getStartDate().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+	    	  			 '<%=mus.getStartDate().get(Calendar.YEAR)%>'
 	    	  var event_start_DATE = createDateTime(19, 0, 0, date);
 	    	  var event_start_DATE_msecs = event_start_DATE.getTime();
 	    	  var event_start = new UTC(event_start_DATE_msecs);
 	    	 
 	    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration_music);
-	    	  alert("alive after");
+	    	 
 	    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
 	    	  var event_end = new UTC(event_end_DATE.getTime());
 	    	  
@@ -837,13 +892,13 @@ function getJackMyTourEvents() {
 //	    			"event end: " + event_end);
 
 			
-			 alert("--| MUSIC |--\n"+
-				  "event_name: " + event_name + "\n"+
-				  "event_number: " + event_number + "\n"+
-				  "event_address: " + event_address + "\n"+
-				  "event_phone: " + event_phone + "\n"+
-				  "event_start: " + event_start + "\n"+
-				  "event_end: " + event_end);
+// 			 alert("--| MUSIC |--\n"+
+// 				  "event_name: " + event_name + "\n"+
+// 				  "event_number: " + event_number + "\n"+
+// 				  "event_address: " + event_address + "\n"+
+// 				  "event_phone: " + event_phone + "\n"+
+// 				  "event_start: " + event_start + "\n"+
+// 				  "event_end: " + event_end);
 	    	  music_events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
 	    	  //alert("Phone: <" + event_phone + ">");
 	    	 
@@ -894,6 +949,31 @@ function dateAdd(date, units) {
 	return new Date(date+units);
 	  
 }
+
+function updateEvent(event) {
+// 	alert("Event start time: " + event.startTime +
+// 			"\nEvent end time: " + event.endTime);
+
+	alert("In updateEvent():\nevent id = " + event.eventId + 
+		  "\nevent start = " + event.startTime +
+		  "\nevent end = " + event.endTime);
+	
+	
+                $.ajax({
+                    type: "post",
+                    url: "testme", //this is my servlet
+                    data: "input=" +$('#ip').val()+"&output="+$('#op').val(),
+                    success: function(msg){      
+                            alert("Event updated with AJAX!");
+                    }
+                });
+           
+	
+	iCal.updateEvent(event);
+	
+	
+}
+
 </script> 
 
 

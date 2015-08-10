@@ -344,7 +344,7 @@
 								.append(createDefaultPreview())	 	   							
 								.append(createMonthAllDayTemplate()) 
 								.append(createAgendaTemplate())
-								.append(createNewEventTemplate())
+//								.append(createNewEventTemplate())
 					
 					_windowDefaultPluginLoaded=true;
 				}

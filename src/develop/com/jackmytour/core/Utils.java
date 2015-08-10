@@ -43,6 +43,7 @@ public class Utils {
 		dates.add(new Date(enddate.getTime() ));
 		return dates;
 	}
+	
 	public static String formatDate(Date day) {
 
 		DateFormat formatter;
@@ -50,5 +51,13 @@ public class Utils {
 		Date lDate = day;
 		return formatter.format(lDate);
 
+	}
+	
+	public static Calendar addDate(Calendar date, long units) {
+		Calendar result = Calendar.getInstance();
+		result.setTimeInMillis(date.getTimeInMillis() + units); 
+		
+		
+		return result;
 	}
 }

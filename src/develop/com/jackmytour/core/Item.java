@@ -18,28 +18,31 @@ public class Item {
 	String UUID = null;
 
 	
-	public String getUUID() {
-		return UUID;
+	public Item(String name,String address)  { 
+		this.name = name;
+		this.address = address;
+	}
+	
+	public Item(String name,String address,String phoneNumber) { 
+		this.name = name;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
 	}
 
-	public void setUUID(String uUID) {
-		UUID = uUID;
+	public String getName() {
+		return name;
 	}
 
-	public String getPicUrl() {
-		return picUrl;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setPicUrl(String picUrl) {
-		this.picUrl = picUrl;
+	public String getAddress() {
+		return address;
 	}
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getPhoneNumber() {
@@ -98,39 +101,28 @@ public class Item {
 		this.fixedTime = fixedTime;
 	}
 
-	public Item(String name,String address)  { 
-		this.name = name;
-		this.address = address;
+	public String getType() {
+		return type;
 	}
-	
-	public Item(String name,String address,String phoneNumber) { 
-		this.name = name;
-		this.address = address;
-		this.phoneNumber = phoneNumber;
+
+	public void setType(String type) {
+		this.type = type;
 	}
-	
-	public String getName() { 
-		return this.name;
+
+	public String getPicUrl() {
+		return picUrl;
 	}
-	
-	public String getAddress() { 
-		return this.address;
+
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
 	}
-	
-	public void setName(String newName) {
-		this.name = newName;
+
+	public String getUUID() {
+		return UUID;
 	}
-	
-	public void setAddress(String newAddress) {
-		this.name = newAddress;
-	}
-	
-	public void setPhone(String newPhone) {
-		this.phoneNumber = newPhone;
-	}
-	
-	public String getPhone() {
-		return this.phoneNumber;
+
+	public void setUUID(String uUID) {
+		UUID = uUID;
 	}
 	
 	
