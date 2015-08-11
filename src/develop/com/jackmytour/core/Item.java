@@ -1,13 +1,16 @@
 package develop.com.jackmytour.core;
 
+import java.util.Calendar;
+
 
 public class Item {
 
 	String name = null;
 	String address = null;
 	String phoneNumber = null;
-	String startDate = null;
-	String endDate = null;
+	String duration = null;
+	Calendar startTime = null;
+	Calendar endTime = null;
 	boolean weatherSensitive;
 	boolean allDay; //se hanno un orario. E.g. muyseo otzi ha un orario e non puoi andare alle 3 am -> false. Statua walther, si invece, allora true
 	boolean booked;
@@ -27,6 +30,26 @@ public class Item {
 		this.name = name;
 		this.address = address;
 		this.phoneNumber = phoneNumber;
+	}
+	
+	public Item(String name, String address, String phoneNumber,
+			String duration, Calendar startTime, Calendar endTime,
+			boolean weatherSensitive, boolean allDay, boolean booked,
+			boolean fixedTime, String type, String picUrl, String uUID) {
+		super();
+		this.name = name;
+		this.address = address;
+		this.phoneNumber = phoneNumber;
+		this.duration = duration;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.weatherSensitive = weatherSensitive;
+		this.allDay = allDay;
+		this.booked = booked;
+		this.fixedTime = fixedTime;
+		this.type = type;
+		this.picUrl = picUrl;
+		UUID = uUID;
 	}
 
 	public String getName() {
@@ -52,21 +75,29 @@ public class Item {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-
-	public String getStartDate() {
-		return startDate;
+	
+	public String getDuration() {
+		return duration;
 	}
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
+	public void setDuration(String duration) {
+		this.duration = duration;
 	}
 
-	public String getEndDate() {
-		return endDate;
+	public Calendar getStartTime() {
+		return startTime;
 	}
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+	public void setStartTime(Calendar startDate) {
+		this.startTime = startDate;
+	}
+
+	public Calendar getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Calendar endDate) {
+		this.endTime = endDate;
 	}
 
 	public boolean isWeatherSensitive() {

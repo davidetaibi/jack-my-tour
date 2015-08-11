@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -22,7 +23,6 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import develop.com.jackmytour.core.Item;
-import develop.com.jackmytour.core.Restaurant;
 import develop.com.jackmytour.db.DBConnection;
 
 /**
@@ -73,7 +73,9 @@ public class CreateAgendaData extends HttpServlet {
 		
 		if(rests != null) {
 			//createAddressList(rests);
-			ArrayList<Item> selectedRestaurants = storeItem(rests);
+			String duration = (String) request.getParameter("food-duration");
+			System.out.println("res duration = " + duration);
+			ArrayList<Item> selectedRestaurants = storeItem(rests, duration);
 			//ArrayList<Item> selectedRestaurants = parseFields(rests);
 			request.setAttribute("selectedRestaurants", selectedRestaurants);
 			
@@ -82,7 +84,8 @@ public class CreateAgendaData extends HttpServlet {
 		if(drinks != null) {
 			//createAddressList(drinks);
 			//ArrayList<Item> selectedDrinks = parseFields(drinks);
-			ArrayList<Item> selectedDrinks = storeItem(drinks);
+			String duration = (String) request.getAttribute("drinks-duration");
+			ArrayList<Item> selectedDrinks = storeItem(drinks, duration);
 			request.setAttribute("selectedDrinks", selectedDrinks);
 			
 		}
@@ -90,7 +93,8 @@ public class CreateAgendaData extends HttpServlet {
 		if(musics != null) {
 			//createAddressList(musics);
 			//ArrayList<Item> selectedMusics= parseFields(musics);
-			ArrayList<Item> selectedMusics = storeItem(musics);
+			String duration = (String) request.getAttribute("music-duration");
+			ArrayList<Item> selectedMusics = storeItem(musics, duration);
 			request.setAttribute("selectedMusics", selectedMusics);
 			
 
@@ -99,7 +103,8 @@ public class CreateAgendaData extends HttpServlet {
 		if(sports != null) {
 			//createAddressList(sports);
 			//ArrayList<Item> selectedSports = parseFields(sports);
-			ArrayList<Item> selectedSports = storeItem(sports);
+			String duration = (String) request.getAttribute("sports-duration");
+			ArrayList<Item> selectedSports = storeItem(sports, duration);
 			request.setAttribute("selectedSports", selectedSports);
 			
 		}
@@ -141,8 +146,17 @@ public class CreateAgendaData extends HttpServlet {
         	int last_inserted_trip = 0;
 			statement = connection.prepareStatement(tripQuery,Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, location);
-			statement.setDate(2, new java.sql.Date(2009, 12, 11));
-			statement.setDate(3, new java.sql.Date(2009, 12, 11));
+			String from = (String) session.getAttribute("from");
+//			String[] fromPieces = from.split("/"); 
+//			statement.setDate(2, new java.sql.Date(Integer.parseInt(fromPieces[2]),
+//												   Integer.parseInt(fromPieces[0]),
+//												   Integer.parseInt(fromPieces[1])));
+			statement.setString(2, from);
+			
+			String to = (String) session.getAttribute("to");
+			statement.setString(3, to);
+//			statement.setDate(3, new java.sql.Date(2009, 12, 11));
+			
 			statement.setString(4, "Via Splendente");
 			statement.setString(5, "jackmytour.com");
 			statement.setInt(6, Integer.parseInt(id));
@@ -176,7 +190,7 @@ public class CreateAgendaData extends HttpServlet {
 	
 	//this method stores the chosen temp_items in the real item db table e returns 
 	// as values arraylists of chosen items to be then passed to the agenda.jsp page
-	private ArrayList<Item> storeItem(String[] UUIDS) {
+	private ArrayList<Item> storeItem(String[] UUIDS, String duration) {
 		ArrayList<Item> items = new ArrayList<Item>();
 		DBConnection dbConnection = new DBConnection();
 		dbConnection.connect();
@@ -197,34 +211,56 @@ public class CreateAgendaData extends HttpServlet {
 					Item newItem;
 					String name = rs.getString("name");
 		            String address = rs.getString("address");
-		            newItem = new Item(name,address);
-		            newItem.setPhoneNumber(rs.getString("phoneNumber"));
+		            String phone = rs.getString("phoneNumber");
 		            //all the other properties
-		            newItem.setType(rs.getString("type"));
+		            String type = rs.getString("type");
+		            java.sql.Date fromDate = rs.getDate("startDate");
+		            java.sql.Date toDate = rs.getDate("endDate");
+		            String frommm = fromDate.toString();
+		            String tooo = toDate.toString();
+		            String[] frommms = frommm.split("-");
+		            String[] tooos = tooo.split("-");
+		            Calendar calFrom = Calendar.getInstance(); 
+		            calFrom.set(Integer.parseInt(frommms[0]), 
+		            		Integer.parseInt(frommms[1])-1,
+		            		Integer.parseInt(frommms[2]));
 		            
-		            items.add(newItem);
+		            Calendar calTo = Calendar.getInstance(); 
+		            calTo.set(Integer.parseInt(tooos[0]), 
+		            		Integer.parseInt(tooos[1])-1,
+		            		Integer.parseInt(tooos[2]));
+		            		
+		            System.out.println("calFrom = " + calFrom.getTime());
+		            //------------
+		            Item currentItem = new Item(name, address, phone, duration,
+		            							calFrom, calTo, false,
+												false, false, false, type,
+												null, null);
+		            items.add(currentItem);
 		            
-		            String insertionQuery = "INSERT INTO item VALUES (default,?,?,?,?,?,?,?,?,?,?,?)";
+		            String insertionQuery = "INSERT INTO item VALUES (default,?,?,?,?,?,?,?,?,?,?,?,?)";
 		            PreparedStatement statement = null;
 		            byte b = 1;
 		            statement = connection.prepareStatement(insertionQuery,Statement.RETURN_GENERATED_KEYS); 
 		            
 		            //general item info
-		            statement.setString(1, newItem.getName());
-		            statement.setString(2, newItem.getAddress());
-		            statement.setString(3, "191");
-		            statement.setDate(4, new java.sql.Date(2009, 12, 11));
-		            statement.setDate(5, new java.sql.Date(2009, 12, 11));
+		            statement.setString(1, name);
+		            statement.setString(2, address);
+		            statement.setString(3, phone);
+		            //statement.setDate(4, new java.sql.Date(2009, 12, 11));
+		            statement.setString(4, duration);
+		            statement.setDate(5, fromDate);
+		            statement.setDate(6, toDate);
 				    
 				    //boolean fields
-		            statement.setByte(6, b);
 		            statement.setByte(7, b);
 		            statement.setByte(8, b);
 		            statement.setByte(9, b);
+		            statement.setByte(10, b);
 				   
 				    //additional info
-		            statement.setString(10, "www.blabla.come/imageid=123");
-		            statement.setString(11, newItem.getType());
+		            statement.setString(11, "www.blabla.come/imageid=123");
+		            statement.setString(12, type);
 		            statement.executeUpdate();
 		            
 		            ResultSet result = statement.getGeneratedKeys();

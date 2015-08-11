@@ -1,16 +1,15 @@
 package develop.com.jackmytour.servlet;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.RequestDispatcher;
@@ -24,18 +23,11 @@ import javax.servlet.http.HttpSession;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.ProxyOAuthRequest;
-import org.scribe.model.Verb;
 
 import com.evdb.javaapi.data.Event;
 
-import develop.com.jackmytour.core.DrinkBar;
 import develop.com.jackmytour.core.EventfulData;
 import develop.com.jackmytour.core.Item;
-import develop.com.jackmytour.core.MusicEvent;
-import develop.com.jackmytour.core.Restaurant;
-import develop.com.jackmytour.core.SportEvent;
 import develop.com.jackmytour.core.YelpData;
 import develop.com.jackmytour.db.DBConnection;
 
@@ -46,7 +38,8 @@ import develop.com.jackmytour.db.DBConnection;
 @WebServlet("/search")
 public class Search extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+      private String from = "";
+      private String to = "";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -80,9 +73,9 @@ public class Search extends HttpServlet {
 		String location = request.getParameter("location");
 		session.setAttribute("location",location);
 		//still have to work on this term
-		String term = request.getParameter("term");		
-		String from = request.getParameter("from");
-		String to = request.getParameter("to");
+		//String term = request.getParameter("term");		
+		from = request.getParameter("from");
+		to = request.getParameter("to");
 		session.setAttribute("from", from);
 		session.setAttribute("to", to);
 		
@@ -179,8 +172,19 @@ public class Search extends HttpServlet {
 						preparedStatement.setString(1, newItem.getName());
 					    preparedStatement.setString(2, newItem.getAddress());
 					    preparedStatement.setString(3, "191");
-					    preparedStatement.setDate(4, new java.sql.Date(2009, 12, 11));
-					    preparedStatement.setDate(5, new java.sql.Date(2009, 12, 11));
+					    Calendar calendar = Calendar.getInstance();
+					    String[] fromPieces = from.split("/");
+					    calendar.set(Integer.parseInt(fromPieces[2]), 
+					    		     Integer.parseInt(fromPieces[0])-1, 
+					    		     Integer.parseInt(fromPieces[1]));
+					    System.out.println("Search from pieces: " + fromPieces[0] + "~" + fromPieces[1] + "~" + fromPieces[2]);
+					    preparedStatement.setDate(4, new java.sql.Date(calendar.getTime().getTime()));
+					    
+					    String[] toPieces = to.split("/");
+					    calendar.set(Integer.parseInt(toPieces[2]), 
+					    		     Integer.parseInt(toPieces[0])-1, 
+					    		     Integer.parseInt(toPieces[1]));
+					    preparedStatement.setDate(5, new java.sql.Date(calendar.getTime().getTime()));
 					    
 					    //boolean fields
 					    preparedStatement.setByte(6, b);

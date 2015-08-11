@@ -231,6 +231,7 @@
             </form>
         </div>
         
+               
         <shiro:user>
         	<li>Hello, <%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %>- Your last trips</li>
         	
@@ -246,15 +247,14 @@
 			<c:set var="user_id" value="<%= id %>"/>
 
 			<sql:query var = "result" dataSource="${dataSource}">
-				SELECT city, link FROM trip where travellerId = ? 
+				SELECT tripId, city, link FROM trip where travellerId = ? 
 				 <sql:param value="${user_id}" />
 			</sql:query>
 
-			<table border=1>
+			<table>
 				<c:forEach var="row" items="${result.rows}">
 				<tr>
-				<td><c:out value="${row.city}"/></td>
-				<td><c:out value="${row.link}"/></td>
+				<td>Trip to: <a href="showTrip?trip_id=${row.tripId}"><c:out value="${row.city}"/></a></td>
 				</tr>
 				</c:forEach>
 			</table>

@@ -29,8 +29,8 @@ public class Utils {
 
 	public static List<Date> getDaysBetweenDatesPlusOne(String startdateStr,
 			String enddateStr) {
-		Date startdate = new Date(startdateStr);
-		Date enddate = new Date(enddateStr);
+		Date startdate = new Date("12/13/2001");
+		Date enddate = new Date("12/15/2001");
 		List<Date> dates = new ArrayList<Date>();
 		Calendar calendar = new GregorianCalendar();
 		calendar.setTime(startdate);

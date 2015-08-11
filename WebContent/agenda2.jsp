@@ -691,7 +691,7 @@ jQuery(document).ready(function(){
                           //				from + "\n" +
                        	  //			to);%>
 //            ,onNewEvent: function(event, groups, allDay){ alert("onNewEvent called") } 
-           ,onUpdateEvent: function(event){ updateEvent(event); }
+           ,onUpdateEvent: function(event){ /*updateEvent(event);*/ }
        });
        //iCal.controlWidth = '50%';
     
@@ -711,11 +711,16 @@ function getJackMyTourEvents() {
  var food_events = new Array();
  <%
  	int restaurants_counter = 0;
+	
 	   if (selectedRestaurants != null) 
 	   {
-		   long duration_food = Long.valueOf(request.getParameter("food-duration"));%>
-		   var duration_restaurants = <%= duration_food %>;    
-		    
+		   
+		   //long duration_food = Long.valueOf(request.getParameter("food-duration"));
+		   //long duration_food = 540000; //1:30
+		   %>
+		   alert("alive");
+<%-- 		   var duration_restaurants = <%= duration_food %>;     --%>
+		   
 		<%	
 	      for (Item res : selectedRestaurants) {
 	    	  restaurants_counter++;
@@ -728,35 +733,45 @@ function getJackMyTourEvents() {
 	    	  <% ; } else { %>
 	    	  var event_phone = <%= new Integer(res.getPhoneNumber()) %>;	  
 	    	  <% ; } %>
-	    	  //alert(event_name);
+	    	  var duration_restaurants = <%= res.getDuration() %>;
 	    	  
 	    	  <%
+	    		//Here we update the JSP lists which we obtained in this file (i.e. they are database entries??)
 	    	  	//before having the algorithm, update the List of Items in JSP with this:
 	    	  	//Note that in Java we store the dates in Calendar objects and manipulate Date objs by converting withCalendar.getTime()
-	    	  	Calendar eventStart = Calendar.getInstance();
-	    	  	String[] yymmdd = from.split("/");
-	    	  	eventStart.set(Integer.parseInt(yymmdd[2]), Integer.parseInt(yymmdd[0])-1, Integer.parseInt(yymmdd[1]), 9,   0); //params are: year, month, date, hour, minute
+// 	    	  	System.out.println("startDate from selectedRestaurants: " + res.getStartTime().getTime());
+// 	    	  	String[] yymmdd = from.split("/");
+// 	    	  	System.out.println(from);
+				
+				Calendar startTime = res.getStartTime();
+	    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
+	    	  				  res.getStartTime().get(Calendar.MONTH), 
+	    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
+	    	  								   9,   0); //params are: year, month, date, hour, minute
+	    	  	System.out.println("startTime from selectedRestaurants: " + startTime.getTime());
 	    	  	//Calendar -> Date use Calendar.getTime()
 	    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
 	    	  	//  OR Calendar.get(field) : int
 	    	  	//Date -> Calendar use Calendar.setTime(Date)
 // 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
-				res.setStartDate(eventStart);	    	  	
-	    	  	res.setEndDate(Utils.addDate(eventStart, duration_food));
+				res.setStartTime(startTime);	    	  	
+	    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
 			  %>
 			  
 	    	  
 	    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
 	    	  //var date = '< %=from%>';
-	    	  var date = '<%=String.format("%02d", res.getStartDate().get(Calendar.MONTH)+1)%>' + '/' + 
-	    	  			 '<%=String.format("%02d", res.getStartDate().get(Calendar.DAY_OF_MONTH))%>' + '/' +
-	    	  			 '<%=res.getStartDate().get(Calendar.YEAR)%>'
+	    	  var date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+	    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+	    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
 			  	    	
 // 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
+	    	  alert("date = " + date);
 	    	  var event_start_DATE = createDateTime(9, 0, 0, date);
 	    	  var event_start_DATE_msecs = event_start_DATE.getTime();
 	    	  var event_start = new UTC(event_start_DATE_msecs);
 	    	 
+	    	  alert("duration_restaurants = " + duration_restaurants);
 	    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration_restaurants);
 	    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
 	    	  var event_end = new UTC(event_end_DATE.getTime());
@@ -770,13 +785,13 @@ function getJackMyTourEvents() {
 //	    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
 //	    			"event end: " + event_end);
 
-// 			alert("--| FOOD |--\n"+
-// 				  "event_name: " + event_name + "\n"+
-// 				  "event_number: " + event_number + "\n"+
-// 				  "event_address: " + event_address + "\n"+
-// 				  "event_phone: " + event_phone + "\n"+
-// 				  "event_start: " + event_start + "\n"+
-// 				  "event_end: " + event_end);
+			alert("--| FOOD |--\n"+
+				  "event_name: " + event_name + "\n"+
+				  "event_number: " + event_number + "\n"+
+				  "event_address: " + event_address + "\n"+
+				  "event_phone: " + event_phone + "\n"+
+				  "event_start: " + event_start + "\n"+
+				  "event_end: " + event_end);
 	    	  food_events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
 	    	  //alert("Phone: <" + event_phone + ">");
 	    	  
@@ -828,98 +843,8 @@ function getJackMyTourEvents() {
 
 //==============================================================================================
 	
-	
-	var music_events = new Array();
-	
- <%
- 	int music_counter = 0;
-	   if (selectedMusics != null) 
-	   {
-		   
-			long duration_music = Long.valueOf(request.getParameter("music-duration"));%>
-			var duration_music = <%= duration_music %>;
-			
-		    
-		  <%
-	      for (Item mus : selectedMusics) {
-	    	  music_counter++;
-	    	  System.out.println("Music events :" + music_counter);%>
-	    	  var event_name = <%= "\"" + mus.getName() + "\""%>;
-	    	  var event_number = <%= music_counter %> + 1000;
-	    	  var event_address = <%= "\"" + mus.getAddress() + "\"" %>;
-	    	  <% if(mus.getPhoneNumber() == null) {%>
-	    	  var event_phone = <%= new Integer("1234567") %>;
-	    	  <% ; } else { %>
-	    	  var event_phone = <%= new Integer(mus.getPhoneNumber()) %>;	  
-	    	  <% ; } %>
-	    	  //alert(event_name);
-	    	  
-	    	  
-// 	    	  var date = '< %=from%>';////////////////////////////////////
-<%
-	    	  	//before having the algorithm, update the List of Items in JSP with this:
-	    	  	//Note that in Java we store the dates in Calendar objects and manipulate Date objs by converting withCalendar.getTime()
-	    	  	Calendar eventStart = Calendar.getInstance();
-	    	  	String[] yymmdd = from.split("/");
-	    	  	eventStart.set(Integer.parseInt(yymmdd[2]), Integer.parseInt(yymmdd[0])-1, Integer.parseInt(yymmdd[1]), 9,   0); //params are: year, month, date, hour, minute
-	    	  	//Calendar -> Date use Calendar.getTime()
-	    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
-	    	  	//  OR Calendar.get(field) : int
-	    	  	//Date -> Calendar use Calendar.setTime(Date)
-// 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
-				mus.setStartDate(eventStart);	    	  	
-				mus.setEndDate(Utils.addDate(eventStart, duration_music));
-			  %>
-			  
-	    	  
-	    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
-	    	  
-	    	  var date = '<%=String.format("%02d", mus.getStartDate().get(Calendar.MONTH)+1)%>' + '/' + 
-	    	  			 '<%=String.format("%02d", mus.getStartDate().get(Calendar.DAY_OF_MONTH))%>' + '/' +
-	    	  			 '<%=mus.getStartDate().get(Calendar.YEAR)%>'
-	    	  var event_start_DATE = createDateTime(19, 0, 0, date);
-	    	  var event_start_DATE_msecs = event_start_DATE.getTime();
-	    	  var event_start = new UTC(event_start_DATE_msecs);
-	    	 
-	    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration_music);
-	    	 
-	    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
-	    	  var event_end = new UTC(event_end_DATE.getTime());
-	    	  
-//	    	  alert("event start: " + event_start + "\n" +
-//	    			"event_end_DATE.getHours() = " + event_end_DATE.getHours() + "\n" +
-//	    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
-//	    			"event end: " + event_end);
+	//paste here
 
-			
-// 			 alert("--| MUSIC |--\n"+
-// 				  "event_name: " + event_name + "\n"+
-// 				  "event_number: " + event_number + "\n"+
-// 				  "event_address: " + event_address + "\n"+
-// 				  "event_phone: " + event_phone + "\n"+
-// 				  "event_start: " + event_start + "\n"+
-// 				  "event_end: " + event_end);
-	    	  music_events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
-	    	  //alert("Phone: <" + event_phone + ">");
-	    	 
-	    	 
-	    	  
-	      <%
-	      }
-		  %>
-		  
-		  var group_music = {
-			        name: "Music",
-			        groupId: "200",
-					show: true,
-			        events: music_events 
-			    };
-			    groups.push(group_music);
-		
-	<%
-	   }
-	   
-	%> 
 		
 	   // events.push(createEvent("Default event", event_number+1, "Default place", "Default_John Smith, Sue, James, Dan, Lisa", createDateTime(9, 0, 0), createDateTime(12, 0, 0), "Default descrption", false));
 //  events.push(createEvent("Another Event 300", 9, "yoga aud", "John Smith", createDateTime(9, 0, 2), createDateTime(12, 30, 2), "Yoga is good for health", false));
@@ -945,7 +870,8 @@ function getJackMyTourEvents() {
 * param units - specifies the the amount of time in milliseconds to be added or subtracted to the date.
 */
 function dateAdd(date, units) {
-	//alert("hello from dateAdd!! Date passed = " + date);
+	alert("hello from dateAdd!! Date passed = " + date +
+			"\nDate added = " + (date+units));
 	return new Date(date+units);
 	  
 }
