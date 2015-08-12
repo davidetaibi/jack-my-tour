@@ -173,13 +173,17 @@ public class CreateAgendaData extends HttpServlet {
             // now add in the itemfortrip table all the items for the last inserted trip
             // in order to complete the trip insertion. 
             
+            System.out.println("++itemsForTrip size = " + itemsForTrip.size());
             for(Integer itemId : itemsForTrip) { 
+            	System.out.println("Iterating itemsForTrips in storeTrip(). Current itemId = " + itemId.toString());
             	String q = "INSERT INTO itemfortrip values (?,?)";
             	statement = connection.prepareStatement(q);
             	statement.setInt(1,last_inserted_trip);
             	statement.setInt(2,itemId);
             	statement.executeUpdate();
             }
+            
+            this.itemsForTrip.clear();
             
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -199,7 +203,8 @@ public class CreateAgendaData extends HttpServlet {
 		//SQL class connection (connection established)
 		Connection connection = dbConnection.getConnection();
 		
-		for (String UUID : UUIDS) {           
+		for (String UUID : UUIDS) {          
+			System.out.println("Iterating UUIDS in storeItem()");
 			String query = "SELECT * FROM temp_item where UUID = ?";
 			PreparedStatement preparedStatement = null; 
 			try {
@@ -208,6 +213,7 @@ public class CreateAgendaData extends HttpServlet {
 				
 				ResultSet rs = preparedStatement.executeQuery();
 				while(rs.next()) { 
+					System.out.println("Iterating rs with while in storeItem()");
 					// TODO: we still have to insert all the items properties (from APIs)
 					String name = rs.getString("name");
 		            String address = rs.getString("address");
