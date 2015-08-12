@@ -43,6 +43,22 @@
  
 <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">  
     
+<script>
+		(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		
+		// async init once loading is done
+		window.fbAsyncInit = function() {
+		  FB.init({appId: 389121671278273, status: false});
+		};
+</script>
+    
+    
         <script>
     (function($,W,D)
     		{
@@ -255,11 +271,26 @@
 				<c:forEach var="row" items="${result.rows}">
 				<tr>
 				<td>Trip to: <a href="showTrip?trip_id=${row.tripId}"><c:out value="${row.city}"/></a></td>
+				<button onclick="gogogo(${row.tripId})">Share this trip</button>
 				</tr>
 				</c:forEach>
 			</table>
         
         </shiro:user>
+        
+        <script>
+			function gogogo(tripId) {
+			  FB.ui({
+			    method: 'feed',
+			    link: 'http://127.0.0.1:8080/Jackmytour/showTrip?'+tripId,
+			    // picture: 'http://fbrell.com/f8.jpg',
+			    name: 'My new trip',
+			    caption: 'Have a look at my next trip',
+			    //description: 'Must read daily!'
+			  });
+			} 
+		</script>
+  
         
         <div class="row-fluid">
         
