@@ -258,6 +258,8 @@
 			<%  
 			Session shiroSession = org.apache.shiro.SecurityUtils.getSubject().getSession();
 			String id = (String) shiroSession.getAttribute("user_id");
+			long sessionTimeout = shiroSession.getTimeout();
+			System.out.println(sessionTimeout);
             %>
 
 			<c:set var="user_id" value="<%= id %>"/>
@@ -282,7 +284,7 @@
 			function gogogo(tripId) {
 			  FB.ui({
 			    method: 'feed',
-			    link: 'http://127.0.0.1:8080/Jackmytour/showTrip?'+tripId,
+			    link: 'http://127.0.0.1:8080/Jackmytour/showTrip?trip_id='+tripId,
 			    // picture: 'http://fbrell.com/f8.jpg',
 			    name: 'My new trip',
 			    caption: 'Have a look at my next trip',

@@ -138,6 +138,7 @@ public class CustomSecurityRealm extends JdbcRealm {
 
             Subject currentUser = SecurityUtils.getSubject();
             Session session = currentUser.getSession();
+            session.setTimeout(7200000);
             session.setAttribute("user_id", id);
             
 
