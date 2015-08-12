@@ -271,7 +271,7 @@
 				<c:forEach var="row" items="${result.rows}">
 				<tr>
 				<td>Trip to: <a href="showTrip?trip_id=${row.tripId}"><c:out value="${row.city}"/></a></td>
-				<button onclick="gogogo(${row.tripId})">Share this trip</button>
+				<td><button onclick="gogogo(${row.tripId})">Share this trip</button></td>
 				</tr>
 				</c:forEach>
 			</table>
