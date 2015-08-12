@@ -719,8 +719,9 @@ function getJackMyTourEvents() {
 	
 	var groups = new Array();
 	
-	var food_events = getEventsFromList(0, "RES");
-    if (food_events != null) {
+	var food_events = getFoodEventsFromList(0, "RES"); 
+	alert("food_events.length = " + food_events.length);
+    if (food_events !== "emptiness") {
     	var group_food = {
 	        name: "Restaurants",
 	        groupId: "100",
@@ -731,8 +732,9 @@ function getJackMyTourEvents() {
     }
     
     
-	var drinks_events = getEventsFromList(1000, "BAR");
-	if (drinks_events != null) {
+	var drinks_events = getDrinksEventsFromList(1000, "BAR");
+	alert("drink_events.length = " + drinks_events.length);
+	if (drinks_events !== "emptiness") {
 	    var group_drinks = {
 	        name: "Drinks",
 	        groupId: "200",
@@ -742,8 +744,9 @@ function getJackMyTourEvents() {
 	    groups.push(group_drinks);
 	}
     
-	var music_events = getEventsFromList(2000, "MUSIC");
-	if (music_events != null) {
+	var music_events = getMusicEventsFromList(2000, "MUSIC");
+	alert("music_events.length = " + music_events.length);
+	if (music_events !== "emptiness") {
 	    var group_music = {
 	        name: "Music",
 	        groupId: "300",
@@ -753,8 +756,9 @@ function getJackMyTourEvents() {
 	    groups.push(group_music);
 	}
     
-	var sports_events = getEventsFromList(3000, "SPORT");
-	if (food_events != null) {
+	var sports_events = getSportsEventsFromList(3000, "SPORT");
+	alert("sports_events.length = " + sports_events.length);
+	if (sports_events !== "emptiness") {
 	    var group_sports = {
 	        name: "Sports",
 	        groupId: "400",
@@ -829,39 +833,60 @@ function dateAdd(date, units) {
 	  
 }
 
-function getEventsFromList( groupNumber, type ) {
+function getFoodEventsFromList( groupNumber, type ) {
 	
+	var events = new Array();
 	
+	 <% 
+	 	System.out.println("Hello from getFoodEventsFromList()");
+	 	
+	 %>
+// 	 if(type.valueOf() === "RES") {
+<%-- 		 <% --%>
+// 		 	if(selectedRestaurants != null)
+// 		 		list = (ArrayList<Item>) selectedRestaurants.clone();
+// 		    System.out.println("Go with selectedRestaurants");
+<%-- 	      %> --%>
+// 	} else if(type.valueOf() === "BAR") {
+<%-- 				<% --%>
+// 					if (selectedDrinks != null)
+// 						list = (ArrayList<Item>) selectedDrinks.clone();
+// 				    System.out.println("Go with selectedDrinks");
+<%-- 				%> --%>
+// 			} else if(type.valueOf() === "MUSIC") {
+<%-- 					 	<% --%>
+// 					 		if(selectedMusics != null)
+// 					 			list = (ArrayList<Item>) selectedMusics.clone();
+// 						   	System.out.println("Go with selectedMusics");
+<%-- 					      %> --%>
+// 					} else if(type.valueOf() === "SPORT") {
+<%-- 						   		<% --%>
+// 						   			if(selectedSports != null)
+// 						   				list = (ArrayList<Item>) selectedSports.clone();
+// 								    System.out.println("Go with selectedSports");
+<%-- 							      %> --%>
+// 							} else { alert("Invalid type passed to getEventsFromList()!!!"); }
+	 //zi
 	
-	 var events = new Array();
-	 
-	 <% ArrayList<Item> list;%>
-	 if(type.valueOf() === "RES") {
-		 <%list = selectedRestaurants;%>
-	} else if(type.valueOf() === "BAR") {
-				<%list = selectedDrinks;%>
-			} else if(type.valueOf() === "MUSIC") {
-					 	<%list = selectedMusics;%>
-					} else if(type.valueOf() === "SPORT") {
-						   		<%list = selectedSports;%>
-							} else { alert("Invalid type passed to getEventsFromList()!!!"); }
-	 
-	 <%
-	 	int event_counter = 0;
-		
-		   if (list != null) 
-		   {
+			   //zi
+			   //alert("alive");
+			   // var duration_restaurants = < %= duration_food %>;    
 			   
-			   //long duration_food = Long.valueOf(request.getParameter("food-duration"));
-			   //long duration_food = 540000; //1:30
-			   %>
-			   alert("alive");
-	<%-- 		   var duration_restaurants = <%= duration_food %>;     --%>
+			   
 			   
 			<%	
-		      for (Item res : list) {
+			int event_counter = 0;
+			System.out.println("JSP alive");
+			
+			if (selectedRestaurants != null)
+			{
+				
+				System.out.println("selectedRestaurants size = " + selectedRestaurants.size());
+		      for (Item res : selectedRestaurants) {
 		    	  event_counter++;
-		    	  System.out.println("Restaurants :" + event_counter);%>
+		    	  
+		    %>
+		    	  
 		    	  var event_name = <%= "\"" + res.getName() + "\""%>;
 		    	  var event_number = <%= event_counter %> + groupNumber;
 		    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
@@ -929,7 +954,8 @@ function getEventsFromList( groupNumber, type ) {
 					  "event_phone: " + event_phone + "\n"+
 					  "event_start: " + event_start + "\n"+
 					  "event_end: " + event_end);
-		    	  events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
+		    	  //events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
+		    	  events[<%=event_counter-1%>] = createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false);
 		    	  //alert("Phone: <" + event_phone + ">");
 		    	  
 		    	 
@@ -946,10 +972,352 @@ function getEventsFromList( groupNumber, type ) {
 		   
 			
 		<%
-		   }
+		   } else 
+			   System.out.println("List empty");
 		%>
-		
-		return events;
+		if (events.length > 0)
+			return events;
+		else return "emptiness";
+}
+
+function getDrinksEventsFromList( groupNumber, type ) {
+	
+	var events = new Array();
+	 <% 
+	 	System.out.println("Hello from getDrinksEventsFromList()");
+	 	
+			event_counter = 0;
+			System.out.println("JSP alive");
+			
+			if (selectedDrinks != null)
+			{
+			
+				System.out.println("selectedDrinks size = " + selectedDrinks.size());
+		      for (Item res : selectedDrinks) {
+		    	  event_counter++;
+		    	  
+		    %>
+		    	  
+		    	  var event_name = <%= "\"" + res.getName() + "\""%>;
+		    	  var event_number = <%= event_counter %> + groupNumber;
+		    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
+		    	  <% if(res.getPhoneNumber() == null) {%>
+		    	  var event_phone = <%= new Integer("1234567") %>;
+		    	  <% ; } else { %>
+		    	  var event_phone = <%= new Integer(res.getPhoneNumber()) %>;	  
+		    	  <% ; } %>
+		    	  var duration = <%= res.getDuration() %>;
+		    	  
+		    	  <%
+		    		//Here we update the JSP lists which we obtained in this file (i.e. they are database entries??)
+		    	  	//before having the algorithm, update the List of Items in JSP with this:
+		    	  	//Note that in Java we store the dates in Calendar objects and manipulate Date objs by converting withCalendar.getTime()
+//	 	    	  	System.out.println("startDate from selectedRestaurants: " + res.getStartTime().getTime());
+//	 	    	  	String[] yymmdd = from.split("/");
+//	 	    	  	System.out.println(from);
+					
+					Calendar startTime = res.getStartTime();
+		    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
+		    	  				  res.getStartTime().get(Calendar.MONTH), 
+		    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
+		    	  								   9,   0); //params are: year, month, date, hour, minute
+		    	  	System.out.println("startTime from list: " + startTime.getTime());
+		    	  	//Calendar -> Date use Calendar.getTime()
+		    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
+		    	  	//  OR Calendar.get(field) : int
+		    	  	//Date -> Calendar use Calendar.setTime(Date)
+//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
+					res.setStartTime(startTime);	    	  	
+		    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
+				  %>
+				  
+		    	  
+		    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
+		    	  //var date = '< %=from%>';
+		    	  var date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+		    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+		    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+				  	    	
+//	 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
+		    	  alert("date = " + date);
+		    	  var event_start_DATE = createDateTime(9, 0, 0, date);
+		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+		    	  var event_start = new UTC(event_start_DATE_msecs);
+		    	 
+		    	  alert("duration_restaurants = " + duration);
+		    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+		    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+		    	  var event_end = new UTC(event_end_DATE.getTime());
+		    	  
+		    	  
+		    	  
+		    	  
+		    	  
+//		    	  alert("event start: " + event_start + "\n" +
+//		    			"event_end_DATE.getHours() = " + event_end_DATE.getHours() + "\n" +
+//		    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
+//		    			"event end: " + event_end);
+
+				alert("--| " + type + " |--\n"+
+					  "event_name: " + event_name + "\n"+
+					  "event_number: " + event_number + "\n"+
+					  "event_address: " + event_address + "\n"+
+					  "event_phone: " + event_phone + "\n"+
+					  "event_start: " + event_start + "\n"+
+					  "event_end: " + event_end);
+		    	  //events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
+		    	  events[<%=event_counter-1%>] = createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false);
+		    	  //alert("Phone: <" + event_phone + ">");
+		    	  
+		    	 
+		    	  
+		      <%
+		      }
+			%>
+			
+//	 		alert("food_events.length = " + food_events.length);
+			
+			   // events.push(createEvent("Default event", event_number+1, "Default place", "Default_John Smith, Sue, James, Dan, Lisa", createDateTime(9, 0, 0), createDateTime(12, 0, 0), "Default descrption", false));
+//		     events.push(createEvent("Another Event 300", 9, "yoga aud", "John Smith", createDateTime(9, 0, 2), createDateTime(12, 30, 2), "Yoga is good for health", false));
+		    // alert(events.length);
+		   
+			
+		<%
+		   } else 
+			   System.out.println("List empty");
+		%>
+		if (events.length > 0)
+			return events;
+		else return "emptiness";
+}
+
+function getMusicEventsFromList( groupNumber, type ) {
+	
+	var events = new Array();
+	 <% 
+	 	System.out.println("Hello from getMusicEventsFromList()");
+	 	
+			event_counter = 0;
+			System.out.println("JSP alive");
+			
+			if (selectedMusics != null)
+			{
+				
+				System.out.println("selectedMusics size = " + selectedMusics.size());
+		      for (Item res : selectedMusics) {
+		    	  event_counter++;
+		    	  
+		    %>
+		    	  
+		    	  var event_name = <%= "\"" + res.getName() + "\""%>;
+		    	  var event_number = <%= event_counter %> + groupNumber;
+		    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
+		    	  <% if(res.getPhoneNumber() == null) {%>
+		    	  var event_phone = <%= new Integer("1234567") %>;
+		    	  <% ; } else { %>
+		    	  var event_phone = <%= new Integer(res.getPhoneNumber()) %>;	  
+		    	  <% ; } %>
+		    	  var duration = <%= res.getDuration() %>;
+		    	  
+		    	  <%
+		    		//Here we update the JSP lists which we obtained in this file (i.e. they are database entries??)
+		    	  	//before having the algorithm, update the List of Items in JSP with this:
+		    	  	//Note that in Java we store the dates in Calendar objects and manipulate Date objs by converting withCalendar.getTime()
+//	 	    	  	System.out.println("startDate from selectedRestaurants: " + res.getStartTime().getTime());
+//	 	    	  	String[] yymmdd = from.split("/");
+//	 	    	  	System.out.println(from);
+					
+					Calendar startTime = res.getStartTime();
+		    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
+		    	  				  res.getStartTime().get(Calendar.MONTH), 
+		    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
+		    	  								   9,   0); //params are: year, month, date, hour, minute
+		    	  	System.out.println("startTime from list: " + startTime.getTime());
+		    	  	//Calendar -> Date use Calendar.getTime()
+		    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
+		    	  	//  OR Calendar.get(field) : int
+		    	  	//Date -> Calendar use Calendar.setTime(Date)
+//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
+					res.setStartTime(startTime);	    	  	
+		    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
+				  %>
+				  
+		    	  
+		    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
+		    	  //var date = '< %=from%>';
+		    	  var date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+		    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+		    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+				  	    	
+//	 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
+		    	  alert("date = " + date);
+		    	  var event_start_DATE = createDateTime(9, 0, 0, date);
+		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+		    	  var event_start = new UTC(event_start_DATE_msecs);
+		    	 
+		    	  alert("duration_restaurants = " + duration);
+		    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+		    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+		    	  var event_end = new UTC(event_end_DATE.getTime());
+		    	  
+		    	  
+		    	  
+		    	  
+		    	  
+//		    	  alert("event start: " + event_start + "\n" +
+//		    			"event_end_DATE.getHours() = " + event_end_DATE.getHours() + "\n" +
+//		    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
+//		    			"event end: " + event_end);
+
+				alert("--| " + type + " |--\n"+
+					  "event_name: " + event_name + "\n"+
+					  "event_number: " + event_number + "\n"+
+					  "event_address: " + event_address + "\n"+
+					  "event_phone: " + event_phone + "\n"+
+					  "event_start: " + event_start + "\n"+
+					  "event_end: " + event_end);
+		    	  //events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
+		    	  events[<%=event_counter-1%>] = createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false);
+		    	  //alert("Phone: <" + event_phone + ">");
+		    	  
+		    	 
+		    	  
+		      <%
+		      }
+			%>
+			
+//	 		alert("food_events.length = " + food_events.length);
+			
+			   // events.push(createEvent("Default event", event_number+1, "Default place", "Default_John Smith, Sue, James, Dan, Lisa", createDateTime(9, 0, 0), createDateTime(12, 0, 0), "Default descrption", false));
+//		     events.push(createEvent("Another Event 300", 9, "yoga aud", "John Smith", createDateTime(9, 0, 2), createDateTime(12, 30, 2), "Yoga is good for health", false));
+		    // alert(events.length);
+		   
+			
+		<%
+		   } else 
+			   System.out.println("List empty");
+		%>
+		if (events.length > 0)
+			return events;
+		else return "emptiness";
+}
+
+function getSportsEventsFromList( groupNumber, type ) {
+	
+	var events = new Array();
+	
+	 <% 
+	 	System.out.println("Hello from getSportsEventsFromList()");
+	 	
+	 %>
+
+			   
+			   
+			   
+			<%	
+			event_counter = 0;
+			System.out.println("JSP alive");
+			
+			if (selectedSports != null)
+			{
+				
+				System.out.println("selectedSports size = " + selectedSports.size());
+		      for (Item res : selectedSports) {
+		    	  event_counter++;
+		    	  
+		    %>
+		    	  
+		    	  var event_name = <%= "\"" + res.getName() + "\""%>;
+		    	  var event_number = <%= event_counter %> + groupNumber;
+		    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
+		    	  <% if(res.getPhoneNumber() == null) {%>
+		    	  var event_phone = <%= new Integer("1234567") %>;
+		    	  <% ; } else { %>
+		    	  var event_phone = <%= new Integer(res.getPhoneNumber()) %>;	  
+		    	  <% ; } %>
+		    	  var duration = <%= res.getDuration() %>;
+		    	  
+		    	  <%
+		    		//Here we update the JSP lists which we obtained in this file (i.e. they are database entries??)
+		    	  	//before having the algorithm, update the List of Items in JSP with this:
+		    	  	//Note that in Java we store the dates in Calendar objects and manipulate Date objs by converting withCalendar.getTime()
+//	 	    	  	System.out.println("startDate from selectedRestaurants: " + res.getStartTime().getTime());
+//	 	    	  	String[] yymmdd = from.split("/");
+//	 	    	  	System.out.println(from);
+					
+					Calendar startTime = res.getStartTime();
+		    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
+		    	  				  res.getStartTime().get(Calendar.MONTH), 
+		    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
+		    	  								   9,   0); //params are: year, month, date, hour, minute
+		    	  	System.out.println("startTime from list: " + startTime.getTime());
+		    	  	//Calendar -> Date use Calendar.getTime()
+		    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
+		    	  	//  OR Calendar.get(field) : int
+		    	  	//Date -> Calendar use Calendar.setTime(Date)
+//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
+					res.setStartTime(startTime);	    	  	
+		    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
+				  %>
+				  
+		    	  
+		    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
+		    	  //var date = '< %=from%>';
+		    	  var date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+		    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+		    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+				  	    	
+//	 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
+		    	  alert("date = " + date);
+		    	  var event_start_DATE = createDateTime(9, 0, 0, date);
+		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+		    	  var event_start = new UTC(event_start_DATE_msecs);
+		    	 
+		    	  alert("duration_restaurants = " + duration);
+		    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+		    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+		    	  var event_end = new UTC(event_end_DATE.getTime());
+		    	  
+		    	  
+		    	  
+		    	  
+		    	  
+//		    	  alert("event start: " + event_start + "\n" +
+//		    			"event_end_DATE.getHours() = " + event_end_DATE.getHours() + "\n" +
+//		    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
+//		    			"event end: " + event_end);
+
+				alert("--| " + type + " |--\n"+
+					  "event_name: " + event_name + "\n"+
+					  "event_number: " + event_number + "\n"+
+					  "event_address: " + event_address + "\n"+
+					  "event_phone: " + event_phone + "\n"+
+					  "event_start: " + event_start + "\n"+
+					  "event_end: " + event_end);
+		    	  //events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
+		    	  events[<%=event_counter-1%>] = createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false);
+		    	  //alert("Phone: <" + event_phone + ">");
+		    	  
+		    	 
+		    	  
+		      <%
+		      }
+			%>
+			
+//	 		alert("food_events.length = " + food_events.length);
+			
+			   // events.push(createEvent("Default event", event_number+1, "Default place", "Default_John Smith, Sue, James, Dan, Lisa", createDateTime(9, 0, 0), createDateTime(12, 0, 0), "Default descrption", false));
+//		     events.push(createEvent("Another Event 300", 9, "yoga aud", "John Smith", createDateTime(9, 0, 2), createDateTime(12, 30, 2), "Yoga is good for health", false));
+		    // alert(events.length);
+		   
+			
+		<%
+		   } else 
+			   System.out.println("List empty");
+		%>
+		if (events.length > 0)
+			return events;
+		else return "emptiness";
 }
 
 function updateEvent(event) {
