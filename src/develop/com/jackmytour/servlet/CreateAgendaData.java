@@ -84,7 +84,7 @@ public class CreateAgendaData extends HttpServlet {
 		if(drinks != null) {
 			//createAddressList(drinks);
 			//ArrayList<Item> selectedDrinks = parseFields(drinks);
-			String duration = (String) request.getAttribute("drinks-duration");
+			String duration = (String) request.getParameter("drinks-duration");
 			ArrayList<Item> selectedDrinks = storeItem(drinks, duration);
 			request.setAttribute("selectedDrinks", selectedDrinks);
 			
@@ -93,7 +93,8 @@ public class CreateAgendaData extends HttpServlet {
 		if(musics != null) {
 			//createAddressList(musics);
 			//ArrayList<Item> selectedMusics= parseFields(musics);
-			String duration = (String) request.getAttribute("music-duration");
+			String duration = (String) request.getParameter("music-duration");
+			System.out.println("MUSIC duration = " + duration);
 			ArrayList<Item> selectedMusics = storeItem(musics, duration);
 			request.setAttribute("selectedMusics", selectedMusics);
 			
@@ -103,7 +104,7 @@ public class CreateAgendaData extends HttpServlet {
 		if(sports != null) {
 			//createAddressList(sports);
 			//ArrayList<Item> selectedSports = parseFields(sports);
-			String duration = (String) request.getAttribute("sports-duration");
+			String duration = (String) request.getParameter("sports-duration");
 			ArrayList<Item> selectedSports = storeItem(sports, duration);
 			request.setAttribute("selectedSports", selectedSports);
 			
@@ -208,7 +209,6 @@ public class CreateAgendaData extends HttpServlet {
 				ResultSet rs = preparedStatement.executeQuery();
 				while(rs.next()) { 
 					// TODO: we still have to insert all the items properties (from APIs)
-					Item newItem;
 					String name = rs.getString("name");
 		            String address = rs.getString("address");
 		            String phone = rs.getString("phoneNumber");
