@@ -19,7 +19,17 @@
    ArrayList<Item> selectedMusics = (ArrayList
            <Item>) request.getAttribute("selectedMusics");
    
-
+	if(selectedRestaurants != null)
+		System.out.println("Restaurants size = " + selectedRestaurants.size());
+	
+	if(selectedDrinks != null)
+		System.out.println("Drinks size = " + selectedDrinks.size());
+	
+	if(selectedSports != null)
+		System.out.println("Sports size = " + selectedSports.size());
+	
+	if(selectedMusics != null)
+		System.out.println("Musics size = " + selectedMusics.size());
    
    ArrayList<String> addresses = (ArrayList
            <String>) request.getAttribute("addresses");
@@ -669,7 +679,7 @@ function UpdateR(){
 var iCal;
 
 jQuery(document).ready(function(){ 
-	alert("alive");
+	
 //* All calendar OPTIONS are put here, before creating the object!!!!!
 //* To disable "Create Event", in web2cal.default.template.js is commented the line in <var load = function...] where the code for the pop-up is appended.
 //* To enable "Update Event" when an event is dragged on the calendar, just call our updateEvent(). It calls the Web2Cal's func updateEvent() and updates our list of events.  
@@ -710,40 +720,49 @@ function getJackMyTourEvents() {
 	var groups = new Array();
 	
 	var food_events = getEventsFromList(0, "RES");
-    var group_food = {
-        name: "Restaurants",
-        groupId: "100",
-		show:true,
-        events: food_events 
-    };
-    groups.push(group_food);
+    if (food_events != null) {
+    	var group_food = {
+	        name: "Restaurants",
+	        groupId: "100",
+			show:true,
+	        events: food_events 
+	    };
+    	groups.push(group_food);
+    }
+    
     
 	var drinks_events = getEventsFromList(1000, "BAR");
-    var group_drinks = {
-        name: "Drinks",
-        groupId: "200",
-		show:true,
-        events: drinks_events 
-    };
-    groups.push(group_drinks);
+	if (drinks_events != null) {
+	    var group_drinks = {
+	        name: "Drinks",
+	        groupId: "200",
+			show:true,
+	        events: drinks_events 
+	    };
+	    groups.push(group_drinks);
+	}
     
 	var music_events = getEventsFromList(2000, "MUSIC");
-    var group_music = {
-        name: "Music",
-        groupId: "300",
-		show:true,
-        events: music_events 
-    };
-    groups.push(group_music);
+	if (music_events != null) {
+	    var group_music = {
+	        name: "Music",
+	        groupId: "300",
+			show:true,
+	        events: music_events 
+	    };
+	    groups.push(group_music);
+	}
     
 	var sports_events = getEventsFromList(3000, "SPORT");
-    var group_sports = {
-        name: "Sports",
-        groupId: "400",
-		show:true,
-        events: sports_events 
-    };
-    groups.push(group_sports);
+	if (food_events != null) {
+	    var group_sports = {
+	        name: "Sports",
+	        groupId: "400",
+			show:true,
+	        events: sports_events 
+	    };
+	    groups.push(group_sports);
+	}
     
     
 	    
@@ -817,15 +836,16 @@ function getEventsFromList( groupNumber, type ) {
 	 var events = new Array();
 	 
 	 <% ArrayList<Item> list;%>
-	 if(type === "RES") {
+	 if(type.valueOf() === "RES") {
 		 <%list = selectedRestaurants;%>
-	} else  if(type === "BAR") {
+	} else if(type.valueOf() === "BAR") {
 				<%list = selectedDrinks;%>
-			} else if(type === "MUSIC") {
+			} else if(type.valueOf() === "MUSIC") {
 					 	<%list = selectedMusics;%>
-					} else if(type === "SPORT") {
+					} else if(type.valueOf() === "SPORT") {
 						   		<%list = selectedSports;%>
-							}
+							} else { alert("Invalid type passed to getEventsFromList()!!!"); }
+	 
 	 <%
 	 	int event_counter = 0;
 		
