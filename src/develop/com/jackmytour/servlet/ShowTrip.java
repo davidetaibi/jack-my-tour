@@ -27,6 +27,7 @@ import develop.com.jackmytour.db.DBConnection;
 @WebServlet("/showTrip")
 public class ShowTrip extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private ArrayList<String> addresses;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,6 +41,13 @@ public class ShowTrip extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if(this.addresses == null) {
+			this.addresses = new ArrayList<String>();
+		} else { 
+			this.addresses.clear();
+		}
+		
 		HttpSession session = request.getSession();
 		//ArrayList<Item> selectedDrinks = (ArrayList<Item>) request.getAttribute("selectedDrinks");
 		ArrayList<Item> selectedDrinks = new ArrayList<Item>();
@@ -76,8 +84,8 @@ public class ShowTrip extends HttpServlet {
 				session.setAttribute("to", to);
 				
 				//fake addresses list
-				ArrayList<String> addresses = new ArrayList<String>();
-				request.setAttribute("addresses",addresses);
+				//ArrayList<String> addresses = new ArrayList<String>();
+				request.setAttribute("addresses",this.addresses);
 				
 			}
 			
@@ -98,6 +106,7 @@ public class ShowTrip extends HttpServlet {
 					// TODO: we still have to insert all the items properties (from APIs)					
 					String name = items.getString("name");
 		            String address = items.getString("address");
+		            this.addresses.add(address);
 		            
 		            //all the other properties
 		            String type = items.getString("type");

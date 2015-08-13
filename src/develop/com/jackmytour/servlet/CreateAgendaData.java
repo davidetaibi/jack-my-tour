@@ -55,8 +55,11 @@ public class CreateAgendaData extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				
-		addresses = new ArrayList<String>();
-		
+		if(this.addresses == null) {
+			this.addresses = new ArrayList<String>();
+		} else { 
+			this.addresses.clear();
+		}
 		//retrieve the UUID of the selected items in the activities.jsp checkbox
 		// these UUID will be now used to retrieve the items to be inserted in the trip
 	    
@@ -217,6 +220,7 @@ public class CreateAgendaData extends HttpServlet {
 					// TODO: we still have to insert all the items properties (from APIs)
 					String name = rs.getString("name");
 		            String address = rs.getString("address");
+		            this.addresses.add(address);
 		            String phone = rs.getString("phoneNumber");
 		            //all the other properties
 		            String type = rs.getString("type");
