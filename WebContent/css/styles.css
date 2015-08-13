@@ -785,3 +785,56 @@ padding-left: 25px;
 .pad-registration { 
 	padding-top:20px;
 }
+
+/* matas css */
+.caption h5{
+	margin-top: 10px;
+	margin-left: 7px;
+	margin-right: 7px;
+	margin-bottom: 5px;
+	font-weight: 700;
+	font-size: 15px;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;	
+}
+
+.caption p{
+	color: black;
+	font-size: 13px;
+	padding-top: 0px;
+	padding-bottom: 10px;
+	margin-right: 7px;
+	margin-left: 7px;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	line-height: 100%;
+	height: 27px;
+}
+
+.thumbnail{
+	padding: 0px;
+	
+	margin-bottom: 10px;
+	border: 2px solid #ddd;
+}
+
+.activ-obj{
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-bottom: 0px;
+}
+
+.activ-list {
+      overflow-y: scroll;
+}
+
+.toggle.btn{
+	font-weight: bold;
+	margin-left: 7px;
+	width: 100%;
+}
+
+.toggle-off, .toggle-on{
+		font-weight: bold;
+}

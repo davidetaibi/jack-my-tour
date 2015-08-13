@@ -1,0 +1,263 @@
+@media only screen and (min-width: 320px) {
+    #map-canvas {
+        height: 20em;
+    }
+    .day {
+        height: 20em;
+    }
+    .day-body {
+        height: 13.8em;
+        overflow-y: scroll;
+        overflow-x: visible;
+        
+    }
+    .mobilemargin {
+        padding-left:0;
+        padding-right:0;
+    }
+    .checkbox:first-child {
+    margin-top: -5px;
+	}
+     .horizline{
+        width: 500px;
+    }
+    #to{
+	width: 100%;
+	font-size: 15px;
+	text-align: right;
+	}
+	#from{
+	width: 100%;
+	font-size: 15px;
+	text-align: right;
+	}
+	#location{
+	width: 100%;
+	font-size: 15px;
+	text-align: right;
+	}
+	.extraP {
+    font-size: 12px;
+    margin-top: 0px;
+    margin-bottom: -10px;
+	}
+	.extraP .glyphicon{
+	font-size: 40px;
+	}
+	#register-form .row{
+	padding-bottom: 10px;
+	}
+	#question {
+	padding-left: 5px;
+	}
+	fieldset{
+	padding-left: 15px;
+	}
+	.checkbox label::before {
+    margin-right: 0px;
+	}
+	.thumbnail>img{
+	position: absolute;
+	opacity: 0;
+	}
+	.thumbnail{
+	background-image: url("../images/DSC_2489_1.jpg");
+	}
+	.caption>h5, .caption>p{
+	background-color: rgba(0,0,0,0.8);
+	padding: 5px;
+	color: white;
+	}
+	.panel-collapse{
+	    height: 400px;
+	}
+	.activ-list{
+	    height: 330px;
+	}
+	#notfood {
+    height: 385px;
+    } 
+	.contact{
+	color: white; 
+	font-size: 15px;
+	}
+}
+
+@media only screen and (min-width: 370px) {
+    #to{
+	width: 88%;
+	font-size: 15px;
+	text-align: right;
+	}
+	#from{
+	width: 80%;
+	font-size: 15px;
+	text-align: right;
+	}
+	#location{
+	width: 70%;
+	font-size: 15px;
+	text-align: right;
+	}
+}
+
+@media only screen and (min-width: 500px) { 
+	#from{
+	width: 82%;
+	}
+	#location{
+	width: 75%;
+	}
+	fieldset{
+	padding-left: 25px;
+	}
+	.checkbox label::before {
+    margin-right: 15px;
+	}
+	.contact{
+	color: white; 
+	font-size: 20px;
+	}
+}
+
+@media only screen and (min-width: 630px) { 
+	#from{
+	width: 84%;
+	}
+	#location{
+	width: 78%;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+    #map-canvas {
+        height: 25em;
+    }
+    .day {
+        height: 25em;
+    }
+    .day-body {
+        height: 18.8em;
+        overflow-y: scroll;
+          overflow-x: visible;
+    }
+    .mobilemargin {
+        padding-left: 10px;
+        padding-right: 15px;
+    }
+    fieldset{
+        border-radius: 10px;
+    }
+    .checkbox:first-child {
+    margin-top: 0px;
+    }
+    .horizline{
+        width: 185px;
+    }
+    .panel-body .col-xs-3{
+        padding-right: 0px;
+    }
+    #from, #to{
+    width: 55%;
+	font-size: 10px;
+	}
+	#location{
+	width: 65%;
+	font-size: 15px;
+	}
+	.extraP {
+    font-size: 18px;
+	}
+	.extraP .glyphicon{
+	font-size: 75px;
+	}
+	#register-form .row{
+	padding-bottom: 20px;
+	}
+	.checkbox label::before {
+    margin-right: 5px;
+	}
+	.thumbnail>img{
+	position: static;
+	opacity: 1;
+	}
+	.thumbnail{
+	background-image: none;
+	}
+	.caption>h5, .caption>p{
+	background-color: white;
+	padding: 0px;
+	color: black;
+	}
+	.panel-collapse{
+	    height: 600px;
+	}
+	.activ-list{
+	    height: 450px;
+	}
+	#notfood {
+    height: 505px;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    #map-canvas {
+        height: 35em;
+        width: 690px;
+    }
+    .day {
+        height: 488px;
+        border: none;
+        border-radius: 0px;
+        
+    }
+    .day-body {
+        height: 450px;
+        overflow-y: auto;
+          overflow-x: visible;
+        padding-left: 22px;
+        padding-right: 0px;
+    }
+    .mobilemargin {
+        padding-left: 10px;
+        padding-right: 15px;
+    }
+    fieldset{
+        border-radius: 10px;
+    }
+    .checkbox:first-child {
+    margin-top: 0px;
+    }
+    .horizline{
+        width: 200px;
+    }
+    .panel-body .col-xs-3{
+        padding-right: 5px;
+    }
+    #location{
+	font-size: 15px;
+	}
+	#from, #to{
+	font-size: 15px;
+	}
+	.checkbox label::before {
+    margin-right: 15px;
+	}
+}
+
+@media only screen and (min-width: 1200px){
+    .horizline{
+        width: 195px;
+    }
+    .line {
+        margin-right: 0px;;
+        padding-right: 0px;
+    }
+    .panel-body .col-xs-3{
+        padding-right: 15px;
+    }
+
+    .panel-body .col-xs-9{
+        padding-right: 0px;
+    }
+}

@@ -12,20 +12,15 @@
                     <meta charset="UTF-8">
                     <meta content="IE=edge" http-equiv="X-UA-Compatible">
                     <meta content="width=device-width, initial-scale=1" name="viewport">
-                    <meta http-equiv="cache-control" content="max-age=0" />
-					<meta http-equiv="cache-control" content="no-cache" />
-					<meta http-equiv="expires" content="0" />
-					<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-					<meta http-equiv="pragma" content="no-cache" />
-                    
                     <title>Jack My Tour</title>
 
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
                     <link rel="stylesheet" href="//cdn.jsdelivr.net/fontawesome/4.3.0/css/font-awesome.min.css" />
                     <link href="http://fonts.googleapis.com/css?family=Open+Sans:700,600,400&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-                    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/awesome-bootstrap-checkbox/v0.2.3/awesome-bootstrap-checkbox.min.css" />
                     <link rel="stylesheet" href="css/styles.css">
+                     <link rel="stylesheet" href="css/bootstrap-toggle.css">
+                     <link rel="stylesheet" href="css/responsive.css">
 
                     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.4/angular.min.js"></script>
                                       
@@ -52,10 +47,9 @@
                     
                     ArrayList<DrinkBar> drinks = (ArrayList<DrinkBar>) request.getAttribute("drinks");     
                     
-                	// this 2 lists must be of type Item (with their temp UUID)
-                    ArrayList<Item> sports= (ArrayList<Item>) request.getAttribute("sports");
+                	ArrayList<Item> sports= (ArrayList<Item>) request.getAttribute("sports");
             		
-                    ArrayList<Item> musics = (ArrayList<Item>) request.getAttribute("musics");                     
+                	ArrayList<Item> musics = (ArrayList<Item>) request.getAttribute("musics");                     
                     %>
                     
                         <div class="row">
@@ -90,15 +84,15 @@
                        			 					if(rests.size() != 0) {%> 
                        			 					<div class="tab-pane <%= classactive %>" id="Food">
                                                         <select class="form-control" id="food-type">
-                                                          <option>all</option>
-                                                          <option>chinese</option>
-                                                          <option>italian</option>
+                                                          <option>All</option>
+                                                          <option>Chinese</option>
+                                                          <option>Italian</option>
                                                           <option>Vegetarian</option>
                                                           <option>Japanese</option>
                                                           <option>Indian</option>
                                                         </select>
-                                                      
-                                                      <select class="form-control" name="food-duration">
+                                                        
+                                                        <select class="form-control" name="food-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
                                                       		<option value="2700000">0:45</option>
@@ -126,36 +120,44 @@
                                                       	</select>
                                                       
                                                       
-                                                        <div id="test"></div>
+                                                     <div class="row activ-list"> 
+                                                   
                                                      
-                                                    <ul class="list-group" id="food-list"><% 
-                                                    		Iterator<Restaurant> iter = rests.iterator(); 
+                                                   <% 
+                                                    		
                                                     			int i=0; 
-                                                    			for (Restaurant restaurant: rests) { 
+                                                    			for (Item item: rests) { 
                                                     				i=i+1; String a="rest"+i;
                                                      %>
-                                                         <div class="item-line"></div>	
-                                                    <div class="checkbox checkbox-warning">	
-                                                    	<input id="<%=a%>" type="checkbox" name="rests" value="<%=restaurant.getUUID()%>">
-                                                            <label for="<%=a%>" class="rest-item"><%=restaurant.getName() %>
-                                                            	</br><span>Address: <%= restaurant.getAddress() %></span>
-                                                            </label>
-                                                    </div>	
+													<div class="col-sm-6 col-md-4 col-lg-3 activ-obj">
+														<div class="thumbnail">
+															<img src="images/Suitcase_icon.JPG" alt="...">
+																<div class="caption">
+																	<h5><%=item.getName() %></h5>
+																	<p>Address: <%= item.getAddress() %></p>
+																	
+																	<input  data-toggle="toggle" data-on="Item checked" data-off="Item unchecked"
+																	type="checkbox" name="rests" value="<%=item.getUUID()%>">
+																		
+																	
+																</div>
+														</div>
+													</div>	
                                                     		
                                                     			<%}
                                                     		
                                                     	%>
                                                         
-                                                    </ul>
-                                                </div><% 
+                                                    
+                                                </div></div><% 
                        			 					}else { 
                        			 						//qui finisce il tab content del food
                        			 					}
                        			 			}else if(tab.equals("Drinks")) {
                    			 					    if(drinks.size() != 0) {%> 
                        			 					<div class="tab-pane  <%= classactive %>" id="Drinks">
-
-														<select class="form-control" name="drinks-duration">
+                       			 					
+                       			 						<select class="form-control" name="drinks-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
                                                       		<option value="2700000">0:45</option>
@@ -181,36 +183,41 @@
                                                       		<option value="20700000">5:45</option>
                                                       		<option value="21600000">6:00</option>                                                       		
                                                       	</select>
-
-
-                                                    <ul class="list-group"  id="notfood"><% 
-                                                    		Iterator<DrinkBar> iter = drinks.iterator(); 
+                       			 					
+                       			 					
+                       			 					<div class="row activ-list" id="notfood"> 
+													<% 
+                                                    		
                                                     			int i=0; 
-                                                    			for (DrinkBar bar: drinks) { 
+                                                    			for (Item bar: drinks) { 
                                                     				i=i+1; String a="bar"+i;
                                                      %>
-                                                    <div class="item-line"></div>	
-                                                    <div class="checkbox checkbox-warning">	
-                                                    	<input id="<%=a%>" type="checkbox" name="drinks" value="<%=bar.getUUID()%>">
-                                                            <label for="<%=a%>" class="rest-item"><%=bar.getName() %>
-                                                            	</br><span>Address: <%= bar.getAddress() %></span>
-                                                            </label>
-                                                    </div>	
+                                                    <div class="col-sm-6 col-md-4 col-lg-3 activ-obj">
+														<div class="thumbnail">
+															<img src="images/Suitcase_icon.JPG" alt="...">
+																<div class="caption">
+																	<h5><%=bar.getName() %></h5>
+																	<p>Address: <%= bar.getAddress() %></p>
+																	<input  data-toggle="toggle" data-on="Item checked" data-off="Item unchecked"  
+																	type="checkbox" name="drinks" value="<%=bar.getUUID()%>">
+																</div>
+														</div>
+													</div>	
                                                     		
                                                     	        <%}
                                                     		
                                                     	%>
                                                         
-                                                    </ul>
-                                                </div><% 
+                                                  
+                                                </div></div><% 
                        			 					}else { 
                        			 						//qui finisce il tab content del food
                        			 					}
                        			 			 }else if(tab.equals("Music")) {
                 			 					    if(musics.size() != 0) {%> 
                     			 					<div class="tab-pane  <%= classactive %>" id="Music">
-
-														<select class="form-control" name="music-duration">
+                    			 					
+                    			 						<select class="form-control" name="music-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
                                                       		<option value="2700000">0:45</option>
@@ -236,36 +243,42 @@
                                                       		<option value="20700000">5:45</option>
                                                       		<option value="21600000">6:00</option>                                                         		
                                                       	</select>
+                    			 					
+                    			 					<div class="row activ-list" id="notfood"> 
 
-
-                                                 <ul class="list-group"  id="notfood"><% 
+                                                 <% 
                                                  		Iterator<Item> iter = musics.iterator(); 
                                                  			int i=0; 
-                                                 			for (Item item: musics) { 
+                                                 			for (Item event: musics) { 
                                                  				i=i+1; String a="musicEvent"+i;
                                                   %>
-                                                 <div class="item-line"></div>	
-                                                 <div class="checkbox checkbox-warning">	
-                                                 	<input id="<%=a%>" type="checkbox" name="musics" value="<%= item.getUUID() %>">
-                                                         <label for="<%=a%>" class="rest-item"><%=item.getName() %>
-                                                         	</br><span>Address: <%= item.getAddress() %></span>
-                                                         </label>
-                                                 </div>	
+                                                 
+                                                 <div class="col-sm-6 col-md-4 col-lg-3 activ-obj">
+														<div class="thumbnail">
+															<img src="images/Suitcase_icon.JPG" alt="...">
+																<div class="caption">
+																	<h5><%=event.getName() %></h5>
+																	<p>Address: <%= event.getAddress() %></p>
+																	<input  data-toggle="toggle" data-on="Item checked" data-off="Item unchecked"  
+																	type="checkbox" name="musics" value="<%= event.getUUID() %>">	
+																</div>
+														</div>
+													</div>
                                                  		
                                                  	      <%}
                                                  		
                                                  	%>
                                                      
-                                                 </ul>
-                                             </div><% 
+                                                 
+                                             </div></div><% 
                     			 					}else { 
                     			 						
                     			 					}
                     			 			 }else if(tab.equals("Sports")) {
              			 					    if(sports.size() != 0) {%> 
                  			 					<div class="tab-pane  <%= classactive %>" id="Sports">
-
-													<select class="form-control" name="sports-duration">
+                 			 					
+                 			 					<select class="form-control" name="sports-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
                                                       		<option value="2700000">0:45</option>
@@ -292,27 +305,36 @@
                                                       		<option value="21600000">6:00</option>                                                                		
                                                       	</select>
 													
+                 			 					
+                 			 					
+                 			 					<div class="row activ-list" id="notfood"> 
 
-                                              <ul class="list-group"  id="notfood"><% 
+                                              <% 
                                               		Iterator<Item> iter = sports.iterator(); 
                                               			int i=0; 
-                                              			for (Item item: sports) { 
+                                              			for (Item event: sports) { 
                                               				i=i+1; String a="sportEvent"+i;
                                                %>
-                                              <div class="item-line"></div>	
-                                              <div class="checkbox checkbox-warning">	
-                                              	<input id="<%=a%>" type="checkbox" name="sports" value="<%= item.getUUID() %>">
-                                                      <label for="<%=a%>" class="rest-item"><%=item.getName() %>
-                                                      	</br><span>Address: <%=  item.getAddress()  %></span>
-                                                      </label>
-                                              </div>	
+                                              
+                                              <div class="col-sm-6 col-md-4 col-lg-3 activ-obj">
+														<div class="thumbnail">
+															<img src="images/Suitcase_icon.JPG" alt="...">
+																<div class="caption">
+																	<h5><%=event.getName() %></h5>
+																	<p>Address: <%= event.getAddress() %></p>
+																	<input  data-toggle="toggle" data-on="Item checked" data-off="Item unchecked"  
+																	type="checkbox" name="sports" value="<%= event.getUUID() %>">
+																</div>
+														</div>
+													</div>
+                                              	
                                               		
                                               	      <%}
                                               		
                                               	%>
                                                   
-                                              </ul>
-                                          </div><% 
+                                             
+                                          </div></div><% 
                  			 					}else { 
                  			 						
                  			 					}
@@ -339,7 +361,7 @@
                         
                     </main>
 
-                    <div class="container footer">
+                    <div class="container-fluid footer">
 
                         <div ng-include="'footer.html'"></div>
 
@@ -348,6 +370,7 @@
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
                     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
                     <script type="text/javascript" src="js/bootstrap-tabcollapse.js"></script>
+                    <script type="text/javascript" src="js/bootstrap-toggle.js"></script>
                     <script type="text/javascript">
                         $('#myTab').tabCollapse();
                     </script>
@@ -371,6 +394,11 @@
                         	    }); 
                         });
                       });
+                    </script>
+                    
+                    <script>
+                    var windowwidth = $(window).width();
+                    
                     </script>
 
 
