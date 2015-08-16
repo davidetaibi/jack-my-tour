@@ -59,7 +59,7 @@ public class CreateAgendaData extends HttpServlet {
 			this.addresses = new ArrayList<String>();
 		} else { 
 			this.addresses.clear();
-		}
+		}		
 		//retrieve the UUID of the selected items in the activities.jsp checkbox
 		// these UUID will be now used to retrieve the items to be inserted in the trip
 	    
@@ -137,10 +137,11 @@ public class CreateAgendaData extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String location = (String) session.getAttribute("location");
+		location = location.substring(0,1).toUpperCase() + location.substring(1);
 		
 		DBConnection dbConnection = new DBConnection();
 		dbConnection.connect();
-				
+		
 		//SQL class connection (connection established)
 		Connection connection = dbConnection.getConnection();
 		
@@ -220,7 +221,7 @@ public class CreateAgendaData extends HttpServlet {
 					// TODO: we still have to insert all the items properties (from APIs)
 					String name = rs.getString("name");
 		            String address = rs.getString("address");
-		            this.addresses.add(address);
+                    this.addresses.add(address);
 		            String phone = rs.getString("phoneNumber");
 		            //all the other properties
 		            String type = rs.getString("type");
@@ -233,21 +234,17 @@ public class CreateAgendaData extends HttpServlet {
 		            Calendar calFrom = Calendar.getInstance(); 
 		            calFrom.set(Integer.parseInt(frommms[0]), 
 		            		Integer.parseInt(frommms[1])-1,
-		            		Integer.parseInt(frommms[2]));
+		            		Integer.parseInt(frommms[2]), 4, 0, 0);
 		            
 		            Calendar calTo = Calendar.getInstance(); 
 		            calTo.set(Integer.parseInt(tooos[0]), 
 		            		Integer.parseInt(tooos[1])-1,
-		            		Integer.parseInt(tooos[2]));
+		            		Integer.parseInt(tooos[2]), 4, 0, 0);
 		            		
 		            System.out.println("calFrom = " + calFrom.getTime());
-		            //------------
-		            Item currentItem = new Item(name, address, phone, duration,
-		            							calFrom, calTo, false,
-												false, false, false, type,
-												null, null);
-		            items.add(currentItem);
+		            System.out.println("calTo = " + calTo.getTime());
 		            
+
 		            String insertionQuery = "INSERT INTO item VALUES (default,?,?,?,?,?,?,?,?,?,?,?,?)";
 		            PreparedStatement statement = null;
 		            byte b = 1;
@@ -259,7 +256,10 @@ public class CreateAgendaData extends HttpServlet {
 		            statement.setString(3, phone);
 		            //statement.setDate(4, new java.sql.Date(2009, 12, 11));
 		            statement.setString(4, duration);
+		            
+		            fromDate.setTime(calFrom.getTimeInMillis());
 		            statement.setDate(5, fromDate);
+		            
 		            statement.setDate(6, toDate);
 				    
 				    //boolean fields
@@ -274,17 +274,23 @@ public class CreateAgendaData extends HttpServlet {
 		            statement.executeUpdate();
 		            
 		            ResultSet result = statement.getGeneratedKeys();
+		            int last_inserted_id = 0;
 	                if(result.next()) {
-	                    int last_inserted_id = result.getInt(1);
+	                    last_inserted_id = result.getInt(1);
 	                    System.out.println("I just added item with id---> "+ last_inserted_id);
 	                    this.itemsForTrip.add(last_inserted_id);
 	                }
-					
+	                
+	              //------------
+		            Item currentItem = new Item(name, address, phone, duration,
+		            							calFrom, calTo, false,
+												false, false, false, type,
+												null, null, last_inserted_id);
+	                
+	                items.add(currentItem);
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				
+			} catch (SQLException e) { e.printStackTrace(); }
 		  
 		}
 		return items;

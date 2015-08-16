@@ -6,6 +6,15 @@
 <%@ page import="develop.com.jackmytour.core.Utils"%>
 <%@ page import="java.util.Arrays" %>
 <%@ page import = "javax.servlet.http.HttpSession" %>
+
+<%@ page import="java.sql.Connection"%>
+<%@ page import="java.sql.PreparedStatement"%>
+<%@ page import="java.sql.SQLException"%>
+<%@ page import="java.sql.Statement"%>
+
+<%@ page import="develop.com.jackmytour.db.DBConnection;"%>
+
+
    <% ArrayList<Item> selectedRestaurants = (ArrayList
                             <Item>) request.getAttribute("selectedRestaurants");
    
@@ -114,6 +123,9 @@
             
            
 				<div id="calendarContainer"></div>			
+				
+				<input type="button" onclick="sendEvents()" value="Update Events" />
+				
                 <div class="panel-group col-xs-12" id="accordion" role="tablist" aria-multiselectable="true">
                 <% boolean firstRound=true; 
 				String from = (String) session.getAttribute("from");
@@ -686,6 +698,8 @@ jQuery(document).ready(function(){
 	var from_pieces = '<%=from%>'.split("/");
 	Web2Cal.defaultSettings['date'] = new Date(from_pieces[2], from_pieces[0]-1, from_pieces[1]);
 // 	Web2Cal.defaultSettings["newEventTemplate"] = "tisho"; //You don't disable "Create Event" by specifying different callback func.
+	
+	
 	iCal = new Web2Cal( "calendarContainer",
        { 
             loadEvents: function(startDate, endDate, viewName){ 
@@ -702,16 +716,44 @@ jQuery(document).ready(function(){
                        	  //			to);%>
 //            ,onNewEvent: function(event, groups, allDay){ alert("onNewEvent called") } 
            ,onUpdateEvent: function(event){ updateEvent(event); }
+// 			,onUpdateEvent: function(event) { }
+		   ,onPreview: onPreview
+//       set time zone offSet here. maybe you would be able to parse it correctly in UpdateEvents.java ;) NOT TRIVIAL
+// 		   ,timeZoneOffset: 200
+		   ,leftNavTitle: "Event Groups:"
+           ,showQuickAdd: false
+           ,timeFormat: 24
+           ,views: "month,week,day"
+           
        });
        //iCal.controlWidth = '50%';
+       
+	  
+		   
+		iCal.build();
     
-    iCal.build();
-    
+// 		var events_string = "";
+// 		alert("ciao");
+// 		var calendarEvents = iCal.getAllEvents();
+// 		alert("iCal.getAllEvents() first element: " + calendarEvents[0]);
+		
 //     var grp = document.getElementsByClassName("grp");
 //     var iDiv = document.createElement('div');
 //     iDiv.className = 'clear';
 //     grp.appendChild(iDiv);
 }); 
+
+var all_events = new Array();
+var activeEvent; 
+
+
+function onPreview(evt, dataObj, html)
+{
+	activeEvent=dataObj; 
+	iCal.showPreview(evt, html);
+}
+
+
 
 function getJackMyTourEvents() {
 	
@@ -719,21 +761,23 @@ function getJackMyTourEvents() {
 	
 	var groups = new Array();
 	
+	//i parametri non servono piu nei metodi
 	var food_events = getFoodEventsFromList(0, "RES"); 
-	alert("food_events.length = " + food_events.length);
-    if (food_events !== "emptiness") {
+// 	alert("food_events.length = " + food_events.length);
+    if (food_events !== "emptiness" && food_events.length !== 0) {
     	var group_food = {
 	        name: "Restaurants",
 	        groupId: "100",
 			show:true,
-	        events: food_events 
+	        events: food_events
 	    };
     	groups.push(group_food);
+    	all_events.push.apply(all_events, food_events);
     }
     
-    
+	//i parametri non servono piu nei metodi
 	var drinks_events = getDrinksEventsFromList(1000, "BAR");
-	alert("drink_events.length = " + drinks_events.length);
+// 	alert("drink_events.length = " + drinks_events.length);
 	if (drinks_events !== "emptiness") {
 	    var group_drinks = {
 	        name: "Drinks",
@@ -742,10 +786,12 @@ function getJackMyTourEvents() {
 	        events: drinks_events 
 	    };
 	    groups.push(group_drinks);
+	    all_events.push.apply(all_events, drinks_events);
 	}
-    
+	
+	//i parametri non servono piu nei metodi
 	var music_events = getMusicEventsFromList(2000, "MUSIC");
-	alert("music_events.length = " + music_events.length);
+// 	alert("music_events.length = " + music_events.length);
 	if (music_events !== "emptiness") {
 	    var group_music = {
 	        name: "Music",
@@ -754,10 +800,12 @@ function getJackMyTourEvents() {
 	        events: music_events 
 	    };
 	    groups.push(group_music);
+	    all_events.push.apply(all_events, music_events);
 	}
     
+	//i parametri non servono piu nei metodi
 	var sports_events = getSportsEventsFromList(3000, "SPORT");
-	alert("sports_events.length = " + sports_events.length);
+// 	alert("sports_events.length = " + sports_events.length);
 	if (sports_events !== "emptiness") {
 	    var group_sports = {
 	        name: "Sports",
@@ -766,10 +814,58 @@ function getJackMyTourEvents() {
 	        events: sports_events 
 	    };
 	    groups.push(group_sports);
+	    all_events.push.apply(all_events, sports_events);
 	}
-    
-    
-	    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+// 	var recurring_event1 = {
+// 	          startTime: "2015-06-24 11:00:00", 
+// 	          endTime:"2015-06-24 13:00:00", 
+// 	          eventId: "100000000",
+// 	          name: "repeats every 2nd Friday",
+// 	          description: "For more options: http://www.web2calendar.com/index.php/home2/21-docs",
+// 	          repeatEvent: {
+// 	             mode:"month", 
+// 	             month:{weekNumber: 2, weekDay: 5}
+// 	          }
+// 	}
+	
+	
+	
+// 	//Repeats every month on 20th
+// 	var recurring_event2 = {
+// 	          startTime: "2015-06-24 11:00:00", 
+// 	          endTime:"2015-06-24 13:00:00", 
+// 	          eventId: "100000001",
+// 	          name: "repeats every month on 20th",
+// 	          description: "For more options: http://www.web2calendar.com/index.php/home2/21-docs",
+// 	          repeatEvent: {
+// 	             mode:"month", 
+// 	             month:{repeatDate: "2013-06-20 "}
+// 	          }
+// 	}
+	
+// 	var recurring_events = new Array();
+// 	recurring_events.push(recurring_event1);
+// 	recurring_events.push(recurring_event2);
+// 	var group_recurring = {
+// 	        name: "Recurring",
+// 	        groupId: "500",
+// 			show:true,
+// 	        events: recurring_events 
+// 	    };
+// 	    groups.push(group_sports);
+	
+// 	createEvent(name, id, location, instructor, timestart, timeend, desc, allDay, repeatObject)
+// 	createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false);
 	    
 	    
 	    
@@ -827,8 +923,8 @@ function getJackMyTourEvents() {
 * param units - specifies the the amount of time in milliseconds to be added or subtracted to the date.
 */
 function dateAdd(date, units) {
-	alert("hello from dateAdd!! Date passed = " + date +
-			"\nDate added = " + (date+units));
+// 	alert("hello from dateAdd!! Date passed = " + date +
+// 			"\nDate added = " + (date+units));
 	return new Date(date+units);
 	  
 }
@@ -882,14 +978,15 @@ function getFoodEventsFromList( groupNumber, type ) {
 			{
 				
 				System.out.println("selectedRestaurants size = " + selectedRestaurants.size());
-		      for (Item res : selectedRestaurants) {
+				for (int i=0; i<selectedRestaurants.size(); i++) {
+			    	  Item res = selectedRestaurants.get(i);
 		    	  event_counter++;
 		    	  
 		    %>
 		    	  
-		    	  var event_name = <%= "\"" + res.getName() + "\""%>;
-		    	  var event_number = <%= event_counter %> + groupNumber;
-		    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
+		          var event_name = '<%= res.getName().replaceAll("\"","").replaceAll("\'","")%>';
+		    	  var event_number = <%= res.getEventId()%>;
+		    	  var event_address = '<%= res.getAddress().replaceAll("\"","").replaceAll("\'","")%>';
 		    	  <% if(res.getPhoneNumber() == null) {%>
 		    	  var event_phone = <%= new Integer("1234567") %>;
 		    	  <% ; } else { %>
@@ -905,40 +1002,93 @@ function getFoodEventsFromList( groupNumber, type ) {
 //	 	    	  	String[] yymmdd = from.split("/");
 //	 	    	  	System.out.println(from);
 					
-					Calendar startTime = res.getStartTime();
-		    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
-		    	  				  res.getStartTime().get(Calendar.MONTH), 
-		    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
-		    	  								   9,   0); //params are: year, month, date, hour, minute
-		    	  	System.out.println("startTime from list: " + startTime.getTime());
-		    	  	//Calendar -> Date use Calendar.getTime()
-		    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
-		    	  	//  OR Calendar.get(field) : int
-		    	  	//Date -> Calendar use Calendar.setTime(Date)
-//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
-					res.setStartTime(startTime);	    	  	
-		    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
-				  %>
-				  
+					System.out.println("res.getHour() = " + res.getStartTime().getTime() + " +++ " + res.getStartTime().get(Calendar.HOUR_OF_DAY));
+
+		    	  %>
+					var date;
+					var event_start;
+					var event_end;
+					
+					<%
+						
+			    	  if (res.getStartTime().get(Calendar.HOUR_OF_DAY) == 4 && 
+							res.getStartTime().get(Calendar.MINUTE) == 0 ){
+						
 		    	  
-		    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
-		    	  //var date = '< %=from%>';
-		    	  var date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
-		    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
-		    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
-				  	    	
-//	 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
-		    	  alert("date = " + date);
-		    	  var event_start_DATE = createDateTime(9, 0, 0, date);
-		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
-		    	  var event_start = new UTC(event_start_DATE_msecs);
-		    	 
-		    	  alert("duration_restaurants = " + duration);
-		    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
-		    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
-		    	  var event_end = new UTC(event_end_DATE.getTime());
+		
+							Calendar startTime = res.getStartTime();
+				    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
+				    	  				  res.getStartTime().get(Calendar.MONTH), 
+				    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
+				    	  								   9,   0,	0); //params are: year, month, date, hour, minute, second
+				    	  	System.out.println("startTime from list: " + startTime.getTime());
+				    	  	//Calendar -> Date use Calendar.getTime()
+				    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
+				    	  	//  OR Calendar.get(field) : int
+				    	  	//Date -> Calendar use Calendar.setTime(Date)
+		//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
+							res.setStartTime(startTime);
+				    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
+				    	  	
+				    	  	selectedRestaurants.set(i,res);
+				    	  	%>
+				    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
+					    	  //var date = '< %=from%>';
+					    	  date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+					    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+					    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+							  	    	
+//				 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
+					    	  //alert("date = " + date);
+//			 		    	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+//			 		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+							  var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
+					    	  event_start = new UTC(event_start_DATE_msecs);
+					    	 
+					    	  //alert("duration_restaurants = " + duration);
+					    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+					    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+					    	  event_end = new UTC(event_end_DATE.getTime());
+				    	
+					  <%  	  
+						} else {
+					  %>
+							  
+							  date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+					 	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+					 	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+					  	    	
+						//  	  alert("var date = " + date + "\nvar date2 = " + date2);
+						 	  //alert("date = " + date);
+						//  	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+						//  	  var event_start_DATE_msecs = event_start_DATE.getTime();
+						      var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
+						 	  event_start = new UTC(event_start_DATE_msecs);
+						 	 
+						 	  //alert("duration_restaurants = " + duration);
+						 	  //var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+						 	  //var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+						 	  event_end = new UTC(<%=res.getEndTime().getTime().getTime()%>);
+							  
+					  <%
+						}
+					%>
 		    	  
-		    	  
+					 $.ajax({
+					      type: "post",
+					      url: "UpdateEventTimes", //this is my servlet
+					      data: "eventId=" + <%=res.getEventId()%> + "&start=" + <%=res.getStartTime().getTime().getTime()%> + "&end=" + <%=res.getEndTime().getTime().getTime()%>,
+					      success: function(msg){      
+					    	  if ( window.console && window.console.log ) {
+							  	  console.log("Updated eventId: " + <%=res.getEventId()%>);
+							  	}
+					      },
+					      error: function(jqXHR, textStatus, errorThrown){      
+					    	  if ( window.console && window.console.log ) {
+							  	  console.log("Update went wrong");
+							  	}
+					      }
+					 });
 		    	  
 		    	  
 		    	  
@@ -947,13 +1097,13 @@ function getFoodEventsFromList( groupNumber, type ) {
 //		    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
 //		    			"event end: " + event_end);
 
-				alert("--| " + type + " |--\n"+
-					  "event_name: " + event_name + "\n"+
-					  "event_number: " + event_number + "\n"+
-					  "event_address: " + event_address + "\n"+
-					  "event_phone: " + event_phone + "\n"+
-					  "event_start: " + event_start + "\n"+
-					  "event_end: " + event_end);
+// 				alert("--| " + type + " |--\n"+
+// 					  "event_name: " + event_name + "\n"+
+// 					  "event_number: " + event_number + "\n"+
+// 					  "event_address: " + event_address + "\n"+
+// 					  "event_phone: " + event_phone + "\n"+
+// 					  "event_start: " + event_start + "\n"+
+// 					  "event_end: " + event_end);
 		    	  //events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
 		    	  events[<%=event_counter-1%>] = createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false);
 		    	  //alert("Phone: <" + event_phone + ">");
@@ -973,11 +1123,14 @@ function getFoodEventsFromList( groupNumber, type ) {
 			
 		<%
 		   } else 
-			   System.out.println("List empty");
+			   System.out.println("List selectedRestaurants is empty");
 		%>
 		if (events.length > 0)
 			return events;
-		else return "emptiness";
+		else {
+			alert("emptiness");		
+			return "emptiness";
+		}
 }
 
 function getDrinksEventsFromList( groupNumber, type ) {
@@ -993,14 +1146,15 @@ function getDrinksEventsFromList( groupNumber, type ) {
 			{
 			
 				System.out.println("selectedDrinks size = " + selectedDrinks.size());
-		      for (Item res : selectedDrinks) {
+				for (int i=0; i<selectedDrinks.size(); i++) {
+			    	  Item res = selectedDrinks.get(i);
 		    	  event_counter++;
 		    	  
 		    %>
 		    	  
-		    	  var event_name = <%= "\"" + res.getName() + "\""%>;
-		    	  var event_number = <%= event_counter %> + groupNumber;
-		    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
+			      var event_name = '<%= res.getName().replaceAll("\"","").replaceAll("\'","")%>';
+		    	  var event_number = <%= res.getEventId()%>;
+		    	  var event_address = '<%= res.getAddress().replaceAll("\"","")%>';
 		    	  <% if(res.getPhoneNumber() == null) {%>
 		    	  var event_phone = <%= new Integer("1234567") %>;
 		    	  <% ; } else { %>
@@ -1016,40 +1170,91 @@ function getDrinksEventsFromList( groupNumber, type ) {
 //	 	    	  	String[] yymmdd = from.split("/");
 //	 	    	  	System.out.println(from);
 					
-					Calendar startTime = res.getStartTime();
-		    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
-		    	  				  res.getStartTime().get(Calendar.MONTH), 
-		    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
-		    	  								   9,   0); //params are: year, month, date, hour, minute
-		    	  	System.out.println("startTime from list: " + startTime.getTime());
-		    	  	//Calendar -> Date use Calendar.getTime()
-		    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
-		    	  	//  OR Calendar.get(field) : int
-		    	  	//Date -> Calendar use Calendar.setTime(Date)
-//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
-					res.setStartTime(startTime);	    	  	
-		    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
-				  %>
-				  
+		    	  %>
+					var date;
+					var event_start;
+					var event_end;
+					
+					<%
+						
+			    	  if (res.getStartTime().get(Calendar.HOUR_OF_DAY) == 4 && 
+							res.getStartTime().get(Calendar.MINUTE) == 0 ){
+						
 		    	  
-		    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
-		    	  //var date = '< %=from%>';
-		    	  var date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
-		    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
-		    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
-				  	    	
-//	 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
-		    	  alert("date = " + date);
-		    	  var event_start_DATE = createDateTime(9, 0, 0, date);
-		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
-		    	  var event_start = new UTC(event_start_DATE_msecs);
-		    	 
-		    	  alert("duration_restaurants = " + duration);
-		    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
-		    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
-		    	  var event_end = new UTC(event_end_DATE.getTime());
+		
+							Calendar startTime = res.getStartTime();
+				    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
+				    	  				  res.getStartTime().get(Calendar.MONTH), 
+				    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
+				    	  								   9,   0,	0); //params are: year, month, date, hour, minute, second
+				    	  	System.out.println("startTime from list: " + startTime.getTime());
+				    	  	//Calendar -> Date use Calendar.getTime()
+				    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
+				    	  	//  OR Calendar.get(field) : int
+				    	  	//Date -> Calendar use Calendar.setTime(Date)
+		//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
+							res.setStartTime(startTime);
+				    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
+				    	  	
+				    	  	selectedDrinks.set(i,res);
+				    	  	%>
+				    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
+					    	  //var date = '< %=from%>';
+					    	  date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+					    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+					    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+							  	    	
+//				 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
+					    	  //alert("date = " + date);
+//			 		    	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+//			 		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+							  var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
+					    	  event_start = new UTC(event_start_DATE_msecs);
+					    	 
+					    	  //alert("duration_restaurants = " + duration);
+					    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+					    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+					    	  event_end = new UTC(event_end_DATE.getTime());
+				    	
+					  <%  	  
+						} else {
+					  %>
+					  
+					  date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+	 	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+	 	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+			  	    	
+				//  	  alert("var date = " + date + "\nvar date2 = " + date2);
+				 	  //alert("date = " + date);
+				//  	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+				//  	  var event_start_DATE_msecs = event_start_DATE.getTime();
+				      var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
+				 	  event_start = new UTC(event_start_DATE_msecs);
+				 	 
+				 	  //alert("duration_restaurants = " + duration);
+				 	  //var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+				 	  //var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+				 	  event_end = new UTC(<%=res.getEndTime().getTime().getTime()%>);
+					  
+					  <%
+						}
+					%>
 		    	  
-		    	  
+					 $.ajax({
+					      type: "post",
+					      url: "UpdateEventTimes", //this is my servlet
+					      data: "eventId=" + <%=res.getEventId()%> + "&start=" + <%=res.getStartTime().getTime().getTime()%> + "&end=" + <%=res.getEndTime().getTime().getTime()%>,
+					      success: function(msg){      
+					    	  if ( window.console && window.console.log ) {
+							  	  console.log("Updated eventId: " + <%=res.getEventId()%>);
+							  	}
+					      },
+					      error: function(jqXHR, textStatus, errorThrown){      
+					    	  if ( window.console && window.console.log ) {
+							  	  console.log("Update went wrong");
+							  	}
+					      }
+					 });
 		    	  
 		    	  
 		    	  
@@ -1058,13 +1263,13 @@ function getDrinksEventsFromList( groupNumber, type ) {
 //		    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
 //		    			"event end: " + event_end);
 
-				alert("--| " + type + " |--\n"+
-					  "event_name: " + event_name + "\n"+
-					  "event_number: " + event_number + "\n"+
-					  "event_address: " + event_address + "\n"+
-					  "event_phone: " + event_phone + "\n"+
-					  "event_start: " + event_start + "\n"+
-					  "event_end: " + event_end);
+// 				alert("--| " + type + " |--\n"+
+// 					  "event_name: " + event_name + "\n"+
+// 					  "event_number: " + event_number + "\n"+
+// 					  "event_address: " + event_address + "\n"+
+// 					  "event_phone: " + event_phone + "\n"+
+// 					  "event_start: " + event_start + "\n"+
+// 					  "event_end: " + event_end);
 		    	  //events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
 		    	  events[<%=event_counter-1%>] = createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false);
 		    	  //alert("Phone: <" + event_phone + ">");
@@ -1084,7 +1289,7 @@ function getDrinksEventsFromList( groupNumber, type ) {
 			
 		<%
 		   } else 
-			   System.out.println("List empty");
+			   System.out.println("List selectedDrinks is empty");
 		%>
 		if (events.length > 0)
 			return events;
@@ -1104,14 +1309,15 @@ function getMusicEventsFromList( groupNumber, type ) {
 			{
 				
 				System.out.println("selectedMusics size = " + selectedMusics.size());
-		      for (Item res : selectedMusics) {
+		      for (int i=0; i<selectedMusics.size(); i++) {
+		    	  Item res = selectedMusics.get(i);
 		    	  event_counter++;
 		    	  
 		    %>
 		    	  
-		    	  var event_name = <%= "\"" + res.getName() + "\""%>;
-		    	  var event_number = <%= event_counter %> + groupNumber;
-		    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
+		  		  var event_name = '<%= res.getName().replaceAll("\"","").replaceAll("\'","")%>';
+		    	  var event_number = <%= res.getEventId()%>;
+		    	  var event_address = '<%= res.getAddress().replaceAll("\"","")%>';
 		    	  <% if(res.getPhoneNumber() == null) {%>
 		    	  var event_phone = <%= new Integer("1234567") %>;
 		    	  <% ; } else { %>
@@ -1127,40 +1333,91 @@ function getMusicEventsFromList( groupNumber, type ) {
 //	 	    	  	String[] yymmdd = from.split("/");
 //	 	    	  	System.out.println(from);
 					
-					Calendar startTime = res.getStartTime();
-		    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
-		    	  				  res.getStartTime().get(Calendar.MONTH), 
-		    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
-		    	  								   9,   0); //params are: year, month, date, hour, minute
-		    	  	System.out.println("startTime from list: " + startTime.getTime());
-		    	  	//Calendar -> Date use Calendar.getTime()
-		    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
-		    	  	//  OR Calendar.get(field) : int
-		    	  	//Date -> Calendar use Calendar.setTime(Date)
-//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
-					res.setStartTime(startTime);	    	  	
-		    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
-				  %>
-				  
+		    	  %>
+					var date;
+					var event_start;
+					var event_end;
+					
+					<%
+						
+			    	  if (res.getStartTime().get(Calendar.HOUR_OF_DAY) == 4 && 
+							res.getStartTime().get(Calendar.MINUTE) == 0 ){
+						
 		    	  
-		    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
-		    	  //var date = '< %=from%>';
-		    	  var date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
-		    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
-		    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
-				  	    	
-//	 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
-		    	  alert("date = " + date);
-		    	  var event_start_DATE = createDateTime(9, 0, 0, date);
-		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
-		    	  var event_start = new UTC(event_start_DATE_msecs);
-		    	 
-		    	  alert("duration_restaurants = " + duration);
-		    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
-		    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
-		    	  var event_end = new UTC(event_end_DATE.getTime());
+		
+							Calendar startTime = res.getStartTime();
+				    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
+				    	  				  res.getStartTime().get(Calendar.MONTH), 
+				    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
+				    	  								   9,   0,	0); //params are: year, month, date, hour, minute, second
+				    	  	System.out.println("startTime from list: " + startTime.getTime());
+				    	  	//Calendar -> Date use Calendar.getTime()
+				    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
+				    	  	//  OR Calendar.get(field) : int
+				    	  	//Date -> Calendar use Calendar.setTime(Date)
+		//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
+							res.setStartTime(startTime);
+				    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
+				    	  	
+				    	  	selectedMusics.set(i,res);
+				    	  	%>
+				    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
+					    	  //var date = '< %=from%>';
+					    	  date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+					    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+					    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+							  	    	
+//				 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
+					    	  //alert("date = " + date);
+//			 		    	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+//			 		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+							  var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
+					    	  event_start = new UTC(event_start_DATE_msecs);
+					    	 
+					    	  //alert("duration_restaurants = " + duration);
+					    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+					    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+					    	  event_end = new UTC(event_end_DATE.getTime());
+				    	
+					  <%  	  
+						} else {
+					  %>
+					  
+					  date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+	 	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+	 	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+			  	    	
+				//  	  alert("var date = " + date + "\nvar date2 = " + date2);
+				 	  //alert("date = " + date);
+				//  	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+				//  	  var event_start_DATE_msecs = event_start_DATE.getTime();
+				      var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
+				 	  event_start = new UTC(event_start_DATE_msecs);
+				 	 
+				 	  //alert("duration_restaurants = " + duration);
+				 	  //var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+				 	  //var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+				 	  event_end = new UTC(<%=res.getEndTime().getTime().getTime()%>);
+					  
+					  <%
+						}
+					%>
 		    	  
-		    	  
+					 $.ajax({
+					      type: "post",
+					      url: "UpdateEventTimes", //this is my servlet
+					      data: "eventId=" + <%=res.getEventId()%> + "&start=" + <%=res.getStartTime().getTime().getTime()%> + "&end=" + <%=res.getEndTime().getTime().getTime()%>,
+					      success: function(msg){      
+					    	  if ( window.console && window.console.log ) {
+							  	  console.log("Updated eventId: " + <%=res.getEventId()%>);
+							  	}
+					      },
+					      error: function(jqXHR, textStatus, errorThrown){      
+					    	  if ( window.console && window.console.log ) {
+							  	  console.log("Update went wrong");
+							  	}
+					      }
+					 });
 		    	  
 		    	  
 		    	  
@@ -1169,13 +1426,13 @@ function getMusicEventsFromList( groupNumber, type ) {
 //		    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
 //		    			"event end: " + event_end);
 
-				alert("--| " + type + " |--\n"+
-					  "event_name: " + event_name + "\n"+
-					  "event_number: " + event_number + "\n"+
-					  "event_address: " + event_address + "\n"+
-					  "event_phone: " + event_phone + "\n"+
-					  "event_start: " + event_start + "\n"+
-					  "event_end: " + event_end);
+// 				alert("--| " + type + " |--\n"+
+// 					  "event_name: " + event_name + "\n"+
+// 					  "event_number: " + event_number + "\n"+
+// 					  "event_address: " + event_address + "\n"+
+// 					  "event_phone: " + event_phone + "\n"+
+// 					  "event_start: " + event_start + "\n"+
+// 					  "event_end: " + event_end);
 		    	  //events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
 		    	  events[<%=event_counter-1%>] = createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false);
 		    	  //alert("Phone: <" + event_phone + ">");
@@ -1184,6 +1441,7 @@ function getMusicEventsFromList( groupNumber, type ) {
 		    	  
 		      <%
 		      }
+		      System.out.println("startTime new after for: " + selectedMusics.get(0).getStartTime().getTime());
 			%>
 			
 //	 		alert("food_events.length = " + food_events.length);
@@ -1195,7 +1453,7 @@ function getMusicEventsFromList( groupNumber, type ) {
 			
 		<%
 		   } else 
-			   System.out.println("List empty");
+			   System.out.println("List selectedMusics is empty");
 		%>
 		if (events.length > 0)
 			return events;
@@ -1209,12 +1467,6 @@ function getSportsEventsFromList( groupNumber, type ) {
 	 <% 
 	 	System.out.println("Hello from getSportsEventsFromList()");
 	 	
-	 %>
-
-			   
-			   
-			   
-			<%	
 			event_counter = 0;
 			System.out.println("JSP alive");
 			
@@ -1222,14 +1474,15 @@ function getSportsEventsFromList( groupNumber, type ) {
 			{
 				
 				System.out.println("selectedSports size = " + selectedSports.size());
-		      for (Item res : selectedSports) {
+				for (int i=0; i<selectedSports.size(); i++) {
+			    	  Item res = selectedSports.get(i);
 		    	  event_counter++;
 		    	  
 		    %>
-		    	  
-		    	  var event_name = <%= "\"" + res.getName() + "\""%>;
-		    	  var event_number = <%= event_counter %> + groupNumber;
-		    	  var event_address = <%= "\"" + res.getAddress() + "\"" %>;
+		    
+				  var event_name = '<%= res.getName().replaceAll("\"","").replaceAll("\'","")%>';
+		    	  var event_number = <%= res.getEventId()%>;
+		    	  var event_address = '<%= res.getAddress().replaceAll("\"","")%>';
 		    	  <% if(res.getPhoneNumber() == null) {%>
 		    	  var event_phone = <%= new Integer("1234567") %>;
 		    	  <% ; } else { %>
@@ -1244,22 +1497,91 @@ function getSportsEventsFromList( groupNumber, type ) {
 //	 	    	  	System.out.println("startDate from selectedRestaurants: " + res.getStartTime().getTime());
 //	 	    	  	String[] yymmdd = from.split("/");
 //	 	    	  	System.out.println(from);
+
+				%>
+				var date;
+				var event_start;
+				var event_end;
+				
+				<%
 					
-					Calendar startTime = res.getStartTime();
-		    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
-		    	  				  res.getStartTime().get(Calendar.MONTH), 
-		    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
-		    	  								   9,   0); //params are: year, month, date, hour, minute
-		    	  	System.out.println("startTime from list: " + startTime.getTime());
-		    	  	//Calendar -> Date use Calendar.getTime()
-		    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
-		    	  	//  OR Calendar.get(field) : int
-		    	  	//Date -> Calendar use Calendar.setTime(Date)
-//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
-					res.setStartTime(startTime);	    	  	
-		    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
+		    	  if (res.getStartTime().get(Calendar.HOUR_OF_DAY) == 4 && 
+						res.getStartTime().get(Calendar.MINUTE) == 0 ){
+					
+	    	  
+	
+						Calendar startTime = res.getStartTime();
+			    	  	startTime.set(res.getStartTime().get(Calendar.YEAR), 
+			    	  				  res.getStartTime().get(Calendar.MONTH), 
+			    	  				  res.getStartTime().get(Calendar.DAY_OF_MONTH), 
+			    	  								   9,   0,	0); //params are: year, month, date, hour, minute, second
+			    	  	System.out.println("startTime from list: " + startTime.getTime());
+			    	  	//Calendar -> Date use Calendar.getTime()
+			    	  	//  OR Clendar.getDisplayName(field, style, locale) : String
+			    	  	//  OR Calendar.get(field) : int
+			    	  	//Date -> Calendar use Calendar.setTime(Date)
+	//	 	    	  	System.err.println("eventStart = " + eventStart.getTime() + " / \n.toString() = " + eventStart.getTime().toString());
+						res.setStartTime(startTime);
+			    	  	res.setEndTime(Utils.addDate(startTime, Long.parseLong(res.getDuration())));
+			    	  	
+			    	  	selectedSports.set(i,res);
+			    	  	%>
+			    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
+				    	  //var date = '< %=from%>';
+				    	  date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+				    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+				    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+						  	    	
+//			 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
+				    	  //alert("date = " + date);
+//		 		    	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+//		 		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+						  var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
+				    	  event_start = new UTC(event_start_DATE_msecs);
+				    	 
+				    	  //alert("duration_restaurants = " + duration);
+				    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+				    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+				    	  event_end = new UTC(event_end_DATE.getTime());
+			    	
+				  <%  	  
+					} else {
 				  %>
 				  
+				  date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
+ 	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
+ 	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+		  	    	
+			//  	  alert("var date = " + date + "\nvar date2 = " + date2);
+			 	  //alert("date = " + date);
+			//  	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+			//  	  var event_start_DATE_msecs = event_start_DATE.getTime();
+			      var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
+			 	  event_start = new UTC(event_start_DATE_msecs);
+			 	 
+			 	  //alert("duration_restaurants = " + duration);
+			 	  //var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+			 	  //var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+			 	  event_end = new UTC(<%=res.getEndTime().getTime().getTime()%>);
+				  
+				  <%
+					}
+				%>
+				  $.ajax({
+				      type: "post",
+				      url: "UpdateEventTimes", //this is my servlet
+				      data: "eventId=" + <%=res.getEventId()%> + "&start=" + <%=res.getStartTime().getTime().getTime()%> + "&end=" + <%=res.getEndTime().getTime().getTime()%>,
+				      success: function(msg){      
+				    	  if ( window.console && window.console.log ) {
+						  	  console.log("Updated eventId: " + <%=res.getEventId()%>);
+						  	}
+				      },
+				      error: function(jqXHR, textStatus, errorThrown){      
+				    	  if ( window.console && window.console.log ) {
+						  	  console.log("Update went wrong");
+						  	}
+				      }
+				 });
 		    	  
 		    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
 		    	  //var date = '< %=from%>';
@@ -1268,12 +1590,13 @@ function getSportsEventsFromList( groupNumber, type ) {
 		    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
 				  	    	
 //	 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
-		    	  alert("date = " + date);
-		    	  var event_start_DATE = createDateTime(9, 0, 0, date);
-		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+		    	  //alert("date = " + date);
+// 		    	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+// 		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+				  var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
 		    	  var event_start = new UTC(event_start_DATE_msecs);
 		    	 
-		    	  alert("duration_restaurants = " + duration);
+		    	  //alert("duration_restaurants = " + duration);
 		    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
 		    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
 		    	  var event_end = new UTC(event_end_DATE.getTime());
@@ -1287,13 +1610,13 @@ function getSportsEventsFromList( groupNumber, type ) {
 //		    			"event_end_DATE.getMinutes() = " + event_end_DATE.getMinutes() + "\n" +
 //		    			"event end: " + event_end);
 
-				alert("--| " + type + " |--\n"+
-					  "event_name: " + event_name + "\n"+
-					  "event_number: " + event_number + "\n"+
-					  "event_address: " + event_address + "\n"+
-					  "event_phone: " + event_phone + "\n"+
-					  "event_start: " + event_start + "\n"+
-					  "event_end: " + event_end);
+// 				alert("--| " + type + " |--\n"+
+// 					  "event_name: " + event_name + "\n"+
+// 					  "event_number: " + event_number + "\n"+
+// 					  "event_address: " + event_address + "\n"+
+// 					  "event_phone: " + event_phone + "\n"+
+// 					  "event_start: " + event_start + "\n"+
+// 					  "event_end: " + event_end);
 		    	  //events.push(createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false));
 		    	  events[<%=event_counter-1%>] = createEvent(event_name, event_number, event_address, "Phone: "+event_phone, event_start, event_end, "Change the start time and end time and THIS description", false);
 		    	  //alert("Phone: <" + event_phone + ">");
@@ -1313,7 +1636,7 @@ function getSportsEventsFromList( groupNumber, type ) {
 			
 		<%
 		   } else 
-			   System.out.println("List empty");
+			   System.out.println("List selectedSports is empty");
 		%>
 		if (events.length > 0)
 			return events;
@@ -1324,25 +1647,118 @@ function updateEvent(event) {
 // 	alert("Event start time: " + event.startTime +
 // 			"\nEvent end time: " + event.endTime);
 
-	alert("In updateEvent():\nevent id = " + event.eventId + 
-		  "\nevent start = " + event.startTime +
-		  "\nevent end = " + event.endTime);
+// 	alert("In updateEvent():\nevent id = " + event.eventId + 
+// 		  "\nevent start = " + event.startTime +
+// 		  "\nevent end = " + event.endTime);
 	
 	
-                $.ajax({
-                    type: "post",
-                    url: "testme", //this is my servlet
-                    data: "input=" +$('#ip').val()+"&output="+$('#op').val(),
-                    success: function(msg){      
-                            alert("Event updated with AJAX!");
-                    }
-                });
-           
+	all_events.forEach(function(part, index) {
+	  // part and arr[index] point to the same object
+	  // so changing the object that part points to changes the object that arr[index] points to
+	  if(event.eventId === part.eventId) {
+		  
+		  
+		  
+		  part = event;
+		  all_events[index].startTime = event.startTime;
+		  all_events[index].endTime = event.endTime;
+		  
+		  if ( window.console && window.console.log ) {
+		  	  console.log("Old start / end event:" + 
+		  			  		"\nevent start: " + event.startTime + 
+		  			  		"\nevent end: " + event.endTime + 
+		  			  		"\n\nlist start: " + all_events[index].startTime +
+		  			  		"\nlist end: " + all_events[index].endTime);
+		  	}
+	  	}
+	});
+			
 	
-	iCal.updateEvent(event);
+	
+ 	iCal.updateEvent(event); 
 	
 	
 }
+
+function sendEvents() { 
+	
+	alert("Hello from sendEvents()");
+	
+// 	var myData = JSON.stringify(A);
+// 	$.post('myurl.html', myData, function(data) {
+// 	    //success function
+// 	});
+	
+// 	if ( window.console && window.console.log ) {
+// 			  console.log("all_events[1] before sending:" +
+// 					    "\nname = " + all_events[1].name + 
+// 		  			   	"\nstart = " + all_events[1].startTime + 
+// 		  			   	"\nend   = " + all_events[1].endTime);
+			  
+// 			  console.log("all_events[0] before sending:" +
+// 					    "\nname = " + all_events[0].name + 
+// 		  			   	"\nstart = " + all_events[0].startTime + 
+// 		  			   	"\nend   = " + all_events[0].endTime);
+// 		  	}
+	
+	
+	var myData = JSON.stringify(all_events);
+	$.post('UpdateEvents', myData, function() {
+	    alert("all_events sent to UpdateEvents!");
+	})
+	.fail(function() { //on failure
+		alert("failed to send all_events to UpdateEvents");
+	});
+	
+//////////////////////////////////////////////////////////////////	
+// 	var json = [1, 2, 3, 4];
+//     jQuery.ajax({
+//         type: "POST",
+//         url: "dailyWBSupload",
+//         dataType: 'json',
+//         data: {json: json},
+//         contentType: 'application/json',
+//         mimeType: 'application/json',
+//         success: function(data) {
+//             alert('YES!');
+//         },
+//         error: function(jqXHR, textStatus, errorThrown) {
+//             alert(jqXHR + " - " + textStatus + " - " + errorThrown);
+//         }
+//     });
+
+// 	//var json = [1, 2, 3, 4];
+// 	//all_events.toJSONString();
+//             jQuery.ajax({
+//                 type: "POST",
+//                 url: "UpdateEvents",
+//                 dataType: 'json',
+//                 data: {json: all_events},
+//                 contentType: 'application/json',
+//                 mimeType: 'application/json',
+//                 success: function(data) {
+//                     alert('YES!');
+//                 },
+//                 error: function(jqXHR, textStatus, errorThrown) {
+//                     //alert(jqXHR + " - " + textStatus + " - " + errorThrown);
+//                     alert("Ajax request went wrong");
+//                 }
+//             });
+//////////////////////////////////////////////////////////////////
+	
+	//$('#op').val()
+//  $.ajax({
+//      type: "post",
+//      url: "testme", //this is my servlet
+//      data: "eventId=" + event.eventId + "&start=" + event.startTime + "&end=" + event.endTime,
+//      success: function(msg){      
+//              alert("Event updated with AJAX!");
+//      }
+//  });
+	
+}
+
+
 
 </script> 
 

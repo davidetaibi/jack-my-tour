@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,13 +42,13 @@ public class ShowTrip extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		if(this.addresses == null) {
-			this.addresses = new ArrayList<String>();
-		} else { 
-			this.addresses.clear();
-		}
-		
+        
+        if(this.addresses == null) {
+            this.addresses = new ArrayList<String>();
+        } else {
+            this.addresses.clear();
+        }
+        
 		HttpSession session = request.getSession();
 		//ArrayList<Item> selectedDrinks = (ArrayList<Item>) request.getAttribute("selectedDrinks");
 		ArrayList<Item> selectedDrinks = new ArrayList<Item>();
@@ -84,8 +85,8 @@ public class ShowTrip extends HttpServlet {
 				session.setAttribute("to", to);
 				
 				//fake addresses list
-				//ArrayList<String> addresses = new ArrayList<String>();
-				request.setAttribute("addresses",this.addresses);
+				ArrayList<String> addresses = new ArrayList<String>();
+				request.setAttribute("addresses",addresses);
 				
 			}
 			
@@ -107,37 +108,77 @@ public class ShowTrip extends HttpServlet {
 					String name = items.getString("name");
 		            String address = items.getString("address");
 		            this.addresses.add(address);
-		            
+                    
 		            //all the other properties
 		            String type = items.getString("type");
 		            
-		            java.sql.Date fromDate = items.getDate("startDate");
-		            java.sql.Date toDate = items.getDate("endDate");
+		            String fromDate = items.getString("startDate");
+		            String toDate = items.getString("endDate");
+		            
+		            System.err.println("| ShowTrip || fromDate = " + fromDate );
+		        	System.err.println("| ShowTrip || toDate    = " + toDate );
+		            
+		            Long startD = null;
+		        	Long endD = null;
+		        	try {
+			        	java.text.SimpleDateFormat sdfStart = 
+			           	     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+						startD = sdfStart.parse(fromDate).getTime();
+						
+			           	java.text.SimpleDateFormat sdfEnd = 
+				           	     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+				        endD = sdfEnd.parse(toDate).getTime();
+				        
+		        	} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		        	
+		        	System.err.println("| ShowTrip || startD = " + startD );
+		        	System.err.println("| ShowTrip || endD   = " + endD );
+		        	System.err.println("=================================");
+		        									
+		        	
+		        	Calendar calStart = Calendar.getInstance();
+		        	calStart.setTimeInMillis(startD);
+		        	
+		        	Calendar calEnd = Calendar.getInstance();
+		        	calEnd.setTimeInMillis(endD);
+		            
+//		            java.sql.Date fromDate = items.getDate("startDate");
+//		            java.sql.Date toDate = items.getDate("endDate");
 		           
-		            String frommm = fromDate.toString();
-		            String tooo = toDate.toString();
-		            String[] frommms = frommm.split("-");
-		            String[] tooos = tooo.split("-");
+//		            String frommm = fromDate.toString();
+//		            String tooo = toDate.toString();
+//		            String[] frommms = frommm.split("-");
+//		            String[] tooos = tooo.split("-");
+//		            
+//		            Calendar calFrom = Calendar.getInstance(); 
+//		            calFrom.set(Integer.parseInt(frommms[0]), 
+//		            		Integer.parseInt(frommms[1])-1,
+//		            		Integer.parseInt(frommms[2]));
+//		            
+//		            Calendar calTo = Calendar.getInstance(); 
+//		            calTo.set(Integer.parseInt(tooos[0]), 
+//		            		Integer.parseInt(tooos[1])-1,
+//		            		Integer.parseInt(tooos[2]));
 		            
-		            Calendar calFrom = Calendar.getInstance(); 
-		            calFrom.set(Integer.parseInt(frommms[0]), 
-		            		Integer.parseInt(frommms[1])-1,
-		            		Integer.parseInt(frommms[2]));
-		            
-		            Calendar calTo = Calendar.getInstance(); 
-		            calTo.set(Integer.parseInt(tooos[0]), 
-		            		Integer.parseInt(tooos[1])-1,
-		            		Integer.parseInt(tooos[2]));
+//		            Calendar calFrom = Calendar.getInstance(); 
+//		            Calendar calTo = Calendar.getInstance(); 
+//		            
+//		            calFrom.setTimeInMillis(fromDate.getTime());
+//		            calTo.setTimeInMillis(toDate.getTime());
 		            
 		            		            
 		            String phoneNumber = items.getString("phoneNumber");
 		            String duration = items.getString("duration");
 		            		            
+		            int eventId = items.getInt("itemId");
 		            
 		            Item newItem = new Item(name, address, phoneNumber, duration,
-		            		calFrom, calTo, false,
+		            		calStart, calEnd, false,
 		        			false, false, false, type,
-		        			null, null);
+		        			null, null, eventId);
 		            
 		            
 		            if(type.equals("BAR"))
@@ -153,7 +194,7 @@ public class ShowTrip extends HttpServlet {
 		            
 			}
 			}
-			
+			connection.close();
 			
 		} catch (Exception e) { e.printStackTrace(); }
 			
@@ -163,6 +204,7 @@ public class ShowTrip extends HttpServlet {
 		request.setAttribute("selectedDrinks", selectedDrinks);
 		request.setAttribute("selectedSports", selectedSports);
 		request.setAttribute("selectedMusics", selectedMusics);
+		request.setAttribute("addresses", this.addresses);
 		
 		
 		//request.setAttribute("food-duration", 5400000);

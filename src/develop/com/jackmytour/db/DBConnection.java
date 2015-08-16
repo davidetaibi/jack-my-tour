@@ -7,6 +7,8 @@ import java.sql.SQLException;
 public class DBConnection {
 	
   Connection connection = null;
+  
+  
  
   public void connect() {
  
@@ -25,7 +27,7 @@ public class DBConnection {
 	 
 		try {
 			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/jmt","root", "root");
-	 	} catch (SQLException e) {
+	 	} catch (Exception e) {
 			System.out.println("Connection Failed! Check output console");
 			e.printStackTrace();
 			//return;

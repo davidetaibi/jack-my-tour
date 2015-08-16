@@ -56,7 +56,9 @@ public class Utils {
 	public static Calendar addDate(Calendar date, long units) {
 		Calendar result = Calendar.getInstance();
 		result.setTimeInMillis(date.getTimeInMillis() + units); 
-		
+//		System.out.println("===================addDate");
+//		System.out.println("date.getTime() = " + date.getTime().getTime());
+//		System.out.println("result.getTime() = " + result.getTime().getTime());
 		
 		return result;
 	}

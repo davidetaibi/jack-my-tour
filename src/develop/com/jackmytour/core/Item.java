@@ -19,6 +19,7 @@ public class Item {
 	String picUrl = null;
 	//only for temporary stores items
 	String UUID = null;
+	int eventId = 0;
 
 	
 	public Item(String name,String address)  { 
@@ -35,7 +36,7 @@ public class Item {
 	public Item(String name, String address, String phoneNumber,
 			String duration, Calendar startTime, Calendar endTime,
 			boolean weatherSensitive, boolean allDay, boolean booked,
-			boolean fixedTime, String type, String picUrl, String uUID) {
+			boolean fixedTime, String type, String picUrl, String uUID, int eventId) {
 		super();
 		this.name = name;
 		this.address = address;
@@ -50,6 +51,7 @@ public class Item {
 		this.type = type;
 		this.picUrl = picUrl;
 		UUID = uUID;
+		this.eventId = eventId;
 	}
 
 	public String getName() {
@@ -155,6 +157,16 @@ public class Item {
 	public void setUUID(String uUID) {
 		UUID = uUID;
 	}
+
+	public int getEventId() {
+		return eventId;
+	}
+
+	public void setEventId(int eventId) {
+		this.eventId = eventId;
+	}
+	
+	
 	
 	
 	

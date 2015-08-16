@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -83,6 +84,9 @@ public class Register extends HttpServlet {
 	    	//close();
 	    	System.out.println("new traveller registered");
 	    }
+	    
+	    RequestDispatcher rd = request.getRequestDispatcher("index.jsp");		
+		rd.forward(request, response);
     }
 
 }

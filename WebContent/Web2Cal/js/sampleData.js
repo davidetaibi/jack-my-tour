@@ -110,7 +110,7 @@ function createDateTime(ti, h, numofDays, date)
     	dd.addDays(numofDays);
     } 
     
-    alert("The newly created date in createDateTime(4): " + dd);
+    //alert("The newly created date in createDateTime(4): " + dd);
     return dd;
 }
 
@@ -127,6 +127,8 @@ function createEvent(name, id, location, instructor, timestart, timeend, desc, a
         instructor: instructor,
         startTime: timestart.getDateObj(),
         endTime: timeend.getDateObj(),
+//        startTime: timestart,
+//        endTime: timeend,
         description: desc,
         allDay: allDay,
         repeatEvent: repeatObject
