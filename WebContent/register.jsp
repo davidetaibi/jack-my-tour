@@ -32,6 +32,7 @@
             <div class="col-md-12">
                 <h2>Jack My Tour Registration Page</h2>
             </div>
+            Back to the <a href="index.jsp">Home page</a>
         </div>
          <div class="row  pad-top pad-registration">
                

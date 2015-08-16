@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
     <style>
+    	body {background-color:#FFD637}
         body{padding-top:20px;}
     </style>
 </head>
@@ -48,8 +49,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+          </div>
+      </div>
+      Back to the <a href="index.jsp">Home page</a>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://code.jquery.com/jquery.js"></script>
