@@ -9,10 +9,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
  
+
+
+
 
 
 
@@ -33,12 +37,14 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -53,7 +59,7 @@ public class FacebookRealm extends AuthorizingRealm {
 	private static final String APP_SECRET = props.get("fbAppSecret").toString();
 	private static final String APP_ID = props.get("fbAppId").toString();
 	private static final String REDIRECT_URL = props.get("fbLoginRedirectURL").toString();
-	
+	private String travellerId = null;
 	private ResultSet result;
 	 
 	@Override
@@ -74,6 +80,7 @@ public class FacebookRealm extends AuthorizingRealm {
 	 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+		
 		System.out.println("login with fb");
 		FacebookToken facebookToken = (FacebookToken) token;
 	 
@@ -93,8 +100,9 @@ public class FacebookRealm extends AuthorizingRealm {
 				String fbResponse = readURL(url);
 				System.out.println(fbResponse);
 				FacebookUserDetails fud = new FacebookUserDetails(fbResponse);
-				String id = getUserId(fbResponse);
-				boolean present = isThisFbUserAlreadyIn(id);
+				String facebookId = getUserId(fbResponse);
+				boolean present = isThisFbUserAlreadyIn(facebookId);
+				
 				if(!present) { 
 					//insert fb user details in db and login
 					System.out.println("creo nuovo fb user");
@@ -104,6 +112,9 @@ public class FacebookRealm extends AuthorizingRealm {
 					//user already registered --> simply login and TODO Session management 
 				}
 				
+				Session session = SecurityUtils.getSubject().getSession();
+				System.out.println("TRAVELLER ID FROM FACEBOOK REALM_ " + travellerId);
+				session.setAttribute("user_id", travellerId);
 				
 				return new FacebookAuthenticationInfo(fud.getFirstName(),fud, this.getName());
 			} catch (MalformedURLException e1) {
@@ -130,7 +141,8 @@ public class FacebookRealm extends AuthorizingRealm {
 		PreparedStatement preparedStatement = null;
 		// PreparedStatements
 	    try {
-			preparedStatement = connection.prepareStatement("insert into traveller values (default, ?, ?, ?, ? , ?, ?, ?, ?,?)");
+			preparedStatement = connection.prepareStatement("insert into traveller values "
+					+ "(default, ?, ?, ?, ? , ?, ?, ?, ?,?)",Statement.RETURN_GENERATED_KEYS);
 			preparedStatement.setString(1, fud.getFirstName());
 		    preparedStatement.setString(2, fud.getLastName());
 		    preparedStatement.setString(3, fud.getEmail());
@@ -141,6 +153,11 @@ public class FacebookRealm extends AuthorizingRealm {
 		    preparedStatement.setString(8, "blabla");
 		    preparedStatement.setString(9, fud.getId());
 		    preparedStatement.executeUpdate();
+		    ResultSet insertResult = preparedStatement.getGeneratedKeys();
+		    
+		    while(insertResult.next()) { 
+		    	this.travellerId = String.valueOf(insertResult.getInt(1));
+		    }
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -190,17 +207,19 @@ public class FacebookRealm extends AuthorizingRealm {
 		try {
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, id);
+			
 			ResultSet rs = preparedStatement.executeQuery();
-			if(!rs.next()) { 
-				//no such fb user in db
-				this.result = rs;
-				return false;
+			
+		    while(rs.next()) { 
+		    	System.out.println("in the while loop from is_already_user()");
+				this.travellerId = String.valueOf(rs.getInt("travellerId"));
+				return true;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return true;
+		return false;
 	}
 }	

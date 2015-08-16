@@ -29,10 +29,10 @@
                   	<li><a href="login.jsp">Log in</a></li>
                   	</shiro:guest>
                     
-                    <shiro:user>
+                    <shiro:authenticated>
                    	<li>Hello, <%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %></li>
         			<li><a href="logout">Log out</a></li>
-        			</shiro:user>
+        			</shiro:authenticated>
         			
         			<!--  <li><a href="register.jsp">Register</a></li>-->
                 </ul>

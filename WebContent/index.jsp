@@ -258,6 +258,7 @@
 			<%  
 			Session shiroSession = org.apache.shiro.SecurityUtils.getSubject().getSession();
 			String id = (String) shiroSession.getAttribute("user_id");
+			System.out.println("user ID at index page: " + id);
 			long sessionTimeout = shiroSession.getTimeout();
 			System.out.println(sessionTimeout);
             %>

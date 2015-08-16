@@ -25,6 +25,8 @@ import java.util.Properties;
 
 
 
+
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -57,7 +61,11 @@ public class FbLogin extends HttpServlet {
 		FacebookToken facebookToken = new FacebookToken(code);
 		facebookToken.setRememberMe(true);
 		try{
-			SecurityUtils.getSubject().login(facebookToken);
+			Subject currentSubject = SecurityUtils.getSubject();
+			currentSubject.login(facebookToken);
+			Session session = currentSubject.getSession();
+            session.setTimeout(7200000);
+            			
 			System.out.println("dididididid");
 			response.sendRedirect(response.encodeRedirectURL("index.jsp"));
 		}catch(AuthenticationException ae){
