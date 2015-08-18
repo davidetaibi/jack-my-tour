@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import develop.com.jackmytour.core.CalendarEventD;
 import develop.com.jackmytour.core.CalendarEventS;
 import develop.com.jackmytour.db.DBConnection;
 
