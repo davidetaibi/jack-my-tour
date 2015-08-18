@@ -15,6 +15,12 @@
     <meta charset="UTF-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta http-equiv="cache-control" content="max-age=0" />
+	<meta http-equiv="cache-control" content="no-cache" />
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+	<meta http-equiv="pragma" content="no-cache" />
+    
     <title>Jack My Tour</title>
 
     
@@ -208,7 +214,7 @@
                         <label for="to">To:</label>
                         <input type="text" class="form-control" id="to" name="to">
                     </div>
-      				<div class="form-group col-sm-6" id="group-location">
+      				<div class="form-group col-sm-6 group-address" id="group-location">
                         <label for="startAddress">Address:</label>
                         <input type="text" name="StartAddress" class="form-control" id="location" placeholder="via Roma">
                     </div>
@@ -247,39 +253,45 @@
             </form>
         </div>
         
-               
-        <shiro:user>
-        	<li>Hello, <%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %>- Your last trips</li>
-        	
-        	<sql:setDataSource var="dataSource" driver="com.mysql.jdbc.Driver"
-                   url="jdbc:mysql://localhost/jmt"
-                   user="root"  password="root"/>
+       <shiro:authenticated>
+		<label id="question" class="trip-list-label">Hello, <font style="color: #00a79d"><%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %></font>! Select a past trip:</label>               
+        <div class="trips-list"> 
+	        
+<%-- 	        	<div id="trips-list-header">Hello, <font style="color: #FFD637"><%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %></font>! Select a past trip:</div> --%>
 
-			<%  
-			Session shiroSession = org.apache.shiro.SecurityUtils.getSubject().getSession();
-			String id = (String) shiroSession.getAttribute("user_id");
-			System.out.println("user ID at index page: " + id);
-			long sessionTimeout = shiroSession.getTimeout();
-			System.out.println(sessionTimeout);
-            %>
-
-			<c:set var="user_id" value="<%= id %>"/>
-
-			<sql:query var = "result" dataSource="${dataSource}">
-				SELECT tripId, city, link FROM trip where travellerId = ? 
-				 <sql:param value="${user_id}" />
-			</sql:query>
-
-			<table>
-				<c:forEach var="row" items="${result.rows}">
-				<tr>
-				<td>Trip to: <a href="showTrip?trip_id=${row.tripId}"><c:out value="${row.city}"/></a></td>
-				<td><button onclick="gogogo(${row.tripId})">Share this trip</button></td>
-				</tr>
-				</c:forEach>
-			</table>
-        
-        </shiro:user>
+	        	
+	        	<sql:setDataSource var="dataSource" driver="com.mysql.jdbc.Driver"
+	                   url="jdbc:mysql://localhost/jmt"
+	                   user="root"  password="root"/>
+	
+				<%  
+				Session shiroSession = org.apache.shiro.SecurityUtils.getSubject().getSession();
+				String id = (String) shiroSession.getAttribute("user_id");
+				System.out.println("user ID at index page: " + id);
+				long sessionTimeout = shiroSession.getTimeout();
+				System.out.println(sessionTimeout);
+	            %>
+	
+				<c:set var="user_id" value="<%= id %>"/>
+	
+				<sql:query var = "result" dataSource="${dataSource}">
+					SELECT tripId, city, link FROM trip where travellerId = ? 
+					 <sql:param value="${user_id}" />
+				</sql:query>
+	
+				<table class="trips-list-table">
+					<c:forEach var="row" items="${result.rows}">
+					<tr>
+						<td>Trip to: </td>
+						<td><a href="showTrip?trip_id=${row.tripId}"><c:out value="${row.city}"/></a></td>
+						<td><button class="share-trip-button" onclick="gogogo(${row.tripId})">Share this trip</button></td>
+					</tr>
+					</c:forEach>
+				</table>
+	        
+	        </shiro:authenticated>
+	               
+        </div>
         
         <script>
 			function gogogo(tripId) {

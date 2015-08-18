@@ -765,6 +765,12 @@ padding-left: 0px;
 padding-right: 0px;
 }
 
+#register-form .group-address{
+padding-left: 5px;
+padding-top: 5px;
+padding-right: 0px;
+}
+
 #register-form .row{
 padding-left: 25px;
 }
@@ -837,4 +843,46 @@ padding-left: 25px;
 
 .toggle-off, .toggle-on{
 		font-weight: bold;
+}
+
+.trips-list{
+	margin-left:8%;
+	margin-bottom: 10px;
+	padding-top: 1%;
+	padding-left: 1%;
+	padding-bottom: 1%;
+    border-radius: 8px;
+    background: #00a79d;
+    text-color: red;
+    width: 35%;
+    font-size: 17px;
+    color: white;
+}
+
+#trips-list-header{
+	font-size: 24px;
+	font-weight: bold;
+}
+
+.trips-list-table td{
+	padding: 4px;
+	color: #FFD637;
+}
+
+.share-trip-button{
+    background-color: #FFD637;
+    color: navy;
+}
+
+.trip-list-label{
+	margin-left: 9%;
+	
+}
+
+#calendarContainer{
+	margin-bottom: 42px;
+}
+
+.duration-select{
+	margin-bottom: 20px;
 }

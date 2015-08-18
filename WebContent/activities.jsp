@@ -83,6 +83,7 @@
                        			 			if(tab.equals("Food")) { 
                        			 					if(rests.size() != 0) {%> 
                        			 					<div class="tab-pane <%= classactive %>" id="Food">
+                       			 					Select food preferences:
                                                         <select class="form-control" id="food-type">
                                                           <option>All</option>
                                                           <option>Chinese</option>
@@ -92,7 +93,8 @@
                                                           <option>Indian</option>
                                                         </select>
                                                         
-                                                        <select class="form-control" name="food-duration">
+                                                        Desired duration:
+                                                        <select class="form-control duration-select" name="food-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
                                                       		<option value="2700000">0:45</option>
@@ -157,7 +159,8 @@
                    			 					    if(drinks.size() != 0) {%> 
                        			 					<div class="tab-pane  <%= classactive %>" id="Drinks">
                        			 					
-                       			 						<select class="form-control" name="drinks-duration">
+                       			 					Desired duration:
+                       			 						<select class="form-control duration-select" name="drinks-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
                                                       		<option value="2700000">0:45</option>
@@ -217,7 +220,8 @@
                 			 					    if(musics.size() != 0) {%> 
                     			 					<div class="tab-pane  <%= classactive %>" id="Music">
                     			 					
-                    			 						<select class="form-control" name="music-duration">
+                    			 					Desired duration:
+                    			 						<select class="form-control duration-select" name="music-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
                                                       		<option value="2700000">0:45</option>
@@ -278,7 +282,8 @@
              			 					    if(sports.size() != 0) {%> 
                  			 					<div class="tab-pane  <%= classactive %>" id="Sports">
                  			 					
-                 			 					<select class="form-control" name="sports-duration">
+                 			 					Desired duration:
+                 			 					<select class="form-control duration-select" name="sports-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
                                                       		<option value="2700000">0:45</option>

@@ -122,9 +122,11 @@
             <div class="row">
             
            
-				<div id="calendarContainer"></div>			
+				<div id="calendarContainer">
+					<input class="update-events-buttons" type="button" onclick="sendEvents()" value="Update Events" />
+				</div>			
 				
-				<input type="button" onclick="sendEvents()" value="Update Events" />
+				
 				
                 <div class="panel-group col-xs-12" id="accordion" role="tablist" aria-multiselectable="true">
                 <% boolean firstRound=true; 
@@ -753,7 +755,7 @@ function onPreview(evt, dataObj, html)
 	iCal.showPreview(evt, html);
 }
 
-
+/////////// ---->>
 
 function getJackMyTourEvents() {
 	
@@ -819,6 +821,7 @@ function getJackMyTourEvents() {
 	
 	
 	
+   
 	
 	
 	
