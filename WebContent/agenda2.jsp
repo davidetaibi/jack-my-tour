@@ -125,9 +125,9 @@
 				<div id="calendarContainer">
 					<input class="update-events-buttons" type="button" onclick="sendEvents()" value="Update Events" />
 				</div>			
+			
 				
-				
-				
+				<center>
                 <div class="panel-group col-xs-12" id="accordion" role="tablist" aria-multiselectable="true">
                 <% boolean firstRound=true; 
 				String from = (String) session.getAttribute("from");
@@ -292,6 +292,7 @@
                         </div>
                     </div>
                 </div>
+                </center>
 
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -725,7 +726,7 @@ jQuery(document).ready(function(){
 		   ,leftNavTitle: "Event Groups:"
            ,showQuickAdd: false
            ,timeFormat: 24
-           ,views: "month,week,day"
+           ,views: "month,week,day,agenda"
            
        });
        //iCal.controlWidth = '50%';
@@ -756,6 +757,37 @@ function onPreview(evt, dataObj, html)
 }
 
 /////////// ---->>
+/*
+    Click on Edit Button in preview window
+    */
+   function rzEditEvent(evId, winEvent)
+   { 
+		alert("rzEditEvent()");
+       var evObj=ical.getEventById(evId); 
+		/*
+		var groups=ical.getAllGroups();
+		groupDD=jQuery("#defaultNewEventTemplate").find("#eventGroup").get(0);
+		removeAllOptions(groupDD);
+		for(var g in groups)
+		{	
+			if(!groups.hasOwnProperty(g))
+				continue;
+			var gId = groups[g].groupId;
+			addOption(groupDD, groups[g].groupName,groups[g].groupId,false);
+		} 
+		*/
+		jQuery("#defaultNewEventTemplate").find("#eventName").val(evObj.eventName).end()
+							.find("#eventGroup").val(evObj.groupId).end()
+							.find("#eventStartTime").val(evObj._startTime.toNiceTime()).end()
+							.find("#eventEndTime").val(evObj._endTime.toNiceTime()).end()
+							.find("#eventStartDate").val(evObj._startTime.toStandardFormat()).end()
+							.find("#eventEndDate").val(evObj._endTime.toStandardFormat()).end()
+							.find("#addEventBtn").hide().end()
+							.find("#updateEventBtn").show().end();
+		  
+		ical.showEditEventTemplate(jQuery("#defaultNewEventTemplate"), evObj.eventId, winEvent);
+		ical.hidePreview();
+   }
 
 function getJackMyTourEvents() {
 	
@@ -1588,21 +1620,21 @@ function getSportsEventsFromList( groupNumber, type ) {
 		    	  
 		    	  //var date = <should take not the 'from' variable but the one assigned from the algorithm.
 		    	  //var date = '< %=from%>';
-		    	  var date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' + 
-		    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' +
-		    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>'
+<%-- 		    	  var date = '<%=String.format("%02d", res.getStartTime().get(Calendar.MONTH)+1)%>' + '/' +  --%>
+<%-- 		    	  			 '<%=String.format("%02d", res.getStartTime().get(Calendar.DAY_OF_MONTH))%>' + '/' + --%>
+<%-- 		    	  			 '<%=res.getStartTime().get(Calendar.YEAR)%>' --%>
 				  	    	
-//	 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
-		    	  //alert("date = " + date);
-// 		    	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
-// 		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
-				  var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %>
-		    	  var event_start = new UTC(event_start_DATE_msecs);
+// //	 	    	  alert("var date = " + date + "\nvar date2 = " + date2);
+// 		    	  //alert("date = " + date);
+// // 		    	  var event_start_DATE = createDateTime(9, 0, 0, date);				 
+// // 		    	  var event_start_DATE_msecs = event_start_DATE.getTime();
+<%-- 				  var event_start_DATE_msecs = <%= res.getStartTime().getTime().getTime() %> --%>
+// 		    	  var event_start = new UTC(event_start_DATE_msecs);
 		    	 
-		    	  //alert("duration_restaurants = " + duration);
-		    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
-		    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
-		    	  var event_end = new UTC(event_end_DATE.getTime());
+// 		    	  //alert("duration_restaurants = " + duration);
+// 		    	  var event_end_ADDED = dateAdd(event_start_DATE_msecs, duration);
+// 		    	  var event_end_DATE = createDateTime(event_end_ADDED.getHours(), event_end_ADDED.getMinutes(), 0, date);
+// 		    	  var event_end = new UTC(event_end_DATE.getTime());
 		    	  
 		    	  
 		    	  

@@ -82,6 +82,10 @@ public class YelpData {
 		request.addQuerystringParameter("term", term);
 		request.addQuerystringParameter("location", location);
 		request.addQuerystringParameter("limit", String.valueOf(SEARCH_LIMIT));
+		
+		//doesn't work - image_url is the response. 
+		//request.addQuerystringParameter("image_url", "http://s3-media1.fl.yelpcdn.com/bphoto/nFRY67PKp2jCAFKrLbLnog/l.jpg");
+		
 		return sendRequestAndGetResponse(request);
 	}
 
@@ -166,6 +170,8 @@ public class YelpData {
 		for (int i = 0; i < businesses.size(); i++) {
 			JSONObject business = (JSONObject) businesses.get(i);
 			String name = (String) business.get("name");
+			
+			String image_url = (String) business.get("image_url");
 
 			JSONObject location = (JSONObject) business.get("location");
 			JSONArray addressArray = (JSONArray) location.get("address");
@@ -179,8 +185,12 @@ public class YelpData {
 				 // for now simple item population with name and address
 				// TODO: add more item properties
 				 item = new Restaurant(name, address);
+				 item.setPicUrl(image_url.replaceAll("/ms.jpg", "/l.jpg"));
+					
 			}else if(category == "Drink") { 
-				item = new DrinkBar(name,address);
+				item = new DrinkBar(name, address);
+				item.setPicUrl(image_url);
+				item.setPicUrl(image_url.replaceAll("/ms.jpg", "/l.jpg"));
 			}
 			
 			items.add(item);
@@ -234,4 +244,6 @@ public class YelpData {
 	 * YelpData yelpApi = new YelpData(CONSUMER_KEY, CONSUMER_SECRET, TOKEN,
 	 * TOKEN_SECRET); queryAPI(yelpApi); }
 	 */
+	
+	
 }

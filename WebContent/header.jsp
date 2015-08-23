@@ -14,7 +14,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.jsp"><img class="img-responsive" src="images/suitcase.png"></a>
+                <a class="navbar-brand" href="index.jsp"><img class="img-responsive" src="images/Logo_full.png"></a>
 
             </div>
 

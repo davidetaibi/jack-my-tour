@@ -25,6 +25,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import com.evdb.javaapi.data.Event;
+import com.evdb.javaapi.data.ImageItem;
 
 import develop.com.jackmytour.core.EventfulData;
 import develop.com.jackmytour.core.Item;
@@ -96,8 +97,9 @@ public class Search extends HttpServlet {
 			System.out.println("Item checked"+ "---> " + tab);
 			switch(tab) { 
 				case "Food": 
-					YelpData food = new YelpData(location,"restaurant",request);
+					YelpData food = new YelpData(location,"restaurant",request);					
 					rests = food.queryAPI("Restaurant");
+					System.out.println("Pic URL: " + rests.get(0).getPicUrl());
 					break;
 				case "Drinks":
 					YelpData drink = new YelpData(location,"bar",request);
@@ -105,6 +107,7 @@ public class Search extends HttpServlet {
 					break;
 				case "Sports":
 					EventfulData sport = new EventfulData(location,null,"sport");
+					
 					sports = sport.search();
 					break;
 				case "Music":
@@ -227,10 +230,42 @@ public class Search extends HttpServlet {
 		while(iter.hasNext()) { 
 			Item newItem = null;
 			Event event = iter.next();
+			
 			newItem = new Item(event.getTitle(),event.getVenue().getAddress());
 			newItem.setType(type);
 			String myObjectId = UUID.randomUUID().toString();
 			newItem.setUUID(myObjectId);
+			List<com.evdb.javaapi.data.Image> images = event.getImages();
+			if (!images.isEmpty()){
+				for (com.evdb.javaapi.data.Image im : images) {
+//					ImageItem imgItem = new ImageItem();
+//					imgItem.setHeight(170);
+//					imgItem.setWidth(170);
+//					im.setLarge(imgItem);
+					if (im.getUrl() != null) {
+						String url = im.getUrl();
+						url = url.replaceFirst("small", "block188");
+	//					String[] ourl_pieces = orig_url.split("/"); 
+	//					ourl_pieces[4] = 
+						im.setUrl(url);
+					} else {
+						String category = type;
+						
+						category = type.equals("SPORT") ? category.toLowerCase()+"s" : category.equals("MUSIC") ? category.toLowerCase() : "INVALID_TYPE";
+						System.out.println("TTTtype: " + category);
+						im.setUrl("http://s1.evcdn.com/images/block250/fallback/event/categories/" + category + "/" + category + "_default_1.jpg");
+					}
+					System.out.println("Pic dimm: " + im.getWidth() + "x" + im.getHeight() + " / URL = " + im.getUrl());
+				}
+				System.out.println("Price: " + event.getPrice() + " |=======================");
+			}
+			
+			if (images.get(0).getUrl() == null) {
+				newItem.setPicUrl("images/Suitcase_icon.JPG");
+			} else {
+				newItem.setPicUrl(images.get(0).getUrl());
+			}
+			
 			items.add(newItem);
 		}
 		return items;

@@ -221,7 +221,7 @@ btn {
 }
 
 #question {
-    margin-top: 30px;
+    margin-top: 10px;
     font-size: 2em;
     color: #CDA300;
 }
@@ -275,7 +275,7 @@ ul.nav {
     padding: 10px;
     padding-left: 20px;
     padding-right: 20px;
-        height: 600px;
+        height: 660px;
 }
 
 .tab-pane {
@@ -570,6 +570,11 @@ ul li{
     margin-left:488px;
     margin-top:255px;
     width: 270px;
+    
+}
+
+div#accordion.panel-group.col-xs-12{
+	margin-left: 21%;
 }
 
 .modal-body form label{
@@ -825,6 +830,15 @@ padding-left: 25px;
 	border: 2px solid #ddd;
 }
 
+.thumbnail img{
+/* 	 max-width: 100%; */
+/*     max-height: 100%; */
+/*     height: 100%; */
+/*     width: auto; */
+	height: 170px;
+	width: 191px;
+}
+
 .activ-obj{
 	padding-left: 5px;
 	padding-right: 5px;
@@ -845,11 +859,11 @@ padding-left: 25px;
 		font-weight: bold;
 }
 
-.trips-list{
-	margin-left:8%;
+.past-trips-list{
+	float: left;
 	margin-bottom: 10px;
-	padding-top: 1%;
-	padding-left: 1%;
+	margin-left: 14%;
+	padding-left: 10px;
 	padding-bottom: 1%;
     border-radius: 8px;
     background: #00a79d;
@@ -857,6 +871,22 @@ padding-left: 25px;
     width: 35%;
     font-size: 17px;
     color: white;
+    overflow:hidden;
+}
+
+.future-trips-list{
+	float: left;
+	margin-bottom: 10px;
+	margin-left: 2%;
+	padding-left: 10px;
+	padding-bottom: 1%;
+    border-radius: 8px;
+    background: #00a79d;
+    text-color: red;
+    width: 35%;
+    font-size: 17px;
+    color: white;
+    overflow:hidden;
 }
 
 #trips-list-header{
@@ -875,12 +905,13 @@ padding-left: 25px;
 }
 
 .trip-list-label{
-	margin-left: 9%;
+	margin-left: 4px;
 	
 }
 
 #calendarContainer{
 	margin-bottom: 42px;
+	margin-left: 10%;
 }
 
 .duration-select{

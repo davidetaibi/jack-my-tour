@@ -108,7 +108,7 @@ public class FacebookRealm extends AuthorizingRealm {
 					System.out.println("creo nuovo fb user");
 					insertFbUser(fud);
 				} else { 
-					System.out.println("fb user gia´registrato in precedenza");
+					System.out.println("fb user giaï¿½registrato in precedenza");
 					//user already registered --> simply login and TODO Session management 
 				}
 				
@@ -123,7 +123,7 @@ public class FacebookRealm extends AuthorizingRealm {
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 				throw new AuthenticationException(ioe);
-			} catch (Throwable e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

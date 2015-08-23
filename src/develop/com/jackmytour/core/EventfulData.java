@@ -3,17 +3,15 @@ package develop.com.jackmytour.core;
 import java.util.Iterator;
 import java.util.List;
 
+import com.evdb.javaapi.data.Event;
 //import codingdudes.util.MysqlD;
-
-
-import com.evdb.javaapi.APIConfiguration;
+import com.evdb.javaapi.operations.VenueOperations;
 import com.evdb.javaapi.EVDBAPIException;
 import com.evdb.javaapi.EVDBRuntimeException;
-import com.evdb.javaapi.data.Event;
-import com.evdb.javaapi.data.Performer;
 import com.evdb.javaapi.data.SearchResult;
 import com.evdb.javaapi.data.request.EventSearchRequest;
 import com.evdb.javaapi.operations.EventOperations;
+import com.evdb.javaapi.APIConfiguration;
 
 public class EventfulData {
 	
@@ -48,20 +46,29 @@ public class EventfulData {
 		  APIConfiguration.setApiKey("hBvQkZXjNn5B6Xnf");
 	
 		  EventOperations eo = new EventOperations();
-	
+		  
 	      
 	      EventSearchRequest esr = new EventSearchRequest();
 	      esr.setLocation(this.location);
 	      esr.setKeywords(this.keyword);
+	      //esr.setKeywords("image_sizes=block188");
 	      esr.setPageSize(20);
 	      esr.setPageNumber(1);
+	      esr.setIncludes("image_sizes=block");
+	      
+	      
+	      //System.out.println("EventOperations props: " + eo.getProperties(seid))
+	      //eo.addProperty(seid, property)
+	      
 	      //esr.setDateRange("today");
 	
-	      System.out.println("Starting initial request.");
+	      System.out.println("Starting initial request -> " + esr.getIncludes());
 	      
 	      SearchResult sr = null;
 			try {
+				
 				sr = eo.search(esr);
+				
 			} catch (EVDBRuntimeException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -70,6 +77,7 @@ public class EventfulData {
 				e.printStackTrace();
 			}        
 	      
+			
 			int numPages = sr.getPageCount();
 			System.out.println("Getting: "+numPages+" pages!");
 			
@@ -79,6 +87,8 @@ public class EventfulData {
 			//while loop removing items without addresses. Rule: no address ---> no item
 			while(iter.hasNext()) { 
 				Event event = iter.next();
+//				List<Image> a = event.getImages();  //go on, go on....
+//				a.get(0).getUrl()
 				if(event.getVenue().getAddress() == null || event.getVenue().getAddress().equals("") || event.getVenue().getAddress().equals(this.location) ) { 
 					iter.remove();
 				}

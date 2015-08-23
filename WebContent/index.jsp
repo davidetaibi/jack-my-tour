@@ -254,15 +254,21 @@
         </div>
         
        <shiro:authenticated>
-		<label id="question" class="trip-list-label">Hello, <font style="color: #00a79d"><%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %></font>! Select a past trip:</label>               
-        <div class="trips-list"> 
+       
+		
+        <div class="past-trips-list"> 
+	    <label id="question" class="trip-list-label">Past trips</label>               
 	        
 <%-- 	        	<div id="trips-list-header">Hello, <font style="color: #FFD637"><%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %></font>! Select a past trip:</div> --%>
 
 	        	
-	        	<sql:setDataSource var="dataSource" driver="com.mysql.jdbc.Driver"
-	                   url="jdbc:mysql://localhost/jmt"
-	                   user="root"  password="root"/>
+<%-- 	        	<sql:setDataSource var="dataSource" driver="com.mysql.jdbc.Driver" --%>
+<%-- 	                   url="jdbc:mysql://localhost/jmt" --%>
+<%-- 	                   user="root"  password="root"/> --%>
+
+					<sql:setDataSource var="dataSource" driver="com.mysql.jdbc.Driver"
+	                   url="jdbc:mysql://localhost:3306/jmt"
+	                   user="jmt"  password="ping2jmt"/>
 	
 				<%  
 				Session shiroSession = org.apache.shiro.SecurityUtils.getSubject().getSession();
@@ -275,29 +281,61 @@
 				<c:set var="user_id" value="<%= id %>"/>
 	
 				<sql:query var = "result" dataSource="${dataSource}">
-					SELECT tripId, city, link FROM trip where travellerId = ? 
+					SELECT tripId, city, link, startDate, endDate FROM trip where travellerId = ? 
 					 <sql:param value="${user_id}" />
 				</sql:query>
 	
 				<table class="trips-list-table">
 					<c:forEach var="row" items="${result.rows}">
 					<tr>
-						<td>Trip to: </td>
-						<td><a href="showTrip?trip_id=${row.tripId}"><c:out value="${row.city}"/></a></td>
-						<td><button class="share-trip-button" onclick="gogogo(${row.tripId})">Share this trip</button></td>
+						
+						<td><a href="showTrip?trip_id=${row.tripId}" style="color: white"><c:out value="${row.startDate}"/> - <c:out value="${row.endDate}"/> | <c:out value="${row.city}"/></a></td>
+						<td><a href="#" class="share-trip-button-fb" onclick="gogogo(${row.tripId})"><img src="images/fb-share.png"></a></td>
+						<td><a href="#" class="share-trip-button-email" ><img src="images/share-email-white.png"></a></td>
 					</tr>
 					</c:forEach>
 				</table>
 	        
-	        </shiro:authenticated>
+	       
 	               
         </div>
+     
+     	<div class="future-trips-list">
+     	<label id="question" class="trip-list-label">Friends' trips</label>   
+     		<table class="trips-list-table">
+<%-- 					<c:forEach var="row" items="${result.rows}"> --%>
+					<tr>
+						
+<%-- 						<td><a href="showTrip?trip_id=${row.tripId}" style="color: white"><c:out value="${row.startDate}"/> - <c:out value="${row.endDate}"/> | <c:out value="${row.city}"/></a></td> --%>
+<%-- 						<td><a href="#" class="share-trip-button" onclick="gogogo(${row.tripId})"><img src="images/fb-share.png"></a></td> --%>
+<!-- 						<td><a href="#" class="share-trip-button" ><img src="images/share-email.png"></a></td> -->
+						<td><img src="images/friend01.png"/></td>
+						<td>Davide is going to visit Berlin on 09/24/2015</td>
+					</tr>
+					<tr>						
+						<td><img src="images/friend02.png"/></td>
+						<td>Giuseppe is going to visit Barcelona on 07/15/2015</td>
+					</tr>
+					<tr>						
+						<td><img src="images/friend03.png"/></td>
+						<td>Tisho is going to visit Bolzano on 12/24/2015</td>
+					</tr>
+					<tr>						
+						<td><img src="images/friend04.png"/></td>
+						<td>Simone is going to visit Rome on 09/24/2016</td>
+					</tr>
+<%-- 					</c:forEach> --%>
+				</table>
+     	</div>
+     
+         </shiro:authenticated>
         
         <script>
 			function gogogo(tripId) {
 			  FB.ui({
 			    method: 'feed',
-			    link: 'http://127.0.0.1:8080/Jackmytour/showTrip?trip_id='+tripId,
+			    //link: 'http://127.0.0.1:8080/Jackmytour/showTrip?trip_id='+tripId,
+	    		link: 'http://jmt.inf.unibz.it/showTrip?trip_id='+tripId,
 			    // picture: 'http://fbrell.com/f8.jpg',
 			    name: 'My new trip',
 			    caption: 'Have a look at my next trip',

@@ -35,8 +35,8 @@
                                     </label>
                                 </div>
                                 <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
-                                <a href="https://www.facebook.com/dialog/oauth?client_id=389121671278273&redirect_uri=http://localhost:8080/Jackmytour/fblogin&scope=email">or login with facebook</a>
-                            	
+<!--                                 <a href="https://www.facebook.com/dialog/oauth?client_id=389121671278273&redirect_uri=http://localhost:8080/Jackmytour/fblogin&scope=email">or login with facebook</a> -->
+							<a href="https://www.facebook.com/dialog/oauth?client_id=389121671278273&redirect_uri=http://jmt.inf.unibz.it/jack-my-tour/fblogin&scope=email"><img style="margin-top: 15px" src="images/login-facebook.png"></a>                            	
                             </fieldset>
                         </form>
                         <%

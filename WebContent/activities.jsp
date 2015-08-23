@@ -5,7 +5,7 @@
             <%@ page import="develop.com.jackmytour.core.Restaurant" %>
             <%@ page import="develop.com.jackmytour.core.Item" %>
             <%@ page import="develop.com.jackmytour.core.DrinkBar" %>
-            <%@ page import="com.evdb.javaapi.data.Event"%>
+<%--             <%@ page import="com.evdb.javaapi.data.Event"%> --%>
                 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
                 <head>
@@ -93,12 +93,12 @@
                                                           <option>Indian</option>
                                                         </select>
                                                         
-                                                        Desired duration:
+                                                        Default duration:
                                                         <select class="form-control duration-select" name="food-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
                                                       		<option value="2700000">0:45</option>
-                                                      		<option value="3600000">1:00</option>
+                                                      		<option value="3600000" selected>1:00</option>
                                                       		<option value="4500000">1:15</option>
                                                       		<option value="5400000">1:30</option>
                                                       		<option value="6300000">1:45</option>
@@ -133,7 +133,7 @@
                                                      %>
 													<div class="col-sm-6 col-md-4 col-lg-3 activ-obj">
 														<div class="thumbnail">
-															<img src="images/Suitcase_icon.JPG" alt="...">
+															<img src="<%=item.getPicUrl() %>" alt="...">
 																<div class="caption">
 																	<h5><%=item.getName() %></h5>
 																	<p>Address: <%= item.getAddress() %></p>
@@ -159,10 +159,10 @@
                    			 					    if(drinks.size() != 0) {%> 
                        			 					<div class="tab-pane  <%= classactive %>" id="Drinks">
                        			 					
-                       			 					Desired duration:
+                       			 					Default duration:
                        			 						<select class="form-control duration-select" name="drinks-duration">
                                                       		<option value="900000">0:15</option>
-                                                      		<option value="1800000">0:30</option>
+                                                      		<option value="1800000" selected>0:30</option>
                                                       		<option value="2700000">0:45</option>
                                                       		<option value="3600000">1:00</option>
                                                       		<option value="4500000">1:15</option>
@@ -197,7 +197,7 @@
                                                      %>
                                                     <div class="col-sm-6 col-md-4 col-lg-3 activ-obj">
 														<div class="thumbnail">
-															<img src="images/Suitcase_icon.JPG" alt="...">
+															<img src="<%=bar.getPicUrl() %>" alt="...">
 																<div class="caption">
 																	<h5><%=bar.getName() %></h5>
 																	<p>Address: <%= bar.getAddress() %></p>
@@ -220,7 +220,7 @@
                 			 					    if(musics.size() != 0) {%> 
                     			 					<div class="tab-pane  <%= classactive %>" id="Music">
                     			 					
-                    			 					Desired duration:
+                    			 					Default duration:
                     			 						<select class="form-control duration-select" name="music-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
@@ -229,7 +229,7 @@
                                                       		<option value="4500000">1:15</option>
                                                       		<option value="5400000">1:30</option>
                                                       		<option value="6300000">1:45</option>
-                                                      		<option value="7200000">2:00</option>
+                                                      		<option value="7200000" selected>2:00</option>
                                                       		<option value="8100000">2:15</option>
                                                       		<option value="9000000">2:30</option>
                                                       		<option value="9900000">2:45</option>
@@ -259,7 +259,7 @@
                                                  
                                                  <div class="col-sm-6 col-md-4 col-lg-3 activ-obj">
 														<div class="thumbnail">
-															<img src="images/Suitcase_icon.JPG" alt="...">
+															<img src="<%=event.getPicUrl() %>" alt="...">
 																<div class="caption">
 																	<h5><%=event.getName() %></h5>
 																	<p>Address: <%= event.getAddress() %></p>
@@ -282,7 +282,7 @@
              			 					    if(sports.size() != 0) {%> 
                  			 					<div class="tab-pane  <%= classactive %>" id="Sports">
                  			 					
-                 			 					Desired duration:
+                 			 					Default duration:
                  			 					<select class="form-control duration-select" name="sports-duration">
                                                       		<option value="900000">0:15</option>
                                                       		<option value="1800000">0:30</option>
@@ -295,7 +295,7 @@
                                                       		<option value="8100000">2:15</option>
                                                       		<option value="9000000">2:30</option>
                                                       		<option value="9900000">2:45</option>
-                                                      		<option value="10800000">3:00</option>
+                                                      		<option value="10800000" selected>3:00</option>
                                                       		<option value="11700000">3:15</option>
                                                       		<option value="12600000">3:30</option>
                                                       		<option value="13500000">3:45</option>
@@ -323,7 +323,7 @@
                                               
                                               <div class="col-sm-6 col-md-4 col-lg-3 activ-obj">
 														<div class="thumbnail">
-															<img src="images/Suitcase_icon.JPG" alt="...">
+															<img src="<%=event.getPicUrl() %>" alt="...">
 																<div class="caption">
 																	<h5><%=event.getName() %></h5>
 																	<p>Address: <%= event.getAddress() %></p>

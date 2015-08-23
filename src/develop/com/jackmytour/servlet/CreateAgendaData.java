@@ -113,8 +113,18 @@ public class CreateAgendaData extends HttpServlet {
 			
 		}
 		
-		//store trip in db
-		storeTrip(this.itemsForTrip,request);
+		System.out.println("alive");
+		
+		Subject currentUser = SecurityUtils.getSubject();
+		System.out.println("currentUser = " + currentUser.toString());
+		Session Shirosession = currentUser.getSession();
+		String user_id = (String) Shirosession.getAttribute("user_id");
+		
+		
+		if ( user_id != null) {
+			//store trip in db
+			storeTrip(this.itemsForTrip,request, user_id);
+		}
 	    		
 		request.setAttribute("addresses",addresses);
 		RequestDispatcher rd = request.getRequestDispatcher("agenda2.jsp");
@@ -127,72 +137,77 @@ public class CreateAgendaData extends HttpServlet {
 	
 	// takes as input the IDs of its item and stores the trip for these items and 
 	// for the logged user in the db
-	private void storeTrip(List<Integer> itemsForTrip,HttpServletRequest request) {
+	private void storeTrip(List<Integer> itemsForTrip,HttpServletRequest request, String user_id) {
 		
-		Subject currentUser = SecurityUtils.getSubject();
-		System.out.println("The principal of the current logged user is = " + currentUser.getPrincipal());
-        Session Shirosession = currentUser.getSession();
-        String id = (String) Shirosession.getAttribute("user_id");
-        System.out.println("The id of the current logged user is = " + id);
+//		Subject currentUser = SecurityUtils.getSubject();
+//		System.out.println("The principal of the current logged user is = " + currentUser.getPrincipal());
+//        Session Shirosession = currentUser.getSession();
+//        String user_id = (String) Shirosession.getAttribute("user_id");
+        System.out.println("[storeTrip()] The id of the current logged user is = " + user_id);
 		
-		HttpSession session = request.getSession();
-		String location = (String) session.getAttribute("location");
-		location = location.substring(0,1).toUpperCase() + location.substring(1);
-		
-		DBConnection dbConnection = new DBConnection();
-		dbConnection.connect();
-		
-		//SQL class connection (connection established)
-		Connection connection = dbConnection.getConnection();
-		
-		String tripQuery = "INSERT INTO trip VALUES (default,?,?,?,?,?,?)";
-        PreparedStatement statement = null;
-        try {
-        	int last_inserted_trip = 0;
-			statement = connection.prepareStatement(tripQuery,Statement.RETURN_GENERATED_KEYS);
-			statement.setString(1, location);
-			String from = (String) session.getAttribute("from");
-//			String[] fromPieces = from.split("/"); 
-//			statement.setDate(2, new java.sql.Date(Integer.parseInt(fromPieces[2]),
-//												   Integer.parseInt(fromPieces[0]),
-//												   Integer.parseInt(fromPieces[1])));
-			statement.setString(2, from);
+        //check if user logged
+        if(user_id != null) {
+			HttpSession session = request.getSession();
+			String location = (String) session.getAttribute("location");
+			location = location.substring(0,1).toUpperCase() + location.substring(1);
 			
-			String to = (String) session.getAttribute("to");
-			statement.setString(3, to);
-//			statement.setDate(3, new java.sql.Date(2009, 12, 11));
+			DBConnection dbConnection = new DBConnection();
+			dbConnection.connect();
 			
-			statement.setString(4, "Via Splendente");
-			statement.setString(5, "jackmytour.com");
-			statement.setInt(6, Integer.parseInt(id));
-			statement.executeUpdate();
-            
-            ResultSet result = statement.getGeneratedKeys();
-            if(result.next())
-            {
-                last_inserted_trip = result.getInt(1);
-                System.out.println("just stored trip number---> "+ last_inserted_trip);
-            }
-            
-            // now add in the itemfortrip table all the items for the last inserted trip
-            // in order to complete the trip insertion. 
-            
-            System.out.println("++itemsForTrip size = " + itemsForTrip.size());
-            for(Integer itemId : itemsForTrip) { 
-            	System.out.println("Iterating itemsForTrips in storeTrip(). Current itemId = " + itemId.toString());
-            	String q = "INSERT INTO itemfortrip values (?,?)";
-            	statement = connection.prepareStatement(q);
-            	statement.setInt(1,last_inserted_trip);
-            	statement.setInt(2,itemId);
-            	statement.executeUpdate();
-            }
-            
-            this.itemsForTrip.clear();
-            
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+			//SQL class connection (connection established)
+			Connection connection = dbConnection.getConnection();
+			
+			String tripQuery = "INSERT INTO trip VALUES (default,?,?,?,?,?,?)";
+	        PreparedStatement statement = null;
+	        try {
+	        	int last_inserted_trip = 0;
+				statement = connection.prepareStatement(tripQuery,Statement.RETURN_GENERATED_KEYS);
+				statement.setString(1, location);
+				String from = (String) session.getAttribute("from");
+	//			String[] fromPieces = from.split("/"); 
+	//			statement.setDate(2, new java.sql.Date(Integer.parseInt(fromPieces[2]),
+	//												   Integer.parseInt(fromPieces[0]),
+	//												   Integer.parseInt(fromPieces[1])));
+				statement.setString(2, from);
+				
+				String to = (String) session.getAttribute("to");
+				statement.setString(3, to);
+	//			statement.setDate(3, new java.sql.Date(2009, 12, 11));
+				
+				statement.setString(4, "Via Splendente");
+				statement.setString(5, "jackmytour.com");
+				statement.setInt(6, Integer.parseInt(user_id));
+				statement.executeUpdate();
+	            
+	            ResultSet result = statement.getGeneratedKeys();
+	            if(result.next())
+	            {
+	                last_inserted_trip = result.getInt(1);
+	                System.out.println("just stored trip number---> "+ last_inserted_trip);
+	            }
+	            
+	            // now add in the itemfortrip table all the items for the last inserted trip
+	            // in order to complete the trip insertion. 
+	            
+	            System.out.println("++itemsForTrip size = " + itemsForTrip.size());
+	            for(Integer itemId : itemsForTrip) { 
+	            	System.out.println("Iterating itemsForTrips in storeTrip(). Current itemId = " + itemId.toString());
+	            	String q = "INSERT INTO itemfortrip values (?,?)";
+	            	statement = connection.prepareStatement(q);
+	            	statement.setInt(1,last_inserted_trip);
+	            	statement.setInt(2,itemId);
+	            	statement.executeUpdate();
+	            }
+	            
+	            this.itemsForTrip.clear();
+	            
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+        } else {
+        	System.out.println("user_id is null in storeTrip()");
+        }
 		
 	}
 	
