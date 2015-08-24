@@ -185,12 +185,18 @@ public class YelpData {
 				 // for now simple item population with name and address
 				// TODO: add more item properties
 				 item = new Restaurant(name, address);
-				 item.setPicUrl(image_url.replaceAll("/ms.jpg", "/l.jpg"));
+				 if (image_url != null)
+					 item.setPicUrl(image_url.replaceAll("/ms.jpg", "/l.jpg"));
+				 else 
+					 item.setPicUrl("images/Suitcase_icon.JPG");
 					
 			}else if(category == "Drink") { 
 				item = new DrinkBar(name, address);
-				item.setPicUrl(image_url);
-				item.setPicUrl(image_url.replaceAll("/ms.jpg", "/l.jpg"));
+				//item.setPicUrl(image_url);
+				if (image_url != null)
+					item.setPicUrl(image_url.replaceAll("/ms.jpg", "/l.jpg"));
+				else 
+					item.setPicUrl("images/Suitcase_icon.JPG");
 			}
 			
 			items.add(item);

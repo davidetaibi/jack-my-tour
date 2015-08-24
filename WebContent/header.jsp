@@ -30,7 +30,7 @@
                   	</shiro:guest>
                     
                     <shiro:authenticated>
-                   	<li>Hello, <%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %></li>
+                   	<li class="authentication-hello">Hello, <%= org.apache.shiro.SecurityUtils.getSubject().getPrincipal().toString() %></li>
         			<li><a href="logout">Log out</a></li>
         			</shiro:authenticated>
         			

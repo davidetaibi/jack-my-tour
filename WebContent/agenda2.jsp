@@ -457,7 +457,7 @@ function calcRoute() {
                         summaryPanel.innerHTML += route.legs[i].distance.text + "<br /><br />"; */
                     }
                 } else {
-                    alert("directions response " + status);
+//                     alert("directions response " + status);
                 } 
             });
         
@@ -762,7 +762,7 @@ function onPreview(evt, dataObj, html)
     */
    function rzEditEvent(evId, winEvent)
    { 
-		alert("rzEditEvent()");
+		alert("rzEditEvent() to be implemented...");
        var evObj=ical.getEventById(evId); 
 		/*
 		var groups=ical.getAllGroups();
@@ -1163,7 +1163,7 @@ function getFoodEventsFromList( groupNumber, type ) {
 		if (events.length > 0)
 			return events;
 		else {
-			alert("emptiness");		
+// 			alert("emptiness");		
 			return "emptiness";
 		}
 }
@@ -1717,7 +1717,7 @@ function updateEvent(event) {
 
 function sendEvents() { 
 	
-	alert("Hello from sendEvents()");
+// 	alert("Hello from sendEvents()");
 	
 // 	var myData = JSON.stringify(A);
 // 	$.post('myurl.html', myData, function(data) {
@@ -1739,7 +1739,7 @@ function sendEvents() {
 	
 	var myData = JSON.stringify(all_events);
 	$.post('UpdateEvents', myData, function() {
-	    alert("all_events sent to UpdateEvents!");
+// 	    alert("all_events sent to UpdateEvents!");
 	})
 	.fail(function() { //on failure
 		alert("failed to send all_events to UpdateEvents");

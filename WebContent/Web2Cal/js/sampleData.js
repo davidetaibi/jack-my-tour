@@ -75,7 +75,7 @@ function getCalendarData()
 //  !!!!!!!!!!!!!!!!!!!!!!
 function createDateTime(ti, h, numofDays)
 {
-	alert("Hello from createDateTime(3)");
+//	alert("Hello from createDateTime(3)");
     var dd = new Date();
     dd.setHours(ti);
     dd.setMinutes(h);

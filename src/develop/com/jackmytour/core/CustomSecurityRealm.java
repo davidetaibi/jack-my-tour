@@ -26,8 +26,8 @@ import org.apache.shiro.realm.jdbc.JdbcRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.JdbcUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import develop.com.jackmytour.facebook.FacebookToken;
 
@@ -64,7 +64,7 @@ public class CustomSecurityRealm extends JdbcRealm {
 
     //protected boolean permissionsLookupEnabled = false;	
 
-    private static final Logger log = LoggerFactory.getLogger(CustomSecurityRealm.class);
+    //private static final Logger log = LoggerFactory.getLogger(CustomSecurityRealm.class);
 
 	/**
 	 * jndiDataSourceName
@@ -99,10 +99,13 @@ public class CustomSecurityRealm extends JdbcRealm {
         try {  
             InitialContext ic = new InitialContext();
             Context envContext = (Context) ic.lookup("java:comp/env");
+            
             return (DataSource) envContext.lookup(jndiDataSourceName);  
         } catch (NamingException e) {  
-            log.error("JNDI error while retrieving " + jndiDataSourceName, e);  
+//            log.error("JNDI error while retrieving " + jndiDataSourceName, e);  
+            System.err.println("JNDI error while retrieving " + jndiDataSourceName);
             throw new AuthorizationException(e);  
+        } finally { System.out.println("DataSource loaded!"); 
         }  
     }  
     
@@ -112,6 +115,7 @@ public class CustomSecurityRealm extends JdbcRealm {
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         upToken.setRememberMe(true);
         String username = upToken.getUsername();
+        
 
         // Null username is invalid
         if (username == null) {
@@ -124,7 +128,7 @@ public class CustomSecurityRealm extends JdbcRealm {
             conn = dataSource.getConnection();
 
             String password = getPasswordForUser(conn, username);
-
+            System.out.println("Logging with username: " + username + " and password: " + password);
             if (password == null) {
                 throw new UnknownAccountException("No account found for user [" + username + "]");
             }
@@ -144,8 +148,9 @@ public class CustomSecurityRealm extends JdbcRealm {
 
         } catch (SQLException e) {
             final String message = "There was a SQL error while authenticating user [" + username + "]";
-            log.error(message, e);
-
+            System.err.println(message);
+            //log.error(message, e);
+            e.printStackTrace();
             // Rethrow any SQL errors as an authentication exception
             throw new AuthenticationException(message, e);
         } finally {
@@ -251,9 +256,10 @@ public class CustomSecurityRealm extends JdbcRealm {
                 if (roleName != null) {
                     roleNames.add(roleName);
                 } else {
-                    if (log.isWarnEnabled()) {
-                        log.warn("Null role name found while retrieving role names for user [" + username + "]");
-                    }
+//                    if (log.isWarnEnabled()) {
+//                        log.warn("Null role name found while retrieving role names for user [" + username + "]");
+                        System.err.println("Null role name found while retrieving role names for user [" + username + "]");
+//                    }
                 }
             }
         } finally {

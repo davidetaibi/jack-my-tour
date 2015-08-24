@@ -329,7 +329,7 @@
      	</div>
      
          </shiro:authenticated>
-        
+         
         <script>
 			function gogogo(tripId) {
 			  FB.ui({

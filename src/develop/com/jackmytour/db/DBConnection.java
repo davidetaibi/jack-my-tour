@@ -24,6 +24,7 @@ public class DBConnection {
 		}
 	 
 		System.out.println("MySQL JDBC Driver Registered!");
+		System.err.println("WAZZUP");
 		
 	 
 		try {
